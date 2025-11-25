@@ -1,105 +1,573 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farhan Bin Shafiq</title>
+    <title>The Engineer's Journal - Portfolio</title>
+    
+    <!-- SEO & Meta Tags -->
+    <meta name="description" content="A classic book-style portfolio for a Software Engineer.">
+    <meta name="author" content="Alex Dev">
+    <meta property="og:title" content="The Engineer's Journal">
+    <meta property="og:type" content="website">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,100&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text:400,700,900,400italic,700italic,900italic|Playfair+Display:400,700,900,400italic,700italic,900italic|Rock+Salt:400|Space+Mono:400,700" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <style>
+        /* --- RESET & BASE --- */
+        *, :before, :after {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #1d1f20;
+            color: #e5e5e5;
+            font: 16px/1.6 'Crimson Text', serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2em 0;
+            overflow-x: hidden;
+        }
+
+        /* --- WRAPPER STRUCTURE --- */
+        #wrapper {
+            max-width: 80em;
+            width: 100%;
+            padding: 0 1em;
+        }
+
+        /* --- THE OPEN BOOK CONTAINER --- */
+        .open-book {
+            background: #fffdf5;
+            box-shadow: rgba(0,0,0,0.5) 0 1em 3em;
+            color: #1a1a1a;
+            padding: 3em;
+            position: relative;
+            min-height: 80vh; /* Fixed height feel for desktop */
+            display: flex;
+            flex-direction: column;
+            /* 3D PERSPECTIVE FOR PAGE TURNS */
+            perspective: 2500px; 
+            transform-style: preserve-3d;
+        }
+
+        /* Entry Animation (Initial Load) */
+        @keyframes openBook {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .open-book {
+            animation: openBook 1s ease-out forwards;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        .open-book h1, .open-book h2, .open-book h3, .open-book h4 {
+            font-family: 'Playfair Display', serif;
+            color: #1a1a1a;
+        }
+
+        .open-book mark {
+            background: linear-gradient(to bottom, rgba(222,255,0,1) 0%,rgba(222,255,0,0.5) 60%,rgba(222,255,0,1) 100%);
+            padding: 0 0.2em;
+            border-radius: 0.2em;
+        }
+        .open-book mark.pink { background: linear-gradient(to bottom, rgba(255,69,190,1) 0%,rgba(255,107,203,0.5) 60%,rgba(255,107,203,1) 100%); color: white; }
+        .open-book mark.blue { background: linear-gradient(to bottom, rgba(73,179,255,1) 0%,rgba(107,193,255,0.5) 60%,rgba(107,193,255,1) 100%); }
+        .open-book mark.green { background: linear-gradient(to bottom, rgba(67,226,15,1) 0%,rgba(39,229,54,0.5) 60%,rgba(39,229,54,1) 100%); }
+        .open-book mark.orange { background: linear-gradient(to bottom, rgba(255,134,9,1) 0%,rgba(255,177,34,0.5) 60%,rgba(255,177,34,1) 100%); }
+
+        /* Handwriting Note */
+        .open-book sup {
+            color: #cc0000;
+            font-family: 'Rock Salt', cursive;
+            font-size: 0.8em;
+            left: 0;
+            margin-top: -1.5em !important;
+            display: block;
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            transform: rotate(-5deg);
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        /* --- HEADER & FOOTER --- */
+        .open-book header { 
+            padding-bottom: 1em; 
+            border-bottom: 2px solid #1a1a1a; 
+            margin-bottom: 1em;
+            text-align: center; 
+        }
+        .open-book header h1 { font-size: 2.2em; text-transform: uppercase; margin: 0; letter-spacing: 0.1em; }
+        .open-book header h6 { font-size: 0.85em; text-transform: uppercase; color: #555; margin-top: 0.5rem; letter-spacing: 0.2em; }
+
+        .open-book footer { 
+            padding-top: 1em; 
+            border-top: 1px solid #ccc; 
+            margin-top: auto; /* Push to bottom */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+        }
+
+        /* --- SPREAD LOGIC (THE PAGES) --- */
+        .spread {
+            display: none; /* Hidden by default */
+            flex-grow: 1;
+            transform-origin: center center; /* Pivot from the spine */
+            backface-visibility: hidden; /* Clean 3D */
+        }
+        .spread.active {
+            display: block;
+        }
+
+        /* ANIMATIONS: NEWSPAPER / PAGE TURN 
+           Note: We animate the entering spread.
+        */
+
+        /* Going Forward (Next): New page flips in from the right */
+        .turn-next {
+            animation: flipInNext 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        /* Going Backward (Prev): New page flips in from the left */
+        .turn-prev {
+            animation: flipInPrev 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        
+        @keyframes flipInNext {
+            0% {
+                opacity: 0;
+                transform: rotateY(90deg) scale(0.9); /* Start perpendicular */
+            }
+            100% {
+                opacity: 1;
+                transform: rotateY(0deg) scale(1); /* Land flat */
+            }
+        }
+
+        @keyframes flipInPrev {
+            0% {
+                opacity: 0;
+                transform: rotateY(-90deg) scale(0.9); /* Start perpendicular from other side */
+            }
+            100% {
+                opacity: 1;
+                transform: rotateY(0deg) scale(1); /* Land flat */
+            }
+        }
+
+        /* --- CONTENT STYLING --- */
+        .chapter-title {
+            font: 700 2em/1.2 'Playfair Display', serif;
+            letter-spacing: 0.05em;
+            margin: 1em 0 1em 0;
+            padding-bottom: 0.5em;
+            text-align: center;
+            text-transform: uppercase;
+            border-bottom: double 4px #eee;
+            break-after: avoid;
+        }
+        .chapter-title:first-child { margin-top: 0; }
+
+        article p { text-indent: 2em; margin-bottom: 1em; text-align: justify; }
+        
+        /* Dropcap */
+        .chapter-title + p:first-of-type { text-indent: 0; }
+        .chapter-title + p:first-of-type:first-letter {
+            float: left;
+            font: 700 3.2em/0.8 'Playfair Display', serif;
+            padding: 0.1em 0.1em 0 0;
+            color: #1a1a1a;
+        }
+
+        /* Lists */
+        .open-book ul { padding-left: 1.5em; margin-bottom: 1em; list-style-type: circle; }
+        .open-book li { margin-bottom: 0.5em; }
+
+        /* Polaroid */
+        .polaroid {
+            background: #fff;
+            padding: 10px 10px 30px 10px;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+            transform: rotate(2deg);
+            margin: 2em auto;
+            width: 80%;
+            display: block;
+            break-inside: avoid;
+        }
+        .polaroid img { width: 100%; height: auto; filter: sepia(20%) contrast(90%); }
+        .caption { font-family: 'Rock Salt', cursive; text-align: center; margin-top: 10px; color: #444; font-size: 0.8em; }
+
+        /* Projects/Experience Entries */
+        .entry {
+            margin-bottom: 2em;
+            border-left: 3px solid #eee;
+            padding-left: 1em;
+            break-inside: avoid;
+        }
+        .entry h4 { font-weight: 700; font-size: 1.2em; margin: 0; }
+        .entry .meta { font-family: 'Space Mono', monospace; font-size: 0.8em; color: #666; display: block; margin-bottom: 0.5em; }
+        
+        /* Skills Grid */
+        .skill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; break-inside: avoid; margin-bottom: 2em; }
+        .skill-item h5 { margin: 0; font-size: 1em; border-bottom: 1px solid #ddd; padding-bottom: 0.2em; margin-bottom: 0.2em; }
+        .skill-item ul { padding-left: 0; list-style: none; font-size: 0.9em; color: #444; }
+        .skill-item li { margin-bottom: 0.2em; }
+        .skill-item li::before { content: "» "; color: #999; }
+
+        /* Form */
+        .book-form input, .book-form textarea {
+            width: 100%;
+            border: none;
+            border-bottom: 1px dashed #999;
+            background: transparent;
+            font-family: 'Rock Salt', cursive;
+            font-size: 0.9em;
+            padding: 0.5rem 0;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .book-form input:focus, .book-form textarea:focus { outline: none; border-bottom: 1px solid #000; }
+        .book-btn {
+            background: transparent;
+            border: 2px solid #000;
+            padding: 0.5em 2em;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            margin: 1em auto;
+            width: fit-content;
+        }
+        .book-btn:hover { background: #000; color: #fff; }
+
+        /* Navigation Buttons */
+        .nav-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #555;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        .nav-btn:hover { color: #000; }
+        .nav-btn:disabled { color: #ccc; cursor: default; }
+
+        /* --- DESKTOP LAYOUT (Columns) --- */
+        @media only screen and (min-width: 55em) {
+            .open-book {
+                width: 90%;
+                max-width: 1100px;
+                aspect-ratio: 1.5/1; /* Book aspect ratio */
+                margin: 0 auto;
+                padding: 3em 4em;
+            }
+
+            .open-book:before {
+                background-color: #5c4033;
+                border-radius: 4px;
+                bottom: -10px; content: ''; left: -10px; position: absolute; right: -10px; top: -10px;
+                z-index: -1; box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+            }
+
+            .open-book:after {
+                background: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.05) 46%, rgba(0,0,0,0.15) 49%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.15) 51%, rgba(0,0,0,0.05) 52%, transparent 100%);
+                bottom: 0; content: ''; left: 50%; position: absolute; top: 0;
+                transform: translateX(-50%); width: 8em; z-index: 1; pointer-events: none;
+            }
+
+            .spread {
+                column-count: 2;
+                column-gap: 8em;
+                column-fill: auto;
+                height: 100%;
+                widows: 2; orphans: 2;
+            }
+
+            /* Paper Stack Effect */
+            .open-book header:before {
+                content: ''; position: absolute; top: 0; left: 0; width: 50%; height: 100%;
+                border-right: 1px solid #ddd; pointer-events: none;
+            }
+        }
+    </style>
+</head>
 <body>
 
-    <section class="top-banner flexible-container">
-        <div class="half-width">
-            <h1>Welcome To</h1>
-            <h1> <span class="name"> Farhan's</span> World</h1>
-            <h2>Build Climber and Train Stopper</h2>
-            <p>You might saw me jumping, climbing buildings, and stopping trains. But nobody pays me a dime for that
-                work.
-                That's why I am learning and mastering web development. I will not stop until I become the Web
-                Development
-                Hero</p>
+<div id="wrapper">
+    <section class="open-book">
+        <header>
+            <h1>Portfolio Volume. I</h1>
+            <h6>Alex Dev &bull; Software Engineer &bull; est. 2025</h6>
+        </header>
 
-            <a target="_blank" class="Button" href="www.facebook.com">Hire Me</a>
-        </div>
+        <!-- SPREAD 1: Intro & Projects -->
+        <article id="spread-1" class="spread active">
+            <!-- Left Page Content -->
+            <h2 class="chapter-title">I. The Introduction</h2>
+            <p>
+                It was a Tuesday afternoon when the code finally compiled successfully. "I love this part of the job," Alex thought, leaning back in the chair.
+            </p>
+            <p>
+                The "part of the job" referenced here is the moment of creation—where logic meets creativity. I am a <strong>Full Stack Engineer</strong> with a passion for building scalable, user-centric applications. Unlike many who simply write code, I strive to craft <mark class="pink">digital experiences</mark> that feel as tangible and timeless as this book you are reading.
+            </p>
+            <div class="polaroid">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Profile Sketch">
+                <div class="caption">Me, working on the next big thing.</div>
+            </div>
+            <p>
+                My journey began not with a computer science degree, but with a simple curiosity: <em>"How does this work?"</em>. That curiosity led me down the rabbit hole of architecture, systems, and design.
+            </p>
 
-
-
-
-        <div class="half-width">
-
-            <img src="images/jhankar.png" alt="">
-        </div>
-
-
-
-    </section>
-
-
-
-    <section class="dream-big flexible-container">
-
-        <div class="half-width">
-
-            <img src="images/jhankar2.png" alt="">
-        </div>
-
-
-        <div class="half-width">
-            <h1>Dream Big</h1>
-
-            <h2>Become a web developer</h2>
-            <p>I already learned the basic HTML and CSS. I can build any simple website. I can even teach my grandma how
-                to make simple
-                website. My goal is to build 3 websites and learn advanced topics.</p>
-
-            <a target="_blank" class="Button" href="www.facebook.com">Download Resume</a>
-        </div>
-
-    </section>
-
-
-
-    <section class="experience">
-        <h1>Experiences</h1>
-
-        <div class="flexible-container">
-            <div id="full-dev-experience" class="experience-item">
-                <h2>Full Stack Web Developer</h2>
-                <h2 class="name">2021-Present | Pro Level Developer</h2>
-                <p>I am the master of HTML, CSS and Javascript. I know everything needed to make a website function,
-                    efficient. I didn't stop with the web. I went beyond with most popular Javascript framework called
-                    Vue JS. I even know
-                    the deployment,server and security. I will give you 100% web solution.</p>
+            <!-- Right Page Content (Flows naturally) -->
+            <br> <!-- Visual separator for columns -->
+            
+            <h2 class="chapter-title">II. Selected Works</h2>
+            <p>Here are a few chapters from my career log.</p>
+            
+            <div class="entry">
+                <h4>NeoFinance Dashboard</h4>
+                <span class="meta">Vue.js &bull; D3.js &bull; Firebase</span>
+                <p>
+                    A complex fintech dashboard offering real-time analytics. The challenge was rendering thousands of data points without lag. I utilized <mark class="orange">virtual scrolling</mark> and optimized D3 selections to achieve 60fps performance.
+                </p>
             </div>
 
-            <div id="web-dev-experience" class="experience-item">
-                <h2>Baby Web Developer</h2>
-                <h2 class="name">2020-2021 | Programming Hero Learner</h2>
-                <p>They didn't offer me a job. But I made myself as a remove web developer. I made their website and
-                    showed
-                    it to them.
-                    They liked it. And uploaded the content. It was fun working at Programming Hero.</p>
+            <div class="entry">
+                <h4>TaskMaster AI</h4>
+                <span class="meta">React &bull; OpenAI API &bull; Node</span>
+                <p>
+                    "What if a todo list could think for itself?" This project integrates LLMs to automatically prioritize user tasks based on urgency and context. It reduces decision fatigue by <mark>40%</mark>.
+                </p>
             </div>
-        </div>
+        </article>
 
+        <!-- SPREAD 2: Experience & Skills -->
+        <article id="spread-2" class="spread">
+            <h2 class="chapter-title">III. Chronicles of Work</h2>
+            
+            <div class="entry">
+                <h4>Senior Developer @ TechCorp</h4>
+                <span class="meta">2022 - Present</span>
+                <p>
+                    Leading a squad of 6 developers. We migrated a legacy monolith to <mark class="blue">Microservices</mark> architecture, reducing deployment time by 60%. I also spearheaded the adoption of TypeScript across the organization.
+                </p>
+            </div>
 
+            <div class="entry">
+                <h4>Software Engineer @ StartUp Inc</h4>
+                <span class="meta">2019 - 2022</span>
+                <p>
+                    Employee #4. I wore many hats, from database admin to frontend designer. Built the MVP that secured Series A funding.
+                </p>
+            </div>
+
+            <br> 
+
+            <h2 class="chapter-title">IV. The Alchemist's Tools</h2>
+            <p>A craftsman is only as good as their tools. Here is my arsenal:</p>
+
+            <div class="skill-grid">
+                <div class="skill-item">
+                    <h5>Frontend</h5>
+                    <ul>
+                        <li>React / Next.js</li>
+                        <li>Vue.js</li>
+                        <li>Tailwind CSS</li>
+                        <li>Three.js / WebGL</li>
+                    </ul>
+                </div>
+                <div class="skill-item">
+                    <h5>Backend</h5>
+                    <ul>
+                        <li>Node.js / Express</li>
+                        <li>Python / Django</li>
+                        <li>PostgreSQL</li>
+                        <li>Redis / GraphQL</li>
+                    </ul>
+                </div>
+                <div class="skill-item">
+                    <h5>DevOps</h5>
+                    <ul>
+                        <li>Docker / K8s</li>
+                        <li>AWS (EC2, S3)</li>
+                        <li>CI/CD Pipelines</li>
+                    </ul>
+                </div>
+                <div class="skill-item">
+                    <h5>Design</h5>
+                    <ul>
+                        <li>Figma</li>
+                        <li>Adobe XD</li>
+                        <li>Accessibility (a11y)</li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+
+        <!-- SPREAD 3: Services & Testimonials -->
+        <article id="spread-3" class="spread">
+            <h2 class="chapter-title">V. Offerings</h2>
+            <p>How can I aid your quest? I offer the following services:</p>
+            
+            <ul style="list-style: none; padding: 0;">
+                <li>
+                    <strong>01. Full-Stack Development</strong><br>
+                    <small>End-to-end application development from database design to pixel-perfect UI.</small>
+                </li>
+                <br>
+                <li>
+                    <strong>02. Performance Optimization</strong><br>
+                    <small>Is your app sluggish? I audit and refactor code to ensure sub-second load times.</small>
+                </li>
+                <br>
+                <li>
+                    <strong>03. Technical Consulting</strong><br>
+                    <small>Helping startups choose the right tech stack to avoid technical debt later.</small>
+                </li>
+            </ul>
+
+            <br>
+
+            <h2 class="chapter-title">VI. Whispers from the Realm</h2>
+            <p>Words from those I have journeyed with:</p>
+
+            <div class="polaroid" style="transform: rotate(-1deg); width: 90%;">
+                <p style="font-style: italic; font-size: 0.9em; margin-bottom: 0;">
+                    "Alex is a wizard. He took our vague requirements and turned them into a robust, beautiful product in record time."
+                </p>
+                <div class="caption">- Sarah Connor, CTO @ Skynet</div>
+            </div>
+
+            <div class="polaroid" style="transform: rotate(1deg); width: 90%;">
+                <p style="font-style: italic; font-size: 0.9em; margin-bottom: 0;">
+                    "The cleanest code I've ever seen. A joy to review and maintain."
+                </p>
+                <div class="caption">- John Wick, Lead Dev</div>
+            </div>
+        </article>
+
+        <!-- SPREAD 4: Blog & Contact -->
+        <article id="spread-4" class="spread">
+            <h2 class="chapter-title">VII. The Archives</h2>
+            <p>Thoughts and tutorials penned by candlelight (or a monitor glow):</p>
+            
+            <div class="entry" style="border-left: none; padding-left: 0;">
+                <h4><a href="#">Understanding Asynchronous JavaScript</a></h4>
+                <span class="meta">Oct 24, 2023 &bull; 5 min read</span>
+                <p>Deep dive into Promises, Async/Await, and the Event Loop.</p>
+            </div>
+            
+            <div class="entry" style="border-left: none; padding-left: 0;">
+                <h4><a href="#">Why I switched to Rust</a></h4>
+                <span class="meta">Sep 12, 2023 &bull; 8 min read</span>
+                <p>Memory safety without garbage collection? Sign me up.</p>
+            </div>
+
+            <br>
+
+            <h2 class="chapter-title">VIII. The Epilogue (Contact)</h2>
+            <p>
+                Every good story needs a sequel. If you are interested in collaborating, do not hesitate to reach out.
+            </p>
+
+            <form class="book-form" onsubmit="event.preventDefault(); alert('Carrier pigeon dispatched!');">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea rows="3" placeholder="Write your message here..." required></textarea>
+                <button type="submit" class="book-btn">Send Letter</button>
+            </form>
+
+            <div style="text-align: center; margin-top: 2em;">
+                <a href="#" style="margin: 0 10px;"><i class="fab fa-github"></i> GitHub</a>
+                <a href="#" style="margin: 0 10px;"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                <a href="#" style="margin: 0 10px;"><i class="fab fa-twitter"></i> Twitter</a>
+            </div>
+        </article>
+
+        <footer>
+            <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>
+                <i class="fas fa-long-arrow-alt-left"></i> Previous
+            </button>
+            
+            <div id="page-display">Spread 1 of 4</div>
+            
+            <button class="nav-btn" id="nextBtn" onclick="changePage(1)">
+                Next <i class="fas fa-long-arrow-alt-right"></i>
+            </button>
+        </footer>
     </section>
+</div>
 
-    <footer>
-        <p>© Peter Parker 2021, a Programming Hero initiative.</p>
-    </footer>
+<script>
+    let currentSpread = 1;
+    const totalSpreads = 4;
 
+    function changePage(direction) {
+        const oldSpread = document.getElementById(`spread-${currentSpread}`);
+        
+        // Update index
+        let nextSpreadNum = currentSpread + direction;
+        
+        // Clamp logic
+        if (nextSpreadNum < 1) nextSpreadNum = 1;
+        if (nextSpreadNum > totalSpreads) nextSpreadNum = totalSpreads;
+        
+        // If no change, return
+        if (nextSpreadNum === currentSpread) return;
 
-    <footer>
-        <p>© Peter Parker 2021, a Programming Hero initiative.</p>
-    </footer>
+        // Hide current
+        oldSpread.classList.remove('active');
+        oldSpread.classList.remove('turn-next');
+        oldSpread.classList.remove('turn-prev');
 
+        // Update to new
+        currentSpread = nextSpreadNum;
+        const newSpread = document.getElementById(`spread-${currentSpread}`);
+        
+        // Remove old animations just in case
+        newSpread.classList.remove('turn-next');
+        newSpread.classList.remove('turn-prev');
+        
+        // Apply Directional Animation
+        if (direction > 0) {
+            newSpread.classList.add('turn-next');
+        } else {
+            newSpread.classList.add('turn-prev');
+        }
+
+        // Show new
+        newSpread.classList.add('active');
+
+        // Update UI Controls
+        document.getElementById('page-display').innerText = `Spread ${currentSpread} of ${totalSpreads}`;
+        document.getElementById('prevBtn').disabled = (currentSpread === 1);
+        document.getElementById('nextBtn').disabled = (currentSpread === totalSpreads);
+
+        // Scroll to top of book on mobile
+        if(window.innerWidth < 880) {
+            document.querySelector('.open-book').scrollIntoView({behavior: 'smooth'});
+        }
+    }
+</script>
 
 </body>
-
 </html>
