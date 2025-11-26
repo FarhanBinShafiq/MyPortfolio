@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,20 +8,46 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
+    <nav class="left-sidebar">
+        <div class="sidebar-header">INDEX</div>
+        <a href="index.html" class="toc-link active">Cover</a>
+        <a href="about.html" class="toc-link">About</a>
+        <a href="education.html" class="toc-link">Education</a>
+        <a href="experience.html" class="toc-link">Experience</a>
+        <a href="projects.html" class="toc-link">Projects</a>
+        <a href="blog.html" class="toc-link">Blog</a>
+        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
+        <a href="contact.html" class="toc-link">Contact</a>
+    </nav>
     <div class="book-wrapper">
         <div class="book-frame">
             <div class="left-page">
                 <h2 class="chapter-title">I. The Author</h2>
-                <p><span style="font-size: 3.5rem; float: left; line-height: 0.7; padding-right: 12px; font-family: 'Playfair Display'; font-weight: 700;">H</span>ello, I am Alex. I am a Full Stack Engineer based in the Pacific Northwest, obsessed with the intersection of logic and aesthetics.</p>
-                <p>My journey into code began 8 years ago when I edited the CSS of a gaming forum. Since then, I have scaled applications for millions of users, optimized databases until they hummed, and crashed production exactly once (we don't talk about that).</p>
-                
+                <p><span style="font-size: 3.5rem; float: left; line-height: 0.7; padding-right: 12px; font-family: 'Playfair Display'; font-weight: 700;">H</span>ello, I am Alex. I am a Full Stack Engineer based in the Pacific Northwest, obsessed with the
+                    intersection of logic and aesthetics.</p>
+                <p>My journey into code began 8 years ago when I edited the CSS of a gaming forum. Since then, I have scaled applications for millions of users, optimized databases until they hummed, and crashed production exactly once (we don't talk about
+                    that).</p>
+
                 <h3 style="margin-top: 30px; font-size: 1.2rem;">Vitals</h3>
                 <table class="cv-table">
-                    <tr><td class="cv-label">Residence</td><td>Silicon Valley, CA, USA</td></tr>
-                    <tr><td class="cv-label">Experience</td><td>5+ Years (Senior Level)</td></tr>
-                    <tr><td class="cv-label">Email</td><td>alex@dev.com</td></tr>
-                    <tr><td class="cv-label">Languages</td><td>English (Native), Spanish (B2)</td></tr>
+                    <tr>
+                        <td class="cv-label">Residence</td>
+                        <td>Silicon Valley, CA, USA</td>
+                    </tr>
+                    <tr>
+                        <td class="cv-label">Experience</td>
+                        <td>5+ Years (Senior Level)</td>
+                    </tr>
+                    <tr>
+                        <td class="cv-label">Email</td>
+                        <td>alex@dev.com</td>
+                    </tr>
+                    <tr>
+                        <td class="cv-label">Languages</td>
+                        <td>English (Native), Spanish (B2)</td>
+                    </tr>
                 </table>
             </div>
             <div class="right-page">
@@ -63,7 +90,7 @@
             <a href="education.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
         </div>
     </div>
-    
+
     <!-- UI Components -->
     <div class="social-sidebar">
         <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
@@ -78,7 +105,11 @@
         <a href="blog.html" class="mobile-link">Blog</a>
         <a href="contact.html" class="mobile-link">Contact</a>
     </div>
-    <script>const prevPageUrl = 'index.html'; const nextPageUrl = 'education.html';</script>
+    <script>
+        const prevPageUrl = 'index.html';
+        const nextPageUrl = 'education.html';
+    </script>
     <script src="script.js"></script>
 </body>
+
 </html>

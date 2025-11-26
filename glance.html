@@ -1,80 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>At A Glance | Portfolio</title>
+    <title>Resume & Overview | Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .glance-wrapper { background: #fff; width: 100%; max-width: 900px; height: 90vh; padding: 40px; overflow-y: auto; border-top: 10px solid #8e44ad; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin: 30px 0; }
-        .stat-box { text-align: center; border: 1px solid #ddd; padding: 15px; }
-        .stat-num { font-size: 2rem; font-weight: 700; color: #8e44ad; display: block; font-family: 'Playfair Display'; }
-        @media (max-width: 700px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+        /* --- BENTO GRID STYLES --- */
+        
+        .glance-container {
+            width: 100%;
+            max-width: 1100px;
+            height: 90vh;
+            /* Fixed height for scrollable effect */
+            background: #fdfbf6;
+            padding: 40px;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+            overflow-y: auto;
+            /* Internal scrolling */
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            /* Main column vs Side column */
+            gap: 20px;
+            border-radius: 4px;
+        }
+        /* The Boxes */
+        
+        .bento-box {
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            background: #fff;
+            position: relative;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .bento-box:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            z-index: 5;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        /* Typography overrides for this dashboard */
+        
+        h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            color: #888;
+            font-family: 'Space Mono';
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        /* Header Area */
+        
+        .header-box {
+            grid-column: span 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            border-bottom: 2px solid #000;
+            padding-bottom: 20px;
+            margin-bottom: 10px;
+        }
+        /* Project Mini Grid (Inside the box) */
+        
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .mini-project {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        
+        .mini-project strong {
+            display: block;
+            margin-bottom: 3px;
+            font-family: 'Playfair Display';
+            font-size: 1rem;
+        }
+        /* Lists (Blog, Edu) */
+        
+        .dense-list-item {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .dense-list-item:last-child {
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .meta-tag {
+            font-family: 'Space Mono';
+            font-size: 0.7rem;
+            color: #888;
+            display: block;
+        }
+        /* Footer Area */
+        
+        .footer-section {
+            grid-column: span 2;
+            margin-top: 20px;
+            border-top: 2px solid #000;
+            padding-top: 20px;
+            text-align: center;
+        }
+        
+        .social-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .social-links a {
+            color: #333;
+            font-size: 1.2rem;
+            transition: color 0.2s;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+        }
+        /* Responsive */
+        
+        @media (max-width: 800px) {
+            .glance-container {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                max-height: none;
+                overflow: visible;
+            }
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+            .header-box {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
     </style>
 </head>
+
 <body>
+
+    <nav class="left-sidebar">
+        <div class="sidebar-header">INDEX</div>
+        <a href="index.html" class="toc-link">Cover</a>
+        <a href="about.html" class="toc-link">About</a>
+        <a href="education.html" class="toc-link">Education</a>
+        <a href="experience.html" class="toc-link">Experience</a>
+        <a href="projects.html" class="toc-link">Projects</a>
+        <a href="blog.html" class="toc-link">Blog</a>
+        <a href="glance.html" class="toc-link active" style="color: var(--accent);">Resume</a>
+        <a href="contact.html" class="toc-link">Contact</a>
+    </nav>
+
     <div class="book-wrapper">
-        <div class="glance-wrapper">
-            <h1 style="margin: 0; font-size: 3rem;">Alex Dev</h1>
-            <p style="font-family: 'Space Mono'; color: #666; text-transform: uppercase;">Full Stack Engineer • Resume Summary 2025</p>
-            
-            <div class="stat-grid">
-                <div class="stat-box"><span class="stat-num">5+</span>Years Exp</div>
-                <div class="stat-box"><span class="stat-num">30+</span>Projects</div>
-                <div class="stat-box"><span class="stat-num">1M+</span>Users</div>
-                <div class="stat-box"><span class="stat-num">100%</span>Coffee</div>
+        <div class="glance-container">
+
+            <div class="header-box reveal-text delay-1">
+                <div>
+                    <h1 style="font-size: 2.5rem; line-height: 1; margin: 0;">Alex Developer</h1>
+                    <p class="mono" style="margin: 5px 0 0 0; color: var(--accent);">Full Stack Engineer & UI Designer</p>
+                </div>
+                <div style="text-align: right;">
+                    <span class="mono">Status: Available Q4 2025</span>
+                    <br>
+                    <span class="mono">Location: Silicon Valley, CA</span>
+                </div>
             </div>
 
-            <h3 style="background: #f4f4f4; padding: 8px; font-family: 'Space Mono'; font-size: 1rem;">CORE SKILLS</h3>
-            <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-family: 'Space Mono'; margin-top: 15px; margin-bottom: 30px; font-size: 0.9rem;">
-                <li>• JavaScript / TypeScript</li>
-                <li>• React / Next.js</li>
-                <li>• Node.js / Express</li>
-                <li>• Python / Django</li>
-                <li>• PostgreSQL / Redis</li>
-                <li>• Docker / AWS</li>
-                <li>• UI/UX Design (Figma)</li>
-                <li>• WebGL / Three.js</li>
-            </ul>
+            <div class="bento-box reveal-text delay-2" style="grid-column: span 2; flex-direction: row; justify-content: space-around; align-items: center; padding: 15px;">
+                <div style="text-align: center;"><span style="font-size: 1.8rem; font-weight: 700;">5+</span><br><span class="mono" style="font-size: 0.7rem;">Years Exp</span></div>
+                <div style="border-right: 1px solid #ddd; height: 30px;"></div>
+                <div style="text-align: center;"><span style="font-size: 1.8rem; font-weight: 700;">30+</span><br><span class="mono" style="font-size: 0.7rem;">Projects</span></div>
+                <div style="border-right: 1px solid #ddd; height: 30px;"></div>
+                <div style="text-align: center;"><span style="font-size: 1.8rem; font-weight: 700;">500k</span><br><span class="mono" style="font-size: 0.7rem;">Daily Users</span></div>
+            </div>
 
-            <h3 style="background: #f4f4f4; padding: 8px; font-family: 'Space Mono'; font-size: 1rem;">WORK HISTORY</h3>
-            <div style="margin-top: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 15px;">
-                <div style="display: flex; justify-content: space-between; font-weight: bold;">
-                    <span>Senior Engineer @ TechCorp</span>
-                    <span>2022-Present</span>
+            <div class="bento-box reveal-text delay-3" style="grid-column: span 2;">
+                <h3>Selected Works (6)</h3>
+                <div class="project-grid">
+                    <div class="mini-project">
+                        <strong>NeoFinance</strong>
+                        <span class="meta-tag">React • D3.js</span>
+                        <p style="margin: 5px 0 0; font-size: 0.8rem; color: #555;">Crypto dashboard handling 50k ops/sec.</p>
+                    </div>
+                    <div class="mini-project">
+                        <strong>TaskMaster AI</strong>
+                        <span class="meta-tag">Python • OpenAI</span>
+                        <p style="margin: 5px 0 0; font-size: 0.8rem; color: #555;">Smart todo list with NLP prioritization.</p>
+                    </div>
+                    <div class="mini-project">
+                        <strong>3D Portfolio</strong>
+                        <span class="meta-tag">WebGL • Three.js</span>
+                        <p style="margin: 5px 0 0; font-size: 0.8rem; color: #555;">Immersive 3D web experience.</p>
+                    </div>
+                    <div class="mini-project">
+                        <strong>E-Commerce API</strong>
+                        <span class="meta-tag">Node.js • Stripe</span>
+                        <p style="margin: 5px 0 0; font-size: 0.8rem; color: #555;">Headless shopify clone backend.</p>
+                    </div>
+                    <div class="mini-project">
+                        <strong>Whisper Chat</strong>
+                        <span class="meta-tag">Redis • Socket.io</span>
+                        <p style="margin: 5px 0 0; font-size: 0.8rem; color: #555;">End-to-End encrypted messaging.</p>
+                    </div>
+                    <div class="mini-project">
+                        <strong>Weather Widget</strong>
+                        <span class="meta-tag">Vue.js • SVG</span>
+                        <p style="margin: 5px 0 0; font-size: 0.8rem; color: #555;">Micro-interaction design study.</p>
+                    </div>
                 </div>
-                <p style="font-size: 0.95rem; margin-top: 5px; color: #444;">Led migration to Microservices architecture. Mentored junior squad. Reduced build times by 40%.</p>
             </div>
-            <div style="margin-top: 15px; border-bottom: 1px dashed #ccc; padding-bottom: 15px;">
-                <div style="display: flex; justify-content: space-between; font-weight: bold;">
-                    <span>Web Developer @ AgencyX</span>
-                    <span>2020-2022</span>
+
+            <div class="bento-box reveal-text delay-4">
+                <h3>Experience & Education</h3>
+
+                <div class="dense-list-item">
+                    <span style="font-weight: bold;">Senior Engineer @ TechCorp</span>
+                    <span class="meta-tag">2022 - Present</span>
                 </div>
-                <p style="font-size: 0.95rem; margin-top: 5px; color: #444;">Developed high-end marketing sites for Fortune 500s. Specialized in GSAP animations.</p>
+                <div class="dense-list-item">
+                    <span style="font-weight: bold;">Web Developer @ AgencyX</span>
+                    <span class="meta-tag">2020 - 2022</span>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <h3 style="border: none; margin-bottom: 5px; font-size: 0.75rem;">Academia</h3>
+                    <div class="dense-list-item">
+                        <span style="font-weight: bold;">BS Computer Science</span>
+                        <span class="meta-tag">Univ. of Technology (3.9 GPA)</span>
+                    </div>
+                    <div class="dense-list-item">
+                        <span style="font-weight: bold;">AS Mathematics</span>
+                        <span class="meta-tag">City College</span>
+                    </div>
+                </div>
             </div>
-            
-            <div style="margin-top: 40px; text-align: center;">
-                <a href="contact.html" style="background: #000; color: #fff; padding: 12px 40px; text-decoration: none; font-family: 'Space Mono'; font-weight: bold;">AVAILABLE FOR HIRE</a>
+
+            <div class="bento-box reveal-text delay-4">
+                <h3>Recent Writing (3)</h3>
+                <div class="dense-list-item">
+                    <a href="#" style="color: var(--accent); font-weight: bold; text-decoration: none;">Why I learned Rust</a>
+                    <span class="meta-tag">Oct 15 • Engineering</span>
+                </div>
+                <div class="dense-list-item">
+                    <a href="#" style="color: var(--accent); font-weight: bold; text-decoration: none;">CSS Subgrid Magic</a>
+                    <span class="meta-tag">Sep 02 • CSS</span>
+                </div>
+                <div class="dense-list-item">
+                    <a href="#" style="color: var(--accent); font-weight: bold; text-decoration: none;">AI Ethics</a>
+                    <span class="meta-tag">Aug 10 • Philosophy</span>
+                </div>
+
+                <div style="margin-top: auto; padding-top: 20px;">
+                    <h3 style="margin-bottom: 10px;">Quick Contact</h3>
+                    <form onsubmit="event.preventDefault(); alert('Sent from Dashboard!');">
+                        <input type="email" placeholder="Your Email" style="width: 100%; border: 1px solid #ccc; padding: 8px; margin-bottom: 10px; font-family: 'Space Mono'; font-size: 0.8rem;">
+                        <button style="width: 100%; background: #000; color: #fff; border: none; padding: 8px; font-family: 'Space Mono'; cursor: pointer; font-size: 0.8rem;">SEND</button>
+                    </form>
+                </div>
             </div>
+
+            <div class="footer-section reveal-text delay-5">
+                <span class="mono" style="font-size: 0.9rem;">&copy; 2025 Alex Developer. All rights reserved.</span>
+                <div class="social-links">
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="mailto:alex@dev.com" title="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+
         </div>
     </div>
-    
-    <!-- UI Components -->
+
     <div class="social-sidebar">
         <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
         <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-        <a href="glance.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-bolt"></i></a>
     </div>
-    <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
-    <div class="mobile-menu-overlay" id="mobileMenu">
-        <a href="index.html" class="mobile-link">Home</a>
-        <a href="glance.html" class="mobile-link" style="color: var(--accent);">At A Glance</a>
-        <a href="projects.html" class="mobile-link">Projects</a>
-        <a href="blog.html" class="mobile-link">Blog</a>
-        <a href="contact.html" class="mobile-link">Contact</a>
-    </div>
+    <script>
+        const prevPageUrl = 'index.html';
+        const nextPageUrl = 'projects.html';
+    </script>
     <script src="script.js"></script>
 </body>
+
 </html>

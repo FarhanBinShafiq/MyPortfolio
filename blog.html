@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,24 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
+    <nav class="left-sidebar">
+        <div class="sidebar-header">INDEX</div>
+        <a href="index.html" class="toc-link active">Cover</a>
+        <a href="about.html" class="toc-link">About</a>
+        <a href="education.html" class="toc-link">Education</a>
+        <a href="experience.html" class="toc-link">Experience</a>
+        <a href="projects.html" class="toc-link">Projects</a>
+        <a href="blog.html" class="toc-link">Blog</a>
+        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
+        <a href="contact.html" class="toc-link">Contact</a>
+    </nav>
     <div class="book-wrapper">
         <div class="book-frame">
             <div class="left-page">
                 <h2 class="chapter-title">VI. Blog</h2>
-                
+
                 <div class="blog-card">
                     <div class="blog-date">Oct 15, 2025 • Engineering</div>
                     <h3 style="margin: 5px 0;">Why I finally learned Rust</h3>
@@ -31,7 +44,7 @@
                     <h3 style="margin: 5px 0;">The ethics of AI code generation</h3>
                     <p style="font-size: 0.95rem; margin: 0; color: #555;">Are we losing the ability to think critically? A deep dive into Copilot usage patterns and the long-term impact on junior developers.</p>
                 </div>
-                
+
                 <div class="blog-card">
                     <div class="blog-date">Jul 22, 2025 • Career</div>
                     <h3 style="margin: 5px 0;">Soft skills for Senior Engineers</h3>
@@ -49,7 +62,7 @@
             <a href="contact.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
         </div>
     </div>
-    
+
     <!-- UI Components -->
     <div class="social-sidebar">
         <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
@@ -64,7 +77,11 @@
         <a href="blog.html" class="mobile-link">Blog</a>
         <a href="contact.html" class="mobile-link">Contact</a>
     </div>
-    <script>const prevPageUrl = 'projects.html'; const nextPageUrl = 'contact.html';</script>
+    <script>
+        const prevPageUrl = 'projects.html';
+        const nextPageUrl = 'contact.html';
+    </script>
     <script src="script.js"></script>
 </body>
+
 </html>

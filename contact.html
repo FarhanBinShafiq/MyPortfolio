@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,19 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
+    <nav class="left-sidebar">
+        <div class="sidebar-header">INDEX</div>
+        <a href="index.html" class="toc-link active">Cover</a>
+        <a href="about.html" class="toc-link">About</a>
+        <a href="education.html" class="toc-link">Education</a>
+        <a href="experience.html" class="toc-link">Experience</a>
+        <a href="projects.html" class="toc-link">Projects</a>
+        <a href="blog.html" class="toc-link">Blog</a>
+        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
+        <a href="contact.html" class="toc-link">Contact</a>
+    </nav>
     <div class="book-wrapper">
         <div class="book-frame">
             <div class="left-page">
@@ -27,7 +40,7 @@
                     <input type="text" placeholder="YOUR NAME" class="paper-input" required>
                     <input type="email" placeholder="YOUR EMAIL" class="paper-input" required>
                     <textarea rows="5" placeholder="MESSAGE..." class="paper-input" style="resize: none;" required></textarea>
-                    
+
                     <button style="background: transparent; border: 2px solid #000; padding: 12px 30px; font-family: 'Space Mono'; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s;">
                         Send Message
                     </button>
@@ -40,7 +53,7 @@
             <a href="#" class="nav-btn disabled"><i class="fas fa-chevron-right"></i></a>
         </div>
     </div>
-    
+
     <!-- UI Components -->
     <div class="social-sidebar">
         <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
@@ -55,7 +68,11 @@
         <a href="blog.html" class="mobile-link">Blog</a>
         <a href="contact.html" class="mobile-link">Contact</a>
     </div>
-    <script>const prevPageUrl = 'blog.html'; const nextPageUrl = null;</script>
+    <script>
+        const prevPageUrl = 'blog.html';
+        const nextPageUrl = null;
+    </script>
     <script src="script.js"></script>
 </body>
+
 </html>

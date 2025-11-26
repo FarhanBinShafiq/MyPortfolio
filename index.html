@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +8,48 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
+
+    <nav class="left-sidebar">
+        <div class="sidebar-header">INDEX</div>
+        <a href="index.html" class="toc-link active">Cover</a>
+        <a href="about.html" class="toc-link">About</a>
+        <a href="education.html" class="toc-link">Education</a>
+        <a href="experience.html" class="toc-link">Experience</a>
+        <a href="projects.html" class="toc-link">Projects</a>
+        <a href="blog.html" class="toc-link">Blog</a>
+        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
+        <a href="contact.html" class="toc-link">Contact</a>
+    </nav>
+
     <div class="book-wrapper">
         <div class="book-frame">
+
             <div class="left-page" style="text-align: right; display: flex; flex-direction: column; justify-content: center;">
-                <div class="mono">VOLUME II</div>
-                <h1 style="font-size: 4rem; line-height: 0.9; margin: 20px 0;">The<br>Engineer's<br>Journal</h1>
+                <div class="mono reveal-text delay-1">PORTFOLIO 2025</div>
+
+                <h1 class="reveal-text delay-2" style="font-size: 4rem; line-height: 1; margin: 20px 0;">
+                    Building<br>Digital<br>Products
+                </h1>
+
+                <p class="reveal-text delay-3" style="font-size: 1rem; color: #555; text-align: right; margin-left: auto; max-width: 300px;">
+                    I craft high-performance websites and applications with a focus on motion and user experience.
+                </p>
             </div>
+
             <div class="right-page" style="display: flex; flex-direction: column; justify-content: center;">
-                <h2 style="margin-bottom: 5px;">Alex Developer</h2>
-                <p class="mono">Full Stack Engineer & UI Designer</p>
-                <div style="width: 80%; margin-top: 20px; border: 10px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: rotate(-2deg);">
-                    <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex" alt="Avatar" style="width: 100%; display: block;">
+                <h2 class="reveal-text delay-2" style="margin-bottom: 5px;">Alex Developer</h2>
+                <p class="mono reveal-text delay-3">Senior Frontend Engineer</p>
+
+                <div class="reveal-text delay-4" style="width: 80%; margin-top: 20px; border: 8px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.15); transform: rotate(-2deg);">
+                    <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex" alt="Alex Avatar" style="width: 100%; display: block;">
+                </div>
+
+                <div class="reveal-text delay-4" style="margin-top: 30px;">
+                    <a href="projects.html" style="text-decoration: none; border-bottom: 2px solid var(--accent); color: #000; font-family: 'Space Mono'; font-weight: bold; padding-bottom: 2px;">
+                        VIEW SELECTED WORKS &rarr;
+                    </a>
                 </div>
             </div>
         </div>
@@ -30,12 +61,12 @@
         </div>
     </div>
 
-    <!-- UI COMPONENTS -->
     <div class="social-sidebar">
         <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
         <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
         <a href="glance.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-bolt"></i></a>
     </div>
+
     <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
     <div class="mobile-menu-overlay" id="mobileMenu">
         <a href="index.html" class="mobile-link">Home</a>
@@ -45,7 +76,11 @@
         <a href="contact.html" class="mobile-link">Contact</a>
     </div>
 
-    <script>const prevPageUrl = null; const nextPageUrl = 'about.html';</script>
+    <script>
+        const prevPageUrl = null;
+        const nextPageUrl = 'about.html';
+    </script>
     <script src="script.js"></script>
 </body>
+
 </html>

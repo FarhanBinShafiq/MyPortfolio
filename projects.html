@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,25 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
+    <nav class="left-sidebar">
+        <div class="sidebar-header">INDEX</div>
+        <a href="index.html" class="toc-link active">Cover</a>
+        <a href="about.html" class="toc-link">About</a>
+        <a href="education.html" class="toc-link">Education</a>
+        <a href="experience.html" class="toc-link">Experience</a>
+        <a href="projects.html" class="toc-link">Projects</a>
+        <a href="blog.html" class="toc-link">Blog</a>
+        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
+        <a href="contact.html" class="toc-link">Contact</a>
+    </nav>
     <div class="book-wrapper">
         <div class="book-frame">
             <div class="left-page">
                 <h2 class="chapter-title">V. The Workshop</h2>
                 <p>Selected works from 2020-2025. These projects represent a mix of professional work and personal experiments.</p>
-                
+
                 <!-- Project Card 1 -->
                 <div class="project-card">
                     <a href="project-detail-1.html" class="card-image"><i class="fas fa-chart-line" style="font-size: 3rem; color: #ccc;"></i></a>
@@ -27,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="right-page">
                 <!-- Project Card 2 -->
                 <div class="project-card">
@@ -62,7 +75,7 @@
             <a href="blog.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
         </div>
     </div>
-    
+
     <!-- UI Components -->
     <div class="social-sidebar">
         <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
@@ -77,7 +90,11 @@
         <a href="blog.html" class="mobile-link">Blog</a>
         <a href="contact.html" class="mobile-link">Contact</a>
     </div>
-    <script>const prevPageUrl = 'experience.html'; const nextPageUrl = 'blog.html';</script>
+    <script>
+        const prevPageUrl = 'experience.html';
+        const nextPageUrl = 'blog.html';
+    </script>
     <script src="script.js"></script>
 </body>
+
 </html>
