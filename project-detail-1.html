@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoFinance | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="book-wrapper">
+        <div class="book-frame">
+            <div class="left-page">
+                <a href="projects.html" style="text-decoration: none; font-family: 'Space Mono'; font-size: 0.8rem; color: #888; margin-bottom: 20px; display: block;">&larr; BACK TO GALLERY</a>
+                <h2 class="chapter-title" style="border: none; font-size: 2.5rem; margin-bottom: 10px;">NeoFinance</h2>
+                <div style="margin-bottom: 25px;"><span class="tech-tag">React</span> <span class="tech-tag">D3.js</span> <span class="tech-tag">WebSockets</span></div>
+                
+                <p><strong>The Challenge:</strong> Building a professional trading dashboard that could handle 50,000 data points per second without freezing the browser thread or causing jank.</p>
+                <p><strong>The Solution:</strong> I implemented a virtualized list for the order book to only render visible items. For the charts, I bypassed the DOM and used the Canvas API directly via a custom D3 integration. This kept the UI running at a smooth 60fps even under heavy load.</p>
+                
+                <div style="margin-top: 30px; border-top: 1px dashed #ccc; padding-top: 20px;">
+                    <a href="#" style="background: #000; color: #fff; padding: 10px 20px; text-decoration: none; font-family: 'Space Mono'; display: inline-block; border-radius: 4px;"><i class="fab fa-github"></i> Repository</a>
+                    <a href="#" style="background: #fff; color: #000; border: 1px solid #000; padding: 10px 20px; text-decoration: none; font-family: 'Space Mono'; display: inline-block; border-radius: 4px; margin-left: 10px;"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                </div>
+            </div>
+            <div class="right-page">
+                <div class="project-hero">
+                    <i class="fas fa-chart-line" style="font-size: 4rem; color: #ccc;"></i>
+                </div>
+                <div class="caption">Figure 1.1: The main trading interface showing real-time candlestick charts.</div>
+                
+                <h3 style="font-size: 1.2rem; margin-top: 30px; margin-bottom: 10px;">Key Features</h3>
+                <ul style="padding-left: 20px; line-height: 1.6; font-size: 0.95rem;">
+                    <li>Real-time WebSocket data stream integration using RxJS.</li>
+                    <li>JWT Authentication with 2FA support.</li>
+                    <li>Customizable layouts (grid vs list view).</li>
+                    <li>Dark/Light mode toggles with persistent state.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="nav-bar">
+            <a href="projects.html" class="nav-btn"><i class="fas fa-arrow-left"></i></a>
+            <span class="mono">Reading Case Study</span>
+            <a href="projects.html" class="nav-btn"><i class="fas fa-times"></i></a>
+        </div>
+    </div>
+    
+    <!-- UI Components -->
+    <div class="social-sidebar">
+        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        <a href="glance.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-bolt"></i></a>
+    </div>
+    <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <a href="index.html" class="mobile-link">Home</a>
+        <a href="glance.html" class="mobile-link" style="color: var(--accent);">At A Glance</a>
+        <a href="projects.html" class="mobile-link">Projects</a>
+        <a href="blog.html" class="mobile-link">Blog</a>
+        <a href="contact.html" class="mobile-link">Contact</a>
+    </div>
+    <script>const prevPageUrl = 'projects.html'; const nextPageUrl = 'project-detail-2.html';</script>
+    <script src="script.js"></script>
+</body>
+</html>

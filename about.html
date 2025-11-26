@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="book-wrapper">
+        <div class="book-frame">
+            <div class="left-page">
+                <h2 class="chapter-title">I. The Author</h2>
+                <p><span style="font-size: 3.5rem; float: left; line-height: 0.7; padding-right: 12px; font-family: 'Playfair Display'; font-weight: 700;">H</span>ello, I am Alex. I am a Full Stack Engineer based in the Pacific Northwest, obsessed with the intersection of logic and aesthetics.</p>
+                <p>My journey into code began 8 years ago when I edited the CSS of a gaming forum. Since then, I have scaled applications for millions of users, optimized databases until they hummed, and crashed production exactly once (we don't talk about that).</p>
+                
+                <h3 style="margin-top: 30px; font-size: 1.2rem;">Vitals</h3>
+                <table class="cv-table">
+                    <tr><td class="cv-label">Residence</td><td>Silicon Valley, CA, USA</td></tr>
+                    <tr><td class="cv-label">Experience</td><td>5+ Years (Senior Level)</td></tr>
+                    <tr><td class="cv-label">Email</td><td>alex@dev.com</td></tr>
+                    <tr><td class="cv-label">Languages</td><td>English (Native), Spanish (B2)</td></tr>
+                </table>
+            </div>
+            <div class="right-page">
+                <h2 class="chapter-title">II. Specifications</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+                    <div>
+                        <h4 style="border-bottom: 1px solid #ccc; margin-bottom: 10px; font-size: 0.9rem;">Hardware</h4>
+                        <ul style="list-style: none; font-family: 'Space Mono'; font-size: 0.8rem; color: #555; line-height: 1.6;">
+                            <li>» MacBook Pro M3 Max</li>
+                            <li>» HHKB Pro Hybrid Type-S</li>
+                            <li>» MX Master 3S</li>
+                            <li>» Fujifilm X100V</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="border-bottom: 1px solid #ccc; margin-bottom: 10px; font-size: 0.9rem;">Software</h4>
+                        <ul style="list-style: none; font-family: 'Space Mono'; font-size: 0.8rem; color: #555; line-height: 1.6;">
+                            <li>» VS Code (Catppuccin)</li>
+                            <li>» Figma & Blender</li>
+                            <li>» Arc Browser</li>
+                            <li>» Notion & Obsidian</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="background: #fff; padding: 25px; border: 1px solid #ddd; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                    <h3 style="font-size: 1.1rem; margin-bottom: 15px; font-family: 'Playfair Display';">Quick Query</h3>
+                    <form onsubmit="event.preventDefault(); alert('Sent!');">
+                        <input type="text" placeholder="Your Name" class="paper-input">
+                        <input type="email" placeholder="Your Email" class="paper-input">
+                        <textarea rows="2" placeholder="Brief Message..." class="paper-input" style="resize: none;"></textarea>
+                        <button style="width: 100%; background: #1a1a1a; color: #fff; border: none; padding: 12px; font-family: 'Space Mono'; text-transform: uppercase; cursor: pointer;">Dispatch</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="nav-bar">
+            <a href="index.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
+            <span class="mono">Pages 3-4</span>
+            <a href="education.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
+        </div>
+    </div>
+    
+    <!-- UI Components -->
+    <div class="social-sidebar">
+        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        <a href="glance.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-bolt"></i></a>
+    </div>
+    <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <a href="index.html" class="mobile-link">Home</a>
+        <a href="glance.html" class="mobile-link" style="color: var(--accent);">At A Glance</a>
+        <a href="projects.html" class="mobile-link">Projects</a>
+        <a href="blog.html" class="mobile-link">Blog</a>
+        <a href="contact.html" class="mobile-link">Contact</a>
+    </div>
+    <script>const prevPageUrl = 'index.html'; const nextPageUrl = 'education.html';</script>
+    <script src="script.js"></script>
+</body>
+</html>

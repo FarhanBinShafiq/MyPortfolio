@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cover | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="book-wrapper">
+        <div class="book-frame">
+            <div class="left-page" style="text-align: right; display: flex; flex-direction: column; justify-content: center;">
+                <div class="mono">VOLUME II</div>
+                <h1 style="font-size: 4rem; line-height: 0.9; margin: 20px 0;">The<br>Engineer's<br>Journal</h1>
+            </div>
+            <div class="right-page" style="display: flex; flex-direction: column; justify-content: center;">
+                <h2 style="margin-bottom: 5px;">Alex Developer</h2>
+                <p class="mono">Full Stack Engineer & UI Designer</p>
+                <div style="width: 80%; margin-top: 20px; border: 10px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: rotate(-2deg);">
+                    <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Alex" alt="Avatar" style="width: 100%; display: block;">
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-bar">
+            <a href="#" class="nav-btn disabled"><i class="fas fa-chevron-left"></i></a>
+            <span class="mono">Cover</span>
+            <a href="about.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
+        </div>
+    </div>
+
+    <!-- UI COMPONENTS -->
+    <div class="social-sidebar">
+        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        <a href="glance.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-bolt"></i></a>
+    </div>
+    <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <a href="index.html" class="mobile-link">Home</a>
+        <a href="glance.html" class="mobile-link" style="color: var(--accent);">At A Glance</a>
+        <a href="projects.html" class="mobile-link">Projects</a>
+        <a href="blog.html" class="mobile-link">Blog</a>
+        <a href="contact.html" class="mobile-link">Contact</a>
+    </div>
+
+    <script>const prevPageUrl = null; const nextPageUrl = 'about.html';</script>
+    <script src="script.js"></script>
+</body>
+</html>

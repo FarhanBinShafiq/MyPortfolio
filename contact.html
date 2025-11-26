@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="book-wrapper">
+        <div class="book-frame">
+            <div class="left-page">
+                <h2 class="chapter-title">VII. Epilogue</h2>
+                <p>Thank you for reading Volume II of my journey. I am currently accepting new contracts for Q4 2025.</p>
+                <p>Whether you need a full system architecture overhaul or a pixel-perfect landing page, let's discuss how we can build something timeless together.</p>
+                <div style="margin-top: 40px; font-size: 1.5rem;">
+                    <a href="#" style="color: #333; margin-right: 20px;"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" style="color: #333; margin-right: 20px;"><i class="fab fa-github"></i></a>
+                    <a href="#" style="color: #333; margin-right: 20px;"><i class="fas fa-envelope"></i></a>
+                    <a href="#" style="color: #333; margin-right: 20px;"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="right-page">
+                <h2 class="chapter-title">Send a Dispatch</h2>
+                <form onsubmit="event.preventDefault(); alert('Message sent successfully!');">
+                    <input type="text" placeholder="YOUR NAME" class="paper-input" required>
+                    <input type="email" placeholder="YOUR EMAIL" class="paper-input" required>
+                    <textarea rows="5" placeholder="MESSAGE..." class="paper-input" style="resize: none;" required></textarea>
+                    
+                    <button style="background: transparent; border: 2px solid #000; padding: 12px 30px; font-family: 'Space Mono'; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s;">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="nav-bar">
+            <a href="blog.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
+            <span class="mono">End of Journal</span>
+            <a href="#" class="nav-btn disabled"><i class="fas fa-chevron-right"></i></a>
+        </div>
+    </div>
+    
+    <!-- UI Components -->
+    <div class="social-sidebar">
+        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        <a href="glance.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-bolt"></i></a>
+    </div>
+    <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <a href="index.html" class="mobile-link">Home</a>
+        <a href="glance.html" class="mobile-link" style="color: var(--accent);">At A Glance</a>
+        <a href="projects.html" class="mobile-link">Projects</a>
+        <a href="blog.html" class="mobile-link">Blog</a>
+        <a href="contact.html" class="mobile-link">Contact</a>
+    </div>
+    <script>const prevPageUrl = 'blog.html'; const nextPageUrl = null;</script>
+    <script src="script.js"></script>
+</body>
+</html>

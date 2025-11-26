@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="book-wrapper">
+        <div class="book-frame">
+            <div class="left-page">
+                <h2 class="chapter-title">V. The Workshop</h2>
+                <p>Selected works from 2020-2025. These projects represent a mix of professional work and personal experiments.</p>
+                
+                <!-- Project Card 1 -->
+                <div class="project-card">
+                    <a href="project-detail-1.html" class="card-image"><i class="fas fa-chart-line" style="font-size: 3rem; color: #ccc;"></i></a>
+                    <div class="card-content">
+                        <a href="project-detail-1.html" style="font-family: 'Playfair Display'; font-weight: 700; text-decoration: none; color: #000; font-size: 1.1rem;">NeoFinance Dashboard</a>
+                        <p style="font-size: 0.9rem; margin-top: 5px; color: #555;">High-performance crypto trading dashboard handling 50k ops/sec.</p>
+                        <div style="margin-top: 10px;">
+                            <span class="tech-tag">React</span><span class="tech-tag">D3.js</span>
+                        </div>
+                        <a href="project-detail-1.html" style="font-family: 'Space Mono'; font-size: 0.8rem; color: #8e44ad; text-decoration: none; display: block; margin-top: 15px;">READ BRIEF &rarr;</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-page">
+                <!-- Project Card 2 -->
+                <div class="project-card">
+                    <a href="project-detail-2.html" class="card-image"><i class="fas fa-robot" style="font-size: 3rem; color: #ccc;"></i></a>
+                    <div class="card-content">
+                        <a href="project-detail-2.html" style="font-family: 'Playfair Display'; font-weight: 700; text-decoration: none; color: #000; font-size: 1.1rem;">TaskMaster AI</a>
+                        <p style="font-size: 0.9rem; margin-top: 5px; color: #555;">Intelligent todo list using Natural Language Processing (NLP).</p>
+                        <div style="margin-top: 10px;">
+                            <span class="tech-tag">Python</span><span class="tech-tag">OpenAI</span>
+                        </div>
+                        <a href="project-detail-2.html" style="font-family: 'Space Mono'; font-size: 0.8rem; color: #8e44ad; text-decoration: none; display: block; margin-top: 15px;">READ BRIEF &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Project Card 3 (Dummy) -->
+                <div class="project-card">
+                    <a href="#" class="card-image"><i class="fas fa-cube" style="font-size: 3rem; color: #ccc;"></i></a>
+                    <div class="card-content">
+                        <a href="#" style="font-family: 'Playfair Display'; font-weight: 700; text-decoration: none; color: #000; font-size: 1.1rem;">3D Portfolio V1</a>
+                        <p style="font-size: 0.9rem; margin-top: 5px; color: #555;">My previous portfolio site built entirely in Three.js shaders.</p>
+                        <div style="margin-top: 10px;">
+                            <span class="tech-tag">WebGL</span><span class="tech-tag">GLSL</span>
+                        </div>
+                        <a href="#" style="font-family: 'Space Mono'; font-size: 0.8rem; color: #8e44ad; text-decoration: none; display: block; margin-top: 15px;">VIEW ARCHIVE &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-bar">
+            <a href="experience.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
+            <span class="mono">Pages 9-10</span>
+            <a href="blog.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
+        </div>
+    </div>
+    
+    <!-- UI Components -->
+    <div class="social-sidebar">
+        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        <a href="glance.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-bolt"></i></a>
+    </div>
+    <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <a href="index.html" class="mobile-link">Home</a>
+        <a href="glance.html" class="mobile-link" style="color: var(--accent);">At A Glance</a>
+        <a href="projects.html" class="mobile-link">Projects</a>
+        <a href="blog.html" class="mobile-link">Blog</a>
+        <a href="contact.html" class="mobile-link">Contact</a>
+    </div>
+    <script>const prevPageUrl = 'experience.html'; const nextPageUrl = 'blog.html';</script>
+    <script src="script.js"></script>
+</body>
+</html>
