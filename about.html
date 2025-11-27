@@ -1,19 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About | Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
+    <style>
+        /* --- PAGE SPECIFIC ADJUSTMENTS --- */
+        .left-page, .right-page {
+            padding: 40px !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
+        /* 1. Profile Pic Styling */
+        .profile-frame {
+            border: 1px solid #ddd;
+            padding: 8px;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: rotate(2deg);
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+            max-width: 250px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .profile-frame:hover { transform: rotate(0deg) scale(1.02); }
+
+        /* 2. SERVICES CARD GRID */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .service-card {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 15px 10px;
+            text-align: center;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            cursor: default;
+        }
+
+        .service-card:hover {
+            background: #fff;
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+        }
+
+        .s-icon {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 8px;
+            display: block;
+            transition: color 0.2s;
+        }
+
+        .service-card:hover .s-icon { color: var(--accent); }
+
+        .s-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #333;
+            line-height: 1.3;
+            display: block;
+        }
+
+        /* General Typography */
+        p { font-size: 1rem; line-height: 1.6; margin-bottom: 15px; }
+        .cv-table td { padding: 5px 0; }
+        .paper-input { margin-bottom: 10px; padding: 8px 0; }
+        
+        /* --- RESPONSIVE FIXES --- */
+        @media (max-width: 900px) {
+            .book-frame { flex-direction: column; height: auto !important; max-height: none; }
+            .left-page, .right-page { width: 100%; border: none; padding: 30px 20px !important; }
+            .left-sidebar { display: none !important; }
+            /* On mobile, make grid 2 columns instead of 3 */
+            .service-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
 <body>
+
     <nav class="left-sidebar">
         <div class="sidebar-header">INDEX</div>
-        <a href="index.html" class="toc-link active">Cover</a>
-        <a href="about.html" class="toc-link">About</a>
+        <a href="index.html" class="toc-link">Cover</a>
+        <a href="about.html" class="toc-link active">About</a>
         <a href="education.html" class="toc-link">Education</a>
         <a href="experience.html" class="toc-link">Experience</a>
         <a href="projects.html" class="toc-link">Projects</a>
@@ -21,82 +102,107 @@
         <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
         <a href="contact.html" class="toc-link">Contact</a>
     </nav>
+
     <div class="book-wrapper">
         <div class="book-frame">
+            
             <div class="left-page">
-                <h2 class="chapter-title">I. The Author</h2>
-                <p><span style="font-size: 3.5rem; float: left; line-height: 0.7; padding-right: 12px; font-family: 'Playfair Display'; font-weight: 700;">H</span>ello, I am Alex. I am a Full Stack Engineer based in the Pacific Northwest, obsessed with the
-                    intersection of logic and aesthetics.</p>
-                <p>My journey into code began 8 years ago when I edited the CSS of a gaming forum. Since then, I have scaled applications for millions of users, optimized databases until they hummed, and crashed production exactly once (we don't talk about
-                    that).</p>
 
-                <h3 style="margin-top: 30px; font-size: 1.2rem;">Vitals</h3>
-                <table class="cv-table">
-                    <tr>
-                        <td class="cv-label">Residence</td>
-                        <td>Silicon Valley, CA, USA</td>
-                    </tr>
-                    <tr>
-                        <td class="cv-label">Experience</td>
-                        <td>5+ Years (Senior Level)</td>
-                    </tr>
-                    <tr>
-                        <td class="cv-label">Email</td>
-                        <td>alex@dev.com</td>
-                    </tr>
-                    <tr>
-                        <td class="cv-label">Languages</td>
-                        <td>English (Native), Spanish (B2)</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="right-page">
-                <h2 class="chapter-title">II. Specifications</h2>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
-                    <div>
-                        <h4 style="border-bottom: 1px solid #ccc; margin-bottom: 10px; font-size: 0.9rem;">Hardware</h4>
-                        <ul style="list-style: none; font-family: 'Space Mono'; font-size: 0.8rem; color: #555; line-height: 1.6;">
-                            <li>» MacBook Pro M3 Max</li>
-                            <li>» HHKB Pro Hybrid Type-S</li>
-                            <li>» MX Master 3S</li>
-                            <li>» Fujifilm X100V</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 style="border-bottom: 1px solid #ccc; margin-bottom: 10px; font-size: 0.9rem;">Software</h4>
-                        <ul style="list-style: none; font-family: 'Space Mono'; font-size: 0.8rem; color: #555; line-height: 1.6;">
-                            <li>» VS Code (Catppuccin)</li>
-                            <li>» Figma & Blender</li>
-                            <li>» Arc Browser</li>
-                            <li>» Notion & Obsidian</li>
-                        </ul>
-                    </div>
+                <div class="profile-frame reveal-text delay-1">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Profile" style="width: 100%; display: block; filter: grayscale(100%);">
+                    <div class="caption">Fig 1.1: The Engineer</div>
                 </div>
 
-                <div style="background: #fff; padding: 25px; border: 1px solid #ddd; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
-                    <h3 style="font-size: 1.1rem; margin-bottom: 15px; font-family: 'Playfair Display';">Quick Query</h3>
-                    <form onsubmit="event.preventDefault(); alert('Sent!');">
-                        <input type="text" placeholder="Your Name" class="paper-input">
-                        <input type="email" placeholder="Your Email" class="paper-input">
-                        <textarea rows="2" placeholder="Brief Message..." class="paper-input" style="resize: none;"></textarea>
-                        <button style="width: 100%; background: #1a1a1a; color: #fff; border: none; padding: 12px; font-family: 'Space Mono'; text-transform: uppercase; cursor: pointer;">Dispatch</button>
+                <h2 class="chapter-title reveal-text delay-2" style="margin-bottom: 15px;">I. About Me</h2>
+                
+                <p class="reveal-text delay-3">
+                    <span style="font-size: 3.5rem; float: left; line-height: 0.7; padding-right: 12px; font-family: 'Playfair Display'; font-weight: 700;">H</span>ello, I am Alex. I am a Full Stack Engineer based in the Pacific Northwest, obsessed with the intersection of logic and aesthetics.
+                </p>
+                
+                <p class="reveal-text delay-4">
+                    My journey into code began 8 years ago. Since then, I have specialized in building robust data collection tools and visualizing complex datasets for global organizations.
+                </p>
+            </div>
+
+            <div class="right-page">
+
+                <div class="reveal-text delay-2">
+                    <h3 style="font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; color: #888;">Vitals</h3>
+                    <table class="cv-table">
+                        <tr><td class="cv-label">Residence</td><td>Silicon Valley, CA</td></tr>
+                        <tr><td class="cv-label">Experience</td><td>5+ Years (Senior)</td></tr>
+                        <tr><td class="cv-label">Email</td><td>alex@dev.com</td></tr>
+                    </table>
+                </div>
+
+                <div class="reveal-text delay-3" style="margin-top: 20px;">
+                    <h3 style="font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; color: #888;">Capabilities</h3>
+                    <div class="service-grid">
+                        
+                        <div class="service-card">
+                            <i class="fas fa-code s-icon"></i>
+                            <span class="s-title">Web Dev</span>
+                        </div>
+
+                        <div class="service-card">
+                            <i class="fas fa-paint-brush s-icon"></i>
+                            <span class="s-title">Web Design</span>
+                        </div>
+
+                        <div class="service-card">
+                            <i class="fas fa-chart-line s-icon"></i>
+                            <span class="s-title">Data Analysis</span>
+                        </div>
+
+                        <div class="service-card">
+                            <i class="fas fa-puzzle-piece s-icon"></i>
+                            <span class="s-title">SurveyCTO Plugin</span>
+                        </div>
+
+                        <div class="service-card">
+                            <i class="fas fa-layer-group s-icon"></i>
+                            <span class="s-title">ODK Add-on</span>
+                        </div>
+
+                        <div class="service-card">
+                            <i class="fas fa-database s-icon"></i>
+                            <span class="s-title">DA / Analytics</span>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <div class="reveal-text delay-4" style="margin-top: 15px; padding-top: 10px;">
+                    <h2 class="chapter-title" style="font-size: 1.2rem; margin-bottom: 10px; border: none;">Send a Dispatch</h2>
+                    <form onsubmit="event.preventDefault(); alert('Message Sent!');">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <input type="text" placeholder="NAME" class="paper-input" required>
+                            <input type="email" placeholder="EMAIL" class="paper-input" required>
+                        </div>
+                        <textarea rows="2" placeholder="MESSAGE..." class="paper-input" style="resize: none;" required></textarea>
+                        
+                        <button style="width: 100%; background: #1a1a1a; color: #fff; border: none; padding: 10px; font-family: 'Space Mono'; text-transform: uppercase; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 0.8rem;">
+                            Contact Me
+                        </button>
                     </form>
                 </div>
+
             </div>
         </div>
+
         <div class="nav-bar">
             <a href="index.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
             <span class="mono">Pages 3-4</span>
             <a href="education.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
         </div>
     </div>
-
-    <!-- UI Components -->
+    
     <div class="social-sidebar">
         <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
         <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-        <a href="glance.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-bolt"></i></a>
+        <a href="contact.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-envelope"></i></a>
     </div>
+
     <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
     <div class="mobile-menu-overlay" id="mobileMenu">
         <a href="index.html" class="mobile-link">Home</a>
@@ -105,11 +211,8 @@
         <a href="blog.html" class="mobile-link">Blog</a>
         <a href="contact.html" class="mobile-link">Contact</a>
     </div>
-    <script>
-        const prevPageUrl = 'index.html';
-        const nextPageUrl = 'education.html';
-    </script>
+
+    <script>const prevPageUrl = 'index.html'; const nextPageUrl = 'education.html';</script>
     <script src="script.js"></script>
 </body>
-
 </html>

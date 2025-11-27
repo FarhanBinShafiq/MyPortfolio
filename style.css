@@ -480,47 +480,46 @@ p {
         transform: translateY(0);
     }
 }
-
-
 /* --- LEFT SIDEBAR (TABLE OF CONTENTS) --- */
 
 .left-sidebar {
     position: fixed;
-    left: 40px;
+    left: 30px;            /* Move closer to edge */
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    z-index: 150;
+    gap: 12px;
+    z-index: 10;
+    pointer-events: auto;
 }
 
+/* Sidebar Title */
 .sidebar-header {
     font-family: 'Space Mono', monospace;
-    font-size: 3.65rem;
-    color: #888;
+    font-size: 0.6rem;
+    color: #ccc;
     letter-spacing: 2px;
-    margin-bottom: 10px;
-    opacity: 0.5;
+    margin-bottom: 15px;
     writing-mode: vertical-rl;
     transform: rotate(180deg);
+    opacity: 0.5;
 }
 
+/* Sidebar Links */
 .toc-link {
     font-family: 'Space Mono', monospace;
-    font-size: 1.35rem;
-    color: #666;
+    font-size: 0.9rem;
+    color: #fff4f4;
     text-decoration: none;
     text-transform: uppercase;
     display: flex;
     align-items: center;
     transition: all 0.3s ease;
-    opacity: 0.6;
+    opacity: 0.7;
 }
 
-
-/* Hover Animation Line */
-
+/* Hover Line Animation */
 .toc-link::before {
     content: '';
     display: inline-block;
@@ -532,36 +531,63 @@ p {
 }
 
 .toc-link:hover {
-    color: var(--accent);
+    color: #FFFFFF;
     opacity: 1;
     padding-left: 5px;
 }
 
 .toc-link:hover::before {
-    width: 20px;
-    margin-right: 10px;
+    width: 15px;
+    margin-right: 8px;
 }
 
-
 /* Active State */
-
 .toc-link.active {
-    color: var(--text-main);
+    color: #ffffff;
     font-weight: bold;
     opacity: 1;
 }
 
 .toc-link.active::before {
-    width: 30px;
-    margin-right: 10px;
+    width: 25px;
+    margin-right: 8px;
     background-color: var(--text-main);
 }
 
+/* --- RESPONSIVE LOGIC --- */
 
-/* Hide on Mobile */
+/* 1. LAPTOPS & TABLETS (900px to 1400px) */
+/* This specific range includes your 1280x720 screen */
+@media (max-width: 1400px) and (min-width: 901px) {
+    
+    /* Make the book narrower so there is room for the sidebar */
+    .book-frame {
+        width: 85%;  /* Reduced from 95% to make space */
+    }
 
-@media (max-width: 1100px) {
+    /* Move sidebar very close to the edge */
     .left-sidebar {
-        display: none;
+        display: flex !important; /* Force it to show */
+        left: 15px;               /* Tuck it tight to the left */
+        gap: 10px;
+    }
+    
+    /* Make text smaller to fit */
+    .toc-link {
+        font-size: 0.65rem;
+    }
+}
+
+/* 2. MOBILE (< 900px) */
+/* On phones, we still hide it because it's too small */
+@media (max-width: 900px) {
+    .left-sidebar {
+        display: none !important;
+    }
+    
+    /* On mobile, the book takes full width */
+    .book-frame {
+        width: 100%;
+        border-radius: 0;
     }
 }
