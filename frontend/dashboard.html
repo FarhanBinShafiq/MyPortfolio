@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit About Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #f0f2f5; padding: 40px; overflow-y: scroll; display: block; height: auto; }
+        .admin-box { max-width: 800px; margin: 0 auto 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        h2 { margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 25px; }
+        label { font-family: 'Space Mono'; font-size: 0.8rem; font-weight: bold; display: block; margin-top: 15px; color: #555; }
+        input[type="text"], textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: sans-serif; margin-top: 5px; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .btn { background: #222; color: white; padding: 12px 20px; border: none; cursor: pointer; font-weight: bold; margin-top: 20px; }
+        .btn:hover { background: #8e44ad; }
+        .service-list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        .del-btn { color: red; cursor: pointer; font-size: 0.8rem; font-family: 'Space Mono'; }
+    </style>
+</head>
+<body>
+
+    <div class="admin-box">
+        <div style="display:flex; justify-content:space-between;">
+            <h2>Edit Profile</h2>
+            <a href="about.html" target="_blank" style="color:blue; font-family:'Space Mono';">View Live Page &rarr;</a>
+        </div>
+        
+        <form id="profileForm">
+            <div class="row">
+                <div>
+                    <label>Big Letter (e.g., H)</label>
+                    <input type="text" id="intro_title" name="intro_title">
+                </div>
+                <div>
+                    <label>Intro Rest (e.g., ello, I am...)</label>
+                    <input type="text" id="intro_body" name="intro_body">
+                </div>
+            </div>
+
+            <label>Main Bio Paragraph</label>
+            <textarea id="bio_text" name="bio_text" rows="5"></textarea>
+
+            <div class="row">
+                <div><label>Residence</label><input type="text" id="residence" name="residence"></div>
+                <div><label>Experience</label><input type="text" id="experience" name="experience"></div>
+            </div>
+            <label>Email</label><input type="text" id="email" name="email">
+
+            <label>Update Profile Photo</label>
+            <input type="file" id="profile_image" name="profile_image">
+            <input type="hidden" id="existing_image" name="existing_image">
+            <img id="preview_image" src="" style="width: 50px; margin-top: 10px; display:none;">
+
+            <button type="submit" class="btn">Save Profile Changes</button>
+        </form>
+    </div>
+
+    <div class="admin-box">
+        <h2>Manage Services</h2>
+        <div id="serviceList"></div>
+
+        <h3 style="margin-top: 30px; font-size: 1rem;">Add New Capability</h3>
+        <div class="row">
+            <input type="text" id="newTitle" placeholder="Title (e.g. Web Dev)">
+            <input type="text" id="newIcon" placeholder="Icon Class (e.g. fas fa-code)">
+        </div>
+        <button onclick="addService()" class="btn" style="background: #444;">Add Service</button>
+    </div>
+
+    <script>
+        const API = 'http://localhost:8000/backend/about_handler.php';
+
+        async function loadData() {
+            const res = await fetch(`${API}?action=fetch_about`);
+            const data = await res.json();
+            const p = data.profile;
+
+            // Fill Profile Form
+            document.getElementById('intro_title').value = p.intro_title;
+            document.getElementById('intro_body').value = p.intro_body;
+            document.getElementById('bio_text').value = p.bio_text;
+            document.getElementById('residence').value = p.residence;
+            document.getElementById('experience').value = p.experience;
+            document.getElementById('email').value = p.email;
+            document.getElementById('existing_image').value = p.image_url;
+            
+            if(p.image_url) {
+                document.getElementById('preview_image').src = p.image_url;
+                document.getElementById('preview_image').style.display = 'block';
+            }
+
+            // Fill Services List
+            const list = document.getElementById('serviceList');
+            list.innerHTML = '';
+            data.services.forEach(s => {
+                list.innerHTML += `
+                    <div class="service-list-item">
+                        <span><i class="${s.icon}"></i> <strong>${s.title}</strong></span>
+                        <span class="del-btn" onclick="deleteService(${s.id})">DELETE</span>
+                    </div>
+                `;
+            });
+        }
+
+        // Save Profile
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            await fetch(`${API}?action=update_profile`, { method: 'POST', body: formData });
+            alert('Saved!');
+            loadData();
+        });
+
+        // Add Service
+        async function addService() {
+            const title = document.getElementById('newTitle').value;
+            const icon = document.getElementById('newIcon').value;
+            await fetch(`${API}?action=add_service`, {
+                method: 'POST', body: JSON.stringify({title, icon})
+            });
+            loadData();
+        }
+
+        // Delete Service
+        async function deleteService(id) {
+            if(confirm('Remove this service?')) {
+                await fetch(`${API}?action=delete_service&id=${id}`);
+                loadData();
+            }
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
