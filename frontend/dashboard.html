@@ -1,136 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Edit About Page</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Admin Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        if (!localStorage.getItem('auth')) window.location.href = 'login.html';
+    </script>
     <style>
-        body { background: #f0f2f5; padding: 40px; overflow-y: scroll; display: block; height: auto; }
-        .admin-box { max-width: 800px; margin: 0 auto 30px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        h2 { margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 25px; }
-        label { font-family: 'Space Mono'; font-size: 0.8rem; font-weight: bold; display: block; margin-top: 15px; color: #555; }
-        input[type="text"], textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: sans-serif; margin-top: 5px; }
-        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .btn { background: #222; color: white; padding: 12px 20px; border: none; cursor: pointer; font-weight: bold; margin-top: 20px; }
-        .btn:hover { background: #8e44ad; }
-        .service-list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
-        .del-btn { color: red; cursor: pointer; font-size: 0.8rem; font-family: 'Space Mono'; }
+        body {
+            background: #f4f4f4;
+            font-family: sans-serif;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .btn-out {
+            margin-top: 40px;
+            color: #c0392b;
+            cursor: pointer;
+            border: 1px solid #c0392b;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 20px;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
+
 <body>
-
-    <div class="admin-box">
-        <div style="display:flex; justify-content:space-between;">
-            <h2>Edit Profile</h2>
-            <a href="about.html" target="_blank" style="color:blue; font-family:'Space Mono';">View Live Page &rarr;</a>
-        </div>
-        
-        <form id="profileForm">
-            <div class="row">
-                <div>
-                    <label>Big Letter (e.g., H)</label>
-                    <input type="text" id="intro_title" name="intro_title">
-                </div>
-                <div>
-                    <label>Intro Rest (e.g., ello, I am...)</label>
-                    <input type="text" id="intro_body" name="intro_body">
-                </div>
-            </div>
-
-            <label>Main Bio Paragraph</label>
-            <textarea id="bio_text" name="bio_text" rows="5"></textarea>
-
-            <div class="row">
-                <div><label>Residence</label><input type="text" id="residence" name="residence"></div>
-                <div><label>Experience</label><input type="text" id="experience" name="experience"></div>
-            </div>
-            <label>Email</label><input type="text" id="email" name="email">
-
-            <label>Update Profile Photo</label>
-            <input type="file" id="profile_image" name="profile_image">
-            <input type="hidden" id="existing_image" name="existing_image">
-            <img id="preview_image" src="" style="width: 50px; margin-top: 10px; display:none;">
-
-            <button type="submit" class="btn">Save Profile Changes</button>
-        </form>
+    <h1 style="color:#333; margin-bottom:30px;">Welcome Back</h1>
+    <div class="grid">
+        <a href="dashboard-about.html" class="card">
+            <i class="fas fa-user-edit icon" style="color:#8e44ad;"></i>
+            <h3>Edit Profile</h3>
+            <p>Update Bio, Skills & Vitals</p>
+        </a>
+        <a href="dashboard-messages.html" class="card">
+            <i class="fas fa-envelope-open-text icon" style="color:#e67e22;"></i>
+            <h3>Inbox</h3>
+            <p>Read Contact Messages</p>
+        </a>
+        <a href="about.html" target="_blank" class="card">
+            <i class="fas fa-eye icon" style="color:#2ecc71;"></i>
+            <h3>Live Site</h3>
+            <p>View Portfolio</p>
+        </a>
     </div>
-
-    <div class="admin-box">
-        <h2>Manage Services</h2>
-        <div id="serviceList"></div>
-
-        <h3 style="margin-top: 30px; font-size: 1rem;">Add New Capability</h3>
-        <div class="row">
-            <input type="text" id="newTitle" placeholder="Title (e.g. Web Dev)">
-            <input type="text" id="newIcon" placeholder="Icon Class (e.g. fas fa-code)">
-        </div>
-        <button onclick="addService()" class="btn" style="background: #444;">Add Service</button>
-    </div>
-
-    <script>
-        const API = 'http://localhost:8000/backend/about_handler.php';
-
-        async function loadData() {
-            const res = await fetch(`${API}?action=fetch_about`);
-            const data = await res.json();
-            const p = data.profile;
-
-            // Fill Profile Form
-            document.getElementById('intro_title').value = p.intro_title;
-            document.getElementById('intro_body').value = p.intro_body;
-            document.getElementById('bio_text').value = p.bio_text;
-            document.getElementById('residence').value = p.residence;
-            document.getElementById('experience').value = p.experience;
-            document.getElementById('email').value = p.email;
-            document.getElementById('existing_image').value = p.image_url;
-            
-            if(p.image_url) {
-                document.getElementById('preview_image').src = p.image_url;
-                document.getElementById('preview_image').style.display = 'block';
-            }
-
-            // Fill Services List
-            const list = document.getElementById('serviceList');
-            list.innerHTML = '';
-            data.services.forEach(s => {
-                list.innerHTML += `
-                    <div class="service-list-item">
-                        <span><i class="${s.icon}"></i> <strong>${s.title}</strong></span>
-                        <span class="del-btn" onclick="deleteService(${s.id})">DELETE</span>
-                    </div>
-                `;
-            });
-        }
-
-        // Save Profile
-        document.getElementById('profileForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            await fetch(`${API}?action=update_profile`, { method: 'POST', body: formData });
-            alert('Saved!');
-            loadData();
-        });
-
-        // Add Service
-        async function addService() {
-            const title = document.getElementById('newTitle').value;
-            const icon = document.getElementById('newIcon').value;
-            await fetch(`${API}?action=add_service`, {
-                method: 'POST', body: JSON.stringify({title, icon})
-            });
-            loadData();
-        }
-
-        // Delete Service
-        async function deleteService(id) {
-            if(confirm('Remove this service?')) {
-                await fetch(`${API}?action=delete_service&id=${id}`);
-                loadData();
-            }
-        }
-
-        loadData();
-    </script>
+    <a href="#" onclick="localStorage.removeItem('auth');location.href='login.html'" class="btn-out">Logout</a>
 </body>
+
 </html>

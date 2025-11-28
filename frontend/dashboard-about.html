@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit About</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        if (!localStorage.getItem('auth')) window.location.href = 'login.html';
+    </script>
+    <style>
+        body {
+            background: #f4f4f4;
+            padding: 20px;
+            font-family: sans-serif;
+        }
+        
+        .box {
+            background: white;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            padding: 12px 20px;
+            background: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+        
+        button:hover {
+            background: #8e44ad;
+        }
+        
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+        
+        .del {
+            color: red;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 600px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+            body {
+                padding: 10px;
+            }
+            .box {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <a href="dashboard.html" style="text-decoration:none; color:#555; display:block; margin-bottom:20px;">&larr; Back</a>
+        <h2>Edit Profile</h2>
+        <form id="profile">
+            <div class="row"><input id="intro_title" placeholder="H"><input id="intro_body" placeholder="ello..."></div>
+            <textarea id="bio_text" rows="5" placeholder="Bio"></textarea>
+            <div class="row"><input id="residence" placeholder="Location"><input id="experience" placeholder="Exp"></div>
+            <input id="email" placeholder="Email">
+            <p style="margin-top:20px; font-weight:bold; color:#666;">Upload Photo:</p>
+            <input type="file" id="profile_image" name="profile_image">
+            <input type="hidden" id="existing_image">
+            <button type="submit" style="margin-top:20px;">Save Changes</button>
+        </form>
+    </div>
+
+    <div class="box">
+        <h2>Services</h2>
+        <div id="list"></div>
+        <h3 style="margin-top:30px;">Add New</h3>
+        <div class="row">
+            <input id="newTitle" placeholder="Title">
+            <input id="newIcon" placeholder="Icon (fas fa-code)">
+        </div>
+        <button onclick="addS()" style="background:#27ae60; margin-top:10px;">Add Service</button>
+    </div>
+
+    <script>
+        const API = '../backend/about_handler.php';
+
+        async function load() {
+            try {
+                const res = await fetch(`${API}?action=fetch_about`);
+                const data = await res.json();
+                const p = data.profile;
+                ['intro_title', 'intro_body', 'bio_text', 'residence', 'experience', 'email', 'image_url'].forEach(k => {
+                    if (p[k]) {
+                        const el = document.getElementById(k === 'image_url' ? 'existing_image' : k);
+                        if (el) el.value = p[k];
+                    }
+                });
+                const l = document.getElementById('list');
+                l.innerHTML = '';
+                data.services.forEach(s => {
+                    l.innerHTML += `<div class="list-item"><span><i class="${s.icon}"></i> ${s.title}</span><span class="del" onclick="del(${s.id})">DEL</span></div>`;
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        document.getElementById('profile').onsubmit = async(e) => {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            ['intro_title', 'intro_body', 'bio_text', 'residence', 'experience', 'email', 'existing_image'].forEach(id => {
+                fd.append(id, document.getElementById(id).value);
+            });
+            await fetch(`${API}?action=update_profile`, {
+                method: 'POST',
+                body: fd
+            });
+            alert('Saved!');
+            load();
+        };
+
+        async function addS() {
+            await fetch(`${API}?action=add_service`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    title: document.getElementById('newTitle').value,
+                    icon: document.getElementById('newIcon').value
+                })
+            });
+            load();
+        }
+
+        async function del(id) {
+            if (confirm('Delete?')) {
+                await fetch(`${API}?action=delete_service&id=${id}`);
+                load();
+            }
+        }
+        load();
+    </script>
+</body>
+
+</html>

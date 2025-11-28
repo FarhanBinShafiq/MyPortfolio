@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Inbox</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        if (!localStorage.getItem('auth')) window.location.href = 'login.html';
+    </script>
+    <style>
+        body {
+            background: #f4f4f4;
+            padding: 40px;
+            font-family: sans-serif;
+        }
+        
+        .box {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .msg {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 5px solid #e67e22;
+            position: relative;
+        }
+        
+        .meta {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .txt {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .del {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: red;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <a href="dashboard.html" style="text-decoration:none;color:#333;">&larr; Back to Hub</a>
+        <h2>Inbox</h2>
+        <div id="msgs">Loading...</div>
+    </div>
+    <script>
+        const API = '../backend/contact_handler.php';
+        async function load() {
+            const res = await fetch(`${API}?action=fetch_messages`);
+            const d = await res.json();
+            const div = document.getElementById('msgs');
+            div.innerHTML = '';
+            if (d.length === 0) div.innerHTML = 'No messages.';
+            d.forEach(m => {
+                div.innerHTML += `
+                <div class="msg">
+                    <div class="meta"><span><strong>${m.name}</strong> (${m.email})</span><span>${m.created_at}</span></div>
+                    <div class="txt">${m.message}</div>
+                    <i class="fas fa-trash del" onclick="del(${m.id})"></i>
+                </div>`;
+            });
+        }
+        async function del(id) {
+            if (confirm('Delete?')) {
+                await fetch(`${API}?action=delete_message&id=${id}`);
+                load();
+            }
+        }
+        load();
+    </script>
+</body>
+
+</html>
