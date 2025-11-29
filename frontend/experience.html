@@ -10,95 +10,34 @@
 </head>
 
 <body>
-    <nav class="left-sidebar">
-        <div class="sidebar-header">INDEX</div>
-        <a href="index.html" class="toc-link active">Cover</a>
-        <a href="about.html" class="toc-link">About</a>
-        <a href="education.html" class="toc-link">Education</a>
-        <a href="experience.html" class="toc-link">Experience</a>
-        <a href="projects.html" class="toc-link">Projects</a>
-        <a href="blog.html" class="toc-link">Blog</a>
-        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
-        <a href="contact.html" class="toc-link">Contact</a>
-    </nav>
+    <!-- (Include Sidebar) -->
     <div class="book-wrapper">
         <div class="book-frame">
             <div class="left-page">
                 <h2 class="chapter-title">IV. Professional Exp.</h2>
-
-                <div style="margin-bottom: 30px;">
-                    <h3 style="margin-bottom: 5px;">Senior Engineer @ TechCorp</h3>
-                    <span class="mono">2022 - Present • New York, NY</span>
-                    <p style="margin-top: 10px; font-size: 1rem;">
-                        Leading the frontend infrastructure team for a SaaS platform with 500k daily active users. Spearheaded the migration from a legacy Monolith to Microservices, reducing deployment time by 60%. Mentored a squad of 4 junior developers.
-                    </p>
-                </div>
-
-                <div style="margin-bottom: 30px;">
-                    <h3 style="margin-bottom: 5px;">Web Developer @ AgencyX</h3>
-                    <span class="mono">2020 - 2022 • Remote</span>
-                    <p style="margin-top: 10px; font-size: 1rem;">
-                        Built award-winning marketing sites for Fortune 500 clients including Nike and Apple. Specialized in high-performance animations using WebGL and GSAP. Implemented a headless CMS architecture that empowered the marketing team.
-                    </p>
-                </div>
+                <div id="expList">Loading...</div>
             </div>
             <div class="right-page">
                 <h2 class="chapter-title">Skills Matrix</h2>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div>
-                        <h4 style="border-bottom: 1px solid #ccc; margin-bottom: 10px;">Frontend</h4>
-                        <ul style="list-style: none; font-size: 0.9rem; line-height: 1.8;">
-                            <li>• React / Next.js</li>
-                            <li>• TypeScript</li>
-                            <li>• Tailwind CSS</li>
-                            <li>• Three.js / R3F</li>
-                            <li>• Redux / Zustand</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 style="border-bottom: 1px solid #ccc; margin-bottom: 10px;">Backend</h4>
-                        <ul style="list-style: none; font-size: 0.9rem; line-height: 1.8;">
-                            <li>• Node.js / Express</li>
-                            <li>• Python / Django</li>
-                            <li>• PostgreSQL</li>
-                            <li>• Redis / GraphQL</li>
-                            <li>• Docker / AWS</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div style="margin-top: 30px; padding: 20px; background: #f9f9f9; border: 1px solid #ddd;">
-                    <h4 style="font-size: 0.9rem; margin-bottom: 5px;">Current Focus</h4>
-                    <p style="font-size: 0.9rem; margin: 0;">Deep diving into Rust for WebAssembly modules to optimize image processing in the browser.</p>
-                </div>
+                <!-- Skills can be static or added to DB similarly -->
+                <p>Frontend, Backend, DevOps...</p>
             </div>
         </div>
-        <div class="nav-bar">
-            <a href="education.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
-            <span class="mono">Pages 7-8</span>
-            <a href="projects.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
-        </div>
+        <!-- (Nav Bar) -->
     </div>
-
-    <!-- UI Components -->
-    <div class="social-sidebar">
-        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-        <a href="glance.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-bolt"></i></a>
-    </div>
-    <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
-    <div class="mobile-menu-overlay" id="mobileMenu">
-        <a href="index.html" class="mobile-link">Home</a>
-        <a href="glance.html" class="mobile-link" style="color: var(--accent);">At A Glance</a>
-        <a href="projects.html" class="mobile-link">Projects</a>
-        <a href="blog.html" class="mobile-link">Blog</a>
-        <a href="contact.html" class="mobile-link">Contact</a>
-    </div>
-    <script>
-        const prevPageUrl = 'education.html';
-        const nextPageUrl = 'projects.html';
-    </script>
     <script src="script.js"></script>
+    <script>
+        fetch('../backend/edu_exp_handler.php?action=fetch_exp').then(r => r.json()).then(data => {
+            const list = document.getElementById('expList');
+            list.innerHTML = data.map(i => `
+                <div style="margin-bottom: 30px;">
+                    <h3 style="margin-bottom: 5px;">${i.role} @ ${i.company}</h3>
+                    <span class="mono">${i.year}</span>
+                    <p style="margin-top: 10px; font-size: 1rem;">${i.details}</p>
+                </div>
+            `).join('');
+        });
+    </script>
 </body>
 
 </html>

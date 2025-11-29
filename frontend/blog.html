@@ -12,76 +12,49 @@
 <body>
     <nav class="left-sidebar">
         <div class="sidebar-header">INDEX</div>
-        <a href="index.html" class="toc-link active">Cover</a>
+        <a href="index.html" class="toc-link">Cover</a>
         <a href="about.html" class="toc-link">About</a>
         <a href="education.html" class="toc-link">Education</a>
         <a href="experience.html" class="toc-link">Experience</a>
         <a href="projects.html" class="toc-link">Projects</a>
-        <a href="blog.html" class="toc-link">Blog</a>
-        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
+        <a href="blog.html" class="toc-link active">Blog</a>
         <a href="contact.html" class="toc-link">Contact</a>
     </nav>
+
     <div class="book-wrapper">
         <div class="book-frame">
             <div class="left-page">
                 <h2 class="chapter-title">VI. Blog</h2>
-
-                <div class="blog-card">
-                    <div class="blog-date">Oct 15, 2025 • Engineering</div>
-                    <h3 style="margin: 5px 0;">Why I finally learned Rust</h3>
-                    <p style="font-size: 0.95rem; margin: 0; color: #555;">Memory safety without garbage collection? It sounded too good to be true, until I tried it for a high-performance image processing module.</p>
-                </div>
-
-                <div class="blog-card">
-                    <div class="blog-date">Sep 02, 2025 • CSS</div>
-                    <h3 style="margin: 5px 0;">CSS Subgrid is a game changer</h3>
-                    <p style="font-size: 0.95rem; margin: 0; color: #555;">Aligning nested items to the parent grid has never been easier. Here is a breakdown of how it simplifies card layouts.</p>
-                </div>
+                <div id="blogListLeft"></div>
             </div>
             <div class="right-page">
-                <div class="blog-card">
-                    <div class="blog-date">Aug 10, 2025 • Philosophy</div>
-                    <h3 style="margin: 5px 0;">The ethics of AI code generation</h3>
-                    <p style="font-size: 0.95rem; margin: 0; color: #555;">Are we losing the ability to think critically? A deep dive into Copilot usage patterns and the long-term impact on junior developers.</p>
-                </div>
-
-                <div class="blog-card">
-                    <div class="blog-date">Jul 22, 2025 • Career</div>
-                    <h3 style="margin: 5px 0;">Soft skills for Senior Engineers</h3>
-                    <p style="font-size: 0.95rem; margin: 0; color: #555;">Why writing good documentation and empathetic code reviews matters more than your LeetCode score.</p>
-                </div>
-
-                <div style="text-align: center; margin-top: 40px;">
-                    <a href="#" style="font-family: 'Space Mono'; color: #8e44ad; text-decoration: none;">VIEW FULL ARCHIVE &rarr;</a>
-                </div>
+                <div id="blogListRight"></div>
             </div>
         </div>
         <div class="nav-bar">
             <a href="projects.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
-            <span class="mono">Pages 11-12</span>
+            <span class="mono">Blog</span>
             <a href="contact.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
         </div>
     </div>
-
-    <!-- UI Components -->
-    <div class="social-sidebar">
-        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-        <a href="glance.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-bolt"></i></a>
-    </div>
-    <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
-    <div class="mobile-menu-overlay" id="mobileMenu">
-        <a href="index.html" class="mobile-link">Home</a>
-        <a href="glance.html" class="mobile-link" style="color: var(--accent);">At A Glance</a>
-        <a href="projects.html" class="mobile-link">Projects</a>
-        <a href="blog.html" class="mobile-link">Blog</a>
-        <a href="contact.html" class="mobile-link">Contact</a>
-    </div>
-    <script>
-        const prevPageUrl = 'projects.html';
-        const nextPageUrl = 'contact.html';
-    </script>
     <script src="script.js"></script>
+    <script>
+        fetch('../backend/blog_handler.php?action=fetch_all').then(r => r.json()).then(data => {
+            const mid = Math.ceil(data.length / 2);
+            const left = data.slice(0, mid);
+            const right = data.slice(mid);
+
+            const render = (item) => `
+                <div class="blog-card" style="margin-bottom:25px; border-left:3px solid #8e44ad; padding-left:15px;">
+                    <div class="blog-date" style="font-size:0.7rem; color:#888;">${item.date} • ${item.category}</div>
+                    <h3 style="margin:5px 0;">${item.title}</h3>
+                    <p style="font-size:0.9rem; color:#555;">${item.excerpt}</p>
+                </div>`;
+
+            document.getElementById('blogListLeft').innerHTML = left.map(render).join('');
+            document.getElementById('blogListRight').innerHTML = right.map(render).join('');
+        });
+    </script>
 </body>
 
 </html>

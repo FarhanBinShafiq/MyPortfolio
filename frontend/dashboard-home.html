@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Home</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        if (!localStorage.getItem('auth')) window.location.href = 'login.html';
+    </script>
+    <style>
+        body {
+            padding: 20px;
+            background: #f4f4f4;
+        }
+        
+        .box {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+        }
+        
+        button {
+            padding: 10px;
+            background: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <a href="dashboard.html">&larr; Back</a>
+        <h2>Edit Home Cover</h2>
+        <form id="homeForm">
+            <label>Volume Label</label><input name="volume_label" id="volume_label">
+            <label>Main Title (Use &lt;br&gt; for breaks)</label><input name="main_title" id="main_title">
+            <label>Subtitle (Your Name)</label><input name="subtitle" id="subtitle">
+            <label>Role</label><input name="role_text" id="role_text">
+            <label>Cover Avatar</label><input type="file" name="avatar_image">
+            <input type="hidden" name="existing_image" id="existing_image">
+            <button type="submit">Save</button>
+        </form>
+    </div>
+    <script>
+        const API = '../backend/home_handler.php';
+        fetch(`${API}?action=fetch`).then(r => r.json()).then(d => {
+            document.getElementById('volume_label').value = d.volume_label;
+            document.getElementById('main_title').value = d.main_title;
+            document.getElementById('subtitle').value = d.subtitle;
+            document.getElementById('role_text').value = d.role_text;
+            document.getElementById('existing_image').value = d.avatar_url;
+        });
+        document.getElementById('homeForm').onsubmit = async(e) => {
+            e.preventDefault();
+            await fetch(`${API}?action=update`, {
+                method: 'POST',
+                body: new FormData(e.target)
+            });
+            alert('Saved!');
+        };
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Projects</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        if (!localStorage.getItem('auth')) window.location.href = 'login.html';
+    </script>
+    <style>
+        body {
+            padding: 20px;
+            background: #f4f4f4;
+        }
+        
+        .box {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+        }
+        
+        button {
+            padding: 10px;
+            background: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .item {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <a href="dashboard.html">&larr; Back</a>
+        <h2>Projects</h2>
+        <div id="list"></div>
+        <h3>Add New</h3>
+        <form id="projForm">
+            <input name="title" placeholder="Title" required>
+            <textarea name="description" placeholder="Description" required></textarea>
+            <input name="tags" placeholder="Tags (React, JS...)">
+            <p>Project Image:</p>
+            <input type="file" name="image">
+            <button type="submit">Add Project</button>
+        </form>
+    </div>
+    <script>
+        const API = '../backend/projects_handler.php';
+        async function load() {
+            const res = await fetch(`${API}?action=fetch_all`);
+            const data = await res.json();
+            document.getElementById('list').innerHTML = data.map(i => `
+                <div class="item">
+                    <div><strong>${i.title}</strong><br>${i.tags}</div>
+                    <button onclick="del(${i.id})" style="background:red;">Del</button>
+                </div>`).join('');
+        }
+        document.getElementById('projForm').onsubmit = async(e) => {
+            e.preventDefault();
+            await fetch(`${API}?action=add`, {
+                method: 'POST',
+                body: new FormData(e.target)
+            });
+            load();
+        }
+        async function del(id) {
+            if (confirm('Delete?')) {
+                await fetch(`${API}?action=delete&id=${id}`);
+                load();
+            }
+        }
+        load();
+    </script>
+</body>
+
+</html>

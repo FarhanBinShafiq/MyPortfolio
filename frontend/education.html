@@ -10,80 +10,36 @@
 </head>
 
 <body>
-    <nav class="left-sidebar">
-        <div class="sidebar-header">INDEX</div>
-        <a href="index.html" class="toc-link active">Cover</a>
-        <a href="about.html" class="toc-link">About</a>
-        <a href="education.html" class="toc-link">Education</a>
-        <a href="experience.html" class="toc-link">Experience</a>
-        <a href="projects.html" class="toc-link">Projects</a>
-        <a href="blog.html" class="toc-link">Blog</a>
-        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
-        <a href="contact.html" class="toc-link">Contact</a>
-    </nav>
+    <!-- (Include Sidebar) -->
     <div class="book-wrapper">
         <div class="book-frame">
             <div class="left-page">
                 <h2 class="chapter-title">III. Academic History</h2>
-
-                <div style="margin-bottom: 30px; padding-left: 15px; border-left: 3px solid #8e44ad;">
-                    <span style="font-weight: 700; font-size: 1.2rem; display: block;">University of Technology</span>
-                    <span style="font-style: italic; color: #555;">B.S. Computer Science (2016 - 2020)</span>
-                    <div style="font-size: 0.9rem; margin-top: 5px; color: #666; font-family: 'Space Mono';">
-                        Graduated Magna Cum Laude (3.9 GPA). Specialized in Algorithms and Distributed Systems. Capstone: "Neural Networks for Audio Processing".
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 30px; padding-left: 15px; border-left: 3px solid #8e44ad;">
-                    <span style="font-weight: 700; font-size: 1.2rem; display: block;">City College</span>
-                    <span style="font-style: italic; color: #555;">Associates in Mathematics (2014 - 2016)</span>
-                    <div style="font-size: 0.9rem; margin-top: 5px; color: #666; font-family: 'Space Mono';">
-                        Focus: Calculus I-III, Linear Algebra, Discrete Math. President of the Logic Club.
-                    </div>
-                </div>
+                <div id="eduList">Loading...</div>
             </div>
             <div class="right-page">
                 <h2 class="chapter-title">Certifications</h2>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 20px; border-bottom: 1px dashed #ccc; padding-bottom: 15px;">
-                        <strong>AWS Certified Solutions Architect</strong><br>
-                        <span class="mono">Issued: Jan 2023 • Credential ID: AWS-882910</span>
-                        <p style="font-size: 0.9rem; margin-top: 5px; margin-bottom: 0;">Validated expertise in designing distributed systems on AWS.</p>
-                    </li>
-                    <li style="margin-bottom: 20px; border-bottom: 1px dashed #ccc; padding-bottom: 15px;">
-                        <strong>Google UX Design Professional</strong><br>
-                        <span class="mono">Issued: Mar 2022 • Credential ID: G-UX-223</span>
-                        <p style="font-size: 0.9rem; margin-top: 5px; margin-bottom: 0;">Completed rigorous training in wireframing, prototyping, and user research.</p>
-                    </li>
-                </ul>
+                <div id="certList">
+                    <!-- Hardcoded for now or add table for certs -->
+                    <p>Coming soon...</p>
+                </div>
             </div>
         </div>
-        <div class="nav-bar">
-            <a href="about.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
-            <span class="mono">Pages 5-6</span>
-            <a href="experience.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
-        </div>
+        <!-- (Nav Bar) -->
     </div>
-
-    <!-- UI Components -->
-    <div class="social-sidebar">
-        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-        <a href="glance.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-bolt"></i></a>
-    </div>
-    <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
-    <div class="mobile-menu-overlay" id="mobileMenu">
-        <a href="index.html" class="mobile-link">Home</a>
-        <a href="glance.html" class="mobile-link" style="color: var(--accent);">At A Glance</a>
-        <a href="projects.html" class="mobile-link">Projects</a>
-        <a href="blog.html" class="mobile-link">Blog</a>
-        <a href="contact.html" class="mobile-link">Contact</a>
-    </div>
-    <script>
-        const prevPageUrl = 'about.html';
-        const nextPageUrl = 'experience.html';
-    </script>
     <script src="script.js"></script>
+    <script>
+        fetch('../backend/edu_exp_handler.php?action=fetch_edu').then(r => r.json()).then(data => {
+            const list = document.getElementById('eduList');
+            list.innerHTML = data.map(i => `
+                <div style="margin-bottom: 30px; padding-left: 15px; border-left: 3px solid #8e44ad;">
+                    <span style="font-weight: 700; font-size: 1.2rem; display: block;">${i.institution}</span>
+                    <span style="font-style: italic; color: #555;">${i.degree} (${i.year})</span>
+                    <div style="font-size: 0.9rem; margin-top: 5px; color: #666; font-family: 'Space Mono';">${i.details}</div>
+                </div>
+            `).join('');
+        });
+    </script>
 </body>
 
 </html>

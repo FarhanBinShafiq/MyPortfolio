@@ -10,91 +10,43 @@
 </head>
 
 <body>
-    <nav class="left-sidebar">
-        <div class="sidebar-header">INDEX</div>
-        <a href="index.html" class="toc-link active">Cover</a>
-        <a href="about.html" class="toc-link">About</a>
-        <a href="education.html" class="toc-link">Education</a>
-        <a href="experience.html" class="toc-link">Experience</a>
-        <a href="projects.html" class="toc-link">Projects</a>
-        <a href="blog.html" class="toc-link">Blog</a>
-        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
-        <a href="contact.html" class="toc-link">Contact</a>
-    </nav>
+    <!-- (Sidebar) -->
     <div class="book-wrapper">
         <div class="book-frame">
             <div class="left-page">
                 <h2 class="chapter-title">V. The Workshop</h2>
-                <p>Selected works from 2020-2025. These projects represent a mix of professional work and personal experiments.</p>
-
-                <!-- Project Card 1 -->
-                <div class="project-card">
-                    <a href="project-detail-1.html" class="card-image"><i class="fas fa-chart-line" style="font-size: 3rem; color: #ccc;"></i></a>
-                    <div class="card-content">
-                        <a href="project-detail-1.html" style="font-family: 'Playfair Display'; font-weight: 700; text-decoration: none; color: #000; font-size: 1.1rem;">NeoFinance Dashboard</a>
-                        <p style="font-size: 0.9rem; margin-top: 5px; color: #555;">High-performance crypto trading dashboard handling 50k ops/sec.</p>
-                        <div style="margin-top: 10px;">
-                            <span class="tech-tag">React</span><span class="tech-tag">D3.js</span>
-                        </div>
-                        <a href="project-detail-1.html" style="font-family: 'Space Mono'; font-size: 0.8rem; color: #8e44ad; text-decoration: none; display: block; margin-top: 15px;">READ BRIEF &rarr;</a>
-                    </div>
-                </div>
+                <div id="projListLeft"></div>
             </div>
-
             <div class="right-page">
-                <!-- Project Card 2 -->
-                <div class="project-card">
-                    <a href="project-detail-2.html" class="card-image"><i class="fas fa-robot" style="font-size: 3rem; color: #ccc;"></i></a>
-                    <div class="card-content">
-                        <a href="project-detail-2.html" style="font-family: 'Playfair Display'; font-weight: 700; text-decoration: none; color: #000; font-size: 1.1rem;">TaskMaster AI</a>
-                        <p style="font-size: 0.9rem; margin-top: 5px; color: #555;">Intelligent todo list using Natural Language Processing (NLP).</p>
-                        <div style="margin-top: 10px;">
-                            <span class="tech-tag">Python</span><span class="tech-tag">OpenAI</span>
-                        </div>
-                        <a href="project-detail-2.html" style="font-family: 'Space Mono'; font-size: 0.8rem; color: #8e44ad; text-decoration: none; display: block; margin-top: 15px;">READ BRIEF &rarr;</a>
-                    </div>
-                </div>
-
-                <!-- Project Card 3 (Dummy) -->
-                <div class="project-card">
-                    <a href="#" class="card-image"><i class="fas fa-cube" style="font-size: 3rem; color: #ccc;"></i></a>
-                    <div class="card-content">
-                        <a href="#" style="font-family: 'Playfair Display'; font-weight: 700; text-decoration: none; color: #000; font-size: 1.1rem;">3D Portfolio V1</a>
-                        <p style="font-size: 0.9rem; margin-top: 5px; color: #555;">My previous portfolio site built entirely in Three.js shaders.</p>
-                        <div style="margin-top: 10px;">
-                            <span class="tech-tag">WebGL</span><span class="tech-tag">GLSL</span>
-                        </div>
-                        <a href="#" style="font-family: 'Space Mono'; font-size: 0.8rem; color: #8e44ad; text-decoration: none; display: block; margin-top: 15px;">VIEW ARCHIVE &rarr;</a>
-                    </div>
-                </div>
+                <div id="projListRight"></div>
             </div>
         </div>
-        <div class="nav-bar">
-            <a href="experience.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
-            <span class="mono">Pages 9-10</span>
-            <a href="blog.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
-        </div>
+        <!-- (Nav Bar) -->
     </div>
-
-    <!-- UI Components -->
-    <div class="social-sidebar">
-        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-        <a href="glance.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-bolt"></i></a>
-    </div>
-    <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
-    <div class="mobile-menu-overlay" id="mobileMenu">
-        <a href="index.html" class="mobile-link">Home</a>
-        <a href="glance.html" class="mobile-link" style="color: var(--accent);">At A Glance</a>
-        <a href="projects.html" class="mobile-link">Projects</a>
-        <a href="blog.html" class="mobile-link">Blog</a>
-        <a href="contact.html" class="mobile-link">Contact</a>
-    </div>
-    <script>
-        const prevPageUrl = 'experience.html';
-        const nextPageUrl = 'blog.html';
-    </script>
     <script src="script.js"></script>
+    <script>
+        fetch('../backend/projects_handler.php?action=fetch_all').then(r => r.json()).then(data => {
+            // Split projects between left and right pages
+            const mid = Math.ceil(data.length / 2);
+            const left = data.slice(0, mid);
+            const right = data.slice(mid);
+
+            const render = (item) => `
+                <div class="project-card" style="margin-bottom:20px;">
+                    <div style="height:150px; background:#eee; overflow:hidden;">
+                        <img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div style="padding:15px;">
+                        <h3>${item.title}</h3>
+                        <p style="font-size:0.9rem;">${item.description}</p>
+                        <span class="mono" style="font-size:0.7rem; color:#8e44ad;">${item.tags}</span>
+                    </div>
+                </div>`;
+
+            document.getElementById('projListLeft').innerHTML = left.map(render).join('');
+            document.getElementById('projListRight').innerHTML = right.map(render).join('');
+        });
+    </script>
 </body>
 
 </html>
