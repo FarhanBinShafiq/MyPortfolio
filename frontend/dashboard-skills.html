@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Skills</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        // Security check
+        if (!localStorage.getItem('auth')) window.location.href = 'login.html';
+    </script>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        
+        .box {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        /* Input Styling */
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            align-items: center;
+        }
+        
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        button.add-btn {
+            padding: 12px 25px;
+            background: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        button.add-btn:hover {
+            background: #8e44ad;
+        }
+        /* Flex Card Layout for Skills */
+        
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .skill-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 20px;
+            /* Pill shape */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-2px);
+            border-color: #8e44ad;
+            box-shadow: 0 4px 8px rgba(142, 68, 173, 0.2);
+        }
+        
+        .cat-tag {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: #888;
+            font-weight: bold;
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .del-btn {
+            color: #ff4d4d;
+            cursor: pointer;
+            margin-left: 5px;
+            opacity: 0.6;
+            transition: 0.2s;
+        }
+        
+        .del-btn:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <a href="dashboard.html" style="text-decoration:none; color:#555; display: block; margin-bottom: 20px;">&larr; Back to Hub</a>
+        <h2>Skills Matrix</h2>
+
+
+
+        <div class="input-group">
+            <input id="s_name" placeholder="Skill Name (e.g. React, Python)">
+            <input id="s_cat" placeholder="Category (e.g. Frontend, Backend, Tools)">
+            <button class="add-btn" onclick="addSkill()"><i class="fas fa-plus"></i> Add</button>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+        <h3 style="font-size: 1rem; color: #666; margin-bottom: 15px;">Active Skills</h3>
+        <div id="skillsList" class="skills-grid">Loading...</div>
+    </div>
+
+    <script>
+        // Exact path requested
+        const API = '../backend/skills_handler.php';
+
+        async function load() {
+            try {
+                const res = await fetch(`${API}?action=fetch_all`);
+                const data = await res.json();
+                const container = document.getElementById('skillsList');
+
+                if (data.length === 0) {
+                    container.innerHTML = '<p style="color:#999; width:100%; text-align:center;">No skills added yet.</p>';
+                    return;
+                }
+
+                container.innerHTML = data.map(s => `
+                    <div class="skill-card">
+                        <span class="cat-tag">${s.category}</span>
+                        <strong>${s.name}</strong>
+                        <i class="fas fa-times del-btn" title="Delete" onclick="del(${s.id})"></i>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function addSkill() {
+            const name = document.getElementById('s_name').value;
+            const cat = document.getElementById('s_cat').value;
+            if (!name) return alert('Skill Name is required');
+
+            await fetch(`${API}?action=add`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: name,
+                    category: cat || 'General'
+                })
+            });
+
+            document.getElementById('s_name').value = '';
+            document.getElementById('s_cat').value = '';
+            load();
+        }
+
+        async function del(id) {
+            if (confirm('Delete this skill?')) {
+                await fetch(`${API}?action=delete&id=${id}`);
+                load();
+            }
+        }
+        load();
+    </script>
+</body>
+
+</html>

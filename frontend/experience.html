@@ -10,23 +10,38 @@
 </head>
 
 <body>
-    <!-- (Include Sidebar) -->
+    <!-- 1. NAVIGATION (Fixed Left) -->
+    <nav class="left-sidebar">
+        <div class="sidebar-header">INDEX</div>
+        <a href="index.html" class="toc-link">Cover</a>
+        <a href="about.html" class="toc-link active">About</a>
+        <a href="education.html" class="toc-link">Education</a>
+        <a href="experience.html" class="toc-link">Experience</a>
+        <a href="projects.html" class="toc-link">Projects</a>
+        <a href="blog.html" class="toc-link">Blog</a>
+        <a href="glance.html" class="toc-link" style="color: #8e44ad;">Resume</a>
+        <a href="contact.html" class="toc-link">Contact</a>
+    </nav>
+
     <div class="book-wrapper">
         <div class="book-frame">
             <div class="left-page">
                 <h2 class="chapter-title">IV. Professional Exp.</h2>
                 <div id="expList">Loading...</div>
             </div>
+
             <div class="right-page">
                 <h2 class="chapter-title">Skills Matrix</h2>
-                <!-- Skills can be static or added to DB similarly -->
-                <p>Frontend, Backend, DevOps...</p>
+
+                <div id="skillsContainer" style="display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start;">
+                    <span class="mono">Loading skills...</span>
+                </div>
             </div>
         </div>
-        <!-- (Nav Bar) -->
     </div>
     <script src="script.js"></script>
     <script>
+        // 1. Fetch Experience (Original)
         fetch('../backend/edu_exp_handler.php?action=fetch_exp').then(r => r.json()).then(data => {
             const list = document.getElementById('expList');
             list.innerHTML = data.map(i => `
@@ -34,6 +49,44 @@
                     <h3 style="margin-bottom: 5px;">${i.role} @ ${i.company}</h3>
                     <span class="mono">${i.year}</span>
                     <p style="margin-top: 10px; font-size: 1rem;">${i.details}</p>
+                </div>
+            `).join('');
+        });
+
+        // 2. Fetch Skills (New with Flex Card Layout)
+        fetch('../backend/skills_handler.php?action=fetch_all').then(r => r.json()).then(data => {
+            const container = document.getElementById('skillsContainer');
+
+            if (data.length === 0) {
+                container.innerHTML = '<p>No skills listed.</p>';
+                return;
+            }
+
+            container.innerHTML = data.map(s => `
+                <div style="
+                    border: 1px solid #e0e0e0; 
+                    padding: 6px 14px; 
+                    border-radius: 50px; 
+                    font-family: 'Space Mono', monospace; 
+                    font-size: 0.8rem;
+                    background: #fff;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    transition: all 0.2s ease;
+                    cursor: default;
+                " 
+                onmouseover="this.style.borderColor='#8e44ad'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.05)'" 
+                onmouseout="this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    
+                    <span style="
+                        font-size: 0.65rem; 
+                        text-transform: uppercase; 
+                        color: #888; 
+                        letter-spacing: 0.5px;
+                    ">${s.category}</span>
+                    
+                    <span style="font-weight: 600; color: #333;">${s.name}</span>
                 </div>
             `).join('');
         });
