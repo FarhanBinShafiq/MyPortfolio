@@ -5,15 +5,116 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <style>
+        /* --- 1. GLOBAL & MAIN LAYOUT --- */
+        
         body {
             background: #111;
             color: #fff;
             display: flex;
+            flex-direction: column;
+            /* Stack lamp and form */
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             font-family: sans-serif;
+            margin: 0;
+            overflow: hidden;
+            /* Prevent scrollbars from beam */
         }
+        /* --- 2. LAMP CSS --- */
+        
+        .lamp-wrapper {
+            position: relative;
+            width: 160px;
+            height: 200px;
+            /* Adjust height for position above form */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: -50px;
+            /* Overlap form slightly */
+            z-index: 10;
+        }
+        
+        .lamp-shade {
+            width: 120px;
+            height: 90px;
+            background: linear-gradient(135deg, #8e44ad, #5e2d73);
+            /* Purple to match button */
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            z-index: 2;
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+        }
+        /* Face elements for animation */
+        
+        .face {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .eye {
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .mouth {
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 0 0 12px 12px;
+        }
+        
+        .lamp-stand {
+            width: 10px;
+            height: 80px;
+            background: #333;
+            position: relative;
+            z-index: 1;
+            margin-top: -2px;
+        }
+        
+        .lamp-base {
+            width: 70px;
+            height: 15px;
+            background: #333;
+            border-radius: 50%;
+            margin-top: -8px;
+        }
+        
+        .light-beam {
+            position: absolute;
+            top: 88px;
+            /* Start right under shade */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 250px;
+            /* Wider beam to cover form */
+            height: 350px;
+            /* Purple light gradient */
+            background: linear-gradient(to bottom, rgba(142, 68, 173, 0.3), transparent);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+            pointer-events: none;
+            opacity: 0.5;
+            /* Default dim light */
+            transition: opacity 0.3s;
+            z-index: 5;
+        }
+        /* --- 3. ORIGINAL FORM STYLES --- */
         
         form {
             background: #222;
@@ -22,6 +123,10 @@
             text-align: center;
             width: 300px;
             border: 1px solid #333;
+            position: relative;
+            z-index: 6;
+            /* Above the light beam */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
         
         input {
@@ -29,9 +134,20 @@
             padding: 12px;
             margin: 10px 0;
             background: #333;
-            border: none;
+            border: 1px solid transparent;
+            /* Add border for focus transition */
             color: white;
             border-radius: 4px;
+            box-sizing: border-box;
+            /* Important for padding */
+            transition: 0.3s;
+        }
+        /* Add focus effect to inputs */
+        
+        input:focus {
+            border-color: #8e44ad;
+            outline: none;
+            box-shadow: 0 0 10px rgba(142, 68, 173, 0.3);
         }
         
         button {
@@ -43,18 +159,39 @@
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
+            transition: 0.2s;
+        }
+        
+        button:hover {
+            background: #9b59b6;
         }
     </style>
 </head>
 
 <body>
+
+    <div class="lamp-wrapper">
+        <div class="lamp-shade">
+            <div class="face">
+                <div class="eye left-eye"></div>
+                <div class="mouth"></div>
+                <div class="eye right-eye"></div>
+            </div>
+        </div>
+        <div class="lamp-stand"></div>
+        <div class="lamp-base"></div>
+        <div class="light-beam" id="beam"></div>
+    </div>
+
     <form id="login">
         <h2>Admin Login</h2>
         <input type="text" id="u" placeholder="Username (admin)">
         <input type="password" id="p" placeholder="Password (123)">
         <button>Login</button>
     </form>
+
     <script>
+        // --- ORIGINAL LOGIN LOGIC ---
         document.getElementById('login').onsubmit = (e) => {
             e.preventDefault();
             if (document.getElementById('u').value === 'admin' && document.getElementById('p').value === '123') {
@@ -64,6 +201,32 @@
                 alert('Wrong password');
             }
         }
+
+        // --- LAMP ANIMATION LOGIC ---
+        const usernameInput = document.getElementById('u');
+        const passwordInput = document.getElementById('p');
+        const eyes = document.querySelectorAll('.eye');
+        const beam = document.getElementById('beam');
+
+        // When typing in username, eyes look at it, light gets brighter
+        usernameInput.addEventListener('focus', () => {
+            eyes.forEach(eye => eye.style.transform = 'translateY(0px) scale(1.2)');
+            beam.style.opacity = '1'; // Brightest light
+        });
+
+        // When typing password, eyes look down shyly, light gets dimmer
+        passwordInput.addEventListener('focus', () => {
+            eyes.forEach(eye => eye.style.transform = 'translateY(6px) scaleX(0.8)');
+            beam.style.opacity = '0.3'; // Dim light
+        });
+
+        // Reset when clicking outside inputs
+        document.body.addEventListener('click', (e) => {
+            if (e.target !== usernameInput && e.target !== passwordInput) {
+                eyes.forEach(eye => eye.style.transform = 'translateY(0px)');
+                beam.style.opacity = '0.5'; // Back to default light
+            }
+        });
     </script>
 </body>
 

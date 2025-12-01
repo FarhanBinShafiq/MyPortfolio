@@ -5,102 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About | Portfolio</title>
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Main Style -->
     <link rel="stylesheet" href="style.css">
-
     <style>
-        /* --- PAGE SPECIFIC STYLES --- */
-        /* 1. LEFT SIDEBAR (Desktop Fixed) */
-        
-        .left-sidebar {
-            position: fixed;
-            left: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 100;
-        }
-        
-        .sidebar-header {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.6rem;
-            color: rgba(255, 255, 255, 0.4);
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            writing-mode: vertical-rl;
-            transform: rotate(180deg);
-        }
-        
-        .toc-link {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.5);
-            text-decoration: none;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-        
-        .toc-link:hover,
-        .toc-link.active {
-            color: #fff;
-            padding-left: 5px;
-        }
-        
-        .toc-link.active {
-            font-weight: bold;
-            color: #8e44ad;
-        }
-        /* 2. FLOATING SOCIAL ICONS */
-        
-        .social-sidebar {
-            position: fixed;
-            right: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 200;
-        }
-        /* 3. BOOK FRAME ADJUSTMENTS */
-        
-        .left-page,
-        .right-page {
-            padding: 50px 60px !important;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        /* Profile Image Frame */
-        
-        .profile-frame {
-            border: 1px solid #ddd;
-            padding: 8px;
-            background: #fff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transform: rotate(2deg);
-            margin-bottom: 20px;
-            transition: transform 0.3s;
-            max-width: 250px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .profile-frame:hover {
-            transform: rotate(0deg) scale(1.02);
-        }
-        /* --- NEW VITALS DESIGN (Modern Cards) --- */
+        /* --- PAGE SPECIFIC STYLES (Vitals & Services) --- */
+        /* These styles are specific to the content structure of this page */
+        /* Vitals Grid (Right Page) */
         
         .vitals-grid {
             display: grid;
             grid-template-columns: 1fr;
-            /* Stacked by default for space */
             gap: 15px;
             margin-bottom: 30px;
         }
@@ -118,7 +32,7 @@
         
         .vital-box:hover {
             transform: translateX(5px);
-            border-color: #8e44ad;
+            border-color: var(--accent);
             box-shadow: 0 5px 15px rgba(142, 68, 173, 0.1);
         }
         
@@ -126,7 +40,7 @@
             width: 40px;
             height: 40px;
             background: rgba(142, 68, 173, 0.1);
-            color: #8e44ad;
+            color: var(--accent);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -135,16 +49,13 @@
             font-size: 1.1rem;
         }
         
-        .vital-content span {
-            display: block;
-        }
-        
         .vital-label {
             font-family: 'Space Mono', monospace;
             font-size: 0.65rem;
             text-transform: uppercase;
             color: #888;
             margin-bottom: 3px;
+            display: block;
         }
         
         .vital-data {
@@ -153,7 +64,7 @@
             font-weight: bold;
             color: #333;
         }
-        /* Services Grid */
+        /* Services Grid (Right Page) */
         
         .service-grid {
             display: grid;
@@ -172,7 +83,7 @@
         }
         
         .service-card:hover {
-            border-color: #8e44ad;
+            border-color: var(--accent);
             transform: translateY(-3px);
             background: #fff;
         }
@@ -185,7 +96,7 @@
         }
         
         .service-card:hover .s-icon {
-            color: #8e44ad;
+            color: var(--accent);
         }
         
         .s-title {
@@ -194,115 +105,48 @@
             text-transform: uppercase;
             color: #333;
         }
-        /* --- RESPONSIVE MOBILE STYLES --- */
+        /* Responsive override for services grid */
         
         @media (max-width: 900px) {
-            /* Hide Left Sidebar to prevent overlap */
-            .left-sidebar {
-                display: none !important;
-            }
-            /* Transform Book to Vertical Scroll */
-            .book-wrapper {
-                padding-top: 60px;
-                height: auto;
-                display: block;
-            }
-            .book-frame {
-                width: 100% !important;
-                height: auto !important;
-                aspect-ratio: unset;
-                flex-direction: column;
-                border-radius: 0;
-            }
-            .book-frame::before {
-                display: none;
-            }
-            /* Remove Spine */
-            .left-page,
-            .right-page {
-                padding: 40px 20px !important;
-                border: none;
-            }
-            /* Move Social Icons to Bottom Center */
-            .social-sidebar {
-                top: auto;
-                bottom: 20px;
-                right: 50%;
-                transform: translateX(50%);
-                flex-direction: row;
-                background: rgba(255, 255, 255, 0.9);
-                padding: 10px 20px;
-                border-radius: 50px;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            }
-            /* Adjust Grid for Mobile */
             .service-grid {
                 grid-template-columns: 1fr 1fr;
             }
-            /* Show Hamburger Menu */
-            #mobileToggle {
-                display: block !important;
-            }
-        }
-        /* Mobile Menu Toggle Button */
-        
-        #mobileToggle {
-            display: none;
-            /* Hidden on Desktop */
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #fff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            z-index: 300;
-            cursor: pointer;
-            font-size: 1.2rem;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- 1. NAVIGATION (Fixed Left) -->
     <nav class="left-sidebar">
         <div class="sidebar-header">INDEX</div>
         <a href="index.html" class="toc-link">Cover</a>
-        <a href="about.html" class="toc-link active">About</a>
-        <a href="education.html" class="toc-link">Education</a>
+        <a href="about.html" class="toc-link active">About</a> <a href="education.html" class="toc-link">Education</a>
         <a href="experience.html" class="toc-link">Experience</a>
         <a href="projects.html" class="toc-link">Projects</a>
         <a href="blog.html" class="toc-link">Blog</a>
-        <a href="glance.html" class="toc-link" style="color: #8e44ad;">Resume</a>
+        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
         <a href="contact.html" class="toc-link">Contact</a>
     </nav>
 
-    <!-- 2. MAIN BOOK CONTENT -->
     <div class="book-wrapper">
         <div class="book-frame">
 
-            <!-- LEFT PAGE: Bio & Image -->
             <div class="left-page">
-                <div class="profile-frame reveal-text delay-1">
-                    <img id="displayImage" src="" style="width: 100%; display: block;" alt="Profile">
-                    <div class="caption">Fig 1.1: The Engineer</div>
+                <div style="border: 1px solid #ddd; padding: 8px; background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: rotate(2deg); margin-bottom: 20px; max-width: 250px; margin-left: auto; margin-right: auto;" class="reveal-text delay-1">
+                    <img id="displayImage" src="" style="width: 100%; display: block; min-height: 200px; background: #eee;" alt="Profile">
                 </div>
+
                 <h2 class="chapter-title reveal-text delay-2">I. About Me</h2>
-                <p class="reveal-text delay-3" id="displayIntro">Loading...</p>
-                <p class="reveal-text delay-4" id="displayBio">Loading...</p>
+
+                <p class="reveal-text delay-3" id="displayIntro">Loading intro...</p>
+                <p class="reveal-text delay-4" id="displayBio">Loading bio...</p>
             </div>
 
-            <!-- RIGHT PAGE: Data & Contact -->
             <div class="right-page">
 
-                <!-- NEW MODERN VITALS SECTION -->
                 <div class="reveal-text delay-2">
-                    <h3 style="font-size: 0.9rem; margin-bottom: 15px; color: #888; text-transform: uppercase; letter-spacing: 1px;">Vitals</h3>
-
+                    <h3 class="mono">Vitals</h3>
                     <div class="vitals-grid">
-                        <!-- Location Card -->
                         <div class="vital-box">
                             <div class="vital-icon-box"><i class="fas fa-map-marker-alt"></i></div>
                             <div class="vital-content">
@@ -310,8 +154,6 @@
                                 <span class="vital-data" id="displayResidence">Loading...</span>
                             </div>
                         </div>
-
-                        <!-- Experience Card -->
                         <div class="vital-box">
                             <div class="vital-icon-box"><i class="fas fa-briefcase"></i></div>
                             <div class="vital-content">
@@ -319,8 +161,6 @@
                                 <span class="vital-data" id="displayExperience">Loading...</span>
                             </div>
                         </div>
-
-                        <!-- Email Card -->
                         <div class="vital-box">
                             <div class="vital-icon-box"><i class="fas fa-envelope"></i></div>
                             <div class="vital-content">
@@ -331,126 +171,89 @@
                     </div>
                 </div>
 
-                <!-- Services Grid -->
                 <div class="reveal-text delay-3" style="margin-top: 30px;">
-                    <h3 style="font-size: 0.9rem; margin-bottom: 15px; color: #888; text-transform: uppercase; letter-spacing: 1px;">Capabilities</h3>
-                    <div class="service-grid" id="displayServices">Loading...</div>
+                    <h3 class="mono">Capabilities</h3>
+                    <div class="service-grid" id="displayServices">
+                        Loading services...
+                    </div>
                 </div>
 
-                <!-- Contact Form -->
-                <div class="reveal-text delay-4" style="margin-top: 35px;">
-                    <h2 class="chapter-title" style="font-size: 1.2rem; margin-bottom: 15px; border: none;">Send a Dispatch</h2>
-                    <form id="contactForm">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                            <input id="c_name" type="text" placeholder="NAME" class="paper-input" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; background: transparent;" required>
-                            <input id="c_email" type="email" placeholder="EMAIL" class="paper-input" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; background: transparent;" required>
-                        </div>
-                        <textarea id="c_msg" rows="2" placeholder="MESSAGE..." class="paper-input" style="width:100%; padding:12px; resize:none; border:1px solid #ddd; background: transparent;" required></textarea>
-                        <button style="width: 100%; background: #1a1a1a; color: #fff; border: none; padding: 12px; font-family: 'Space Mono'; text-transform: uppercase; cursor: pointer; margin-top:10px; font-weight: bold; letter-spacing: 1px;">Contact Me</button>
-                    </form>
-                </div>
             </div>
         </div>
 
-        <!-- Bottom Nav -->
         <div class="nav-bar">
             <a href="index.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
-            <span class="mono">Pages 3-4</span>
+            <span class="mono">About</span>
             <a href="education.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
         </div>
     </div>
 
-    <!-- 3. FLOATING SOCIALS -->
     <div class="social-sidebar">
         <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
         <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-        <a href="contact.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-envelope"></i></a>
+        <a href="#" class="social-icon fb"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-icon wa"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social-icon tw"><i class="fab fa-twitter"></i></a>
     </div>
 
-    <!-- 4. MOBILE MENU (Hidden on Desktop) -->
     <button id="mobileToggle"><i class="fas fa-bars"></i></button>
-    <div class="mobile-menu-overlay" id="mobileMenu" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(34,30,28,0.98); z-index: 299; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s;">
-        <a href="index.html" class="mobile-link" style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #fdfbf6; text-decoration: none; text-transform: uppercase;">Home</a>
-        <a href="about.html" class="mobile-link" style="color: #8e44ad; font-family: 'Playfair Display', serif; font-size: 1.5rem; text-decoration: none; text-transform: uppercase;">About</a>
-        <a href="projects.html" class="mobile-link" style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #fdfbf6; text-decoration: none; text-transform: uppercase;">Projects</a>
-        <a href="contact.html" class="mobile-link" style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #fdfbf6; text-decoration: none; text-transform: uppercase;">Contact</a>
-        <a href="dashboard.html" class="mobile-link" style="font-size:1rem; color:#ccc;">Admin Login</a>
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <a href="index.html" class="mobile-link">Home</a>
+        <a href="about.html" class="mobile-link active">About</a> <a href="projects.html" class="mobile-link">Projects</a>
+        <a href="contact.html" class="mobile-link">Contact</a>
+        <a href="dashboard.html" class="mobile-link" style="font-size:1rem; color:#ccc; margin-top: 20px;">Admin Login</a>
     </div>
 
-    <!-- SCRIPT (Backend Connection) -->
+    <script src="script.js"></script>
+
     <script>
         const API = '../backend/about_handler.php';
-        const CONTACT = '../backend/contact_handler.php';
 
-        // 1. Mobile Menu Logic
-        const toggleBtn = document.getElementById('mobileToggle');
-        const menuOverlay = document.getElementById('mobileMenu');
-        toggleBtn.addEventListener('click', () => {
-            if (menuOverlay.style.opacity === '1') {
-                menuOverlay.style.opacity = '0';
-                menuOverlay.style.pointerEvents = 'none';
-                toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            } else {
-                menuOverlay.style.opacity = '1';
-                menuOverlay.style.pointerEvents = 'all';
-                toggleBtn.innerHTML = '<i class="fas fa-times"></i>';
-            }
-        });
-
-        // 2. Fetch Data
         async function loadContent() {
             try {
+                // Fetch data from PHP backend
                 const res = await fetch(`${API}?action=fetch_about`);
                 const data = await res.json();
                 const p = data.profile;
 
+                // Populate Profile Data
                 if (p) {
+                    // Using innerHTML for intro title to allow custom styling span
                     document.getElementById('displayIntro').innerHTML =
                         `<span style="font-size: 3.5rem; float: left; line-height: 0.7; padding-right: 12px; font-family: 'Playfair Display'; font-weight: 700;">${p.intro_title}</span>${p.intro_body}`;
                     document.getElementById('displayBio').innerText = p.bio_text;
                     document.getElementById('displayResidence').innerText = p.residence;
                     document.getElementById('displayExperience').innerText = p.experience;
                     document.getElementById('displayEmail').innerText = p.email;
-                    document.getElementById('displayImage').src = p.image_url ? p.image_url + '?t=' + Date.now() : 'https://placehold.co/600x400';
+                    // Add timestamp to image URL to prevent browser caching when updated
+                    document.getElementById('displayImage').src = p.image_url ? p.image_url + '?t=' + Date.now() : 'https://placehold.co/600x400/e0e0e0/999999?text=No+Image';
                 }
 
+                // Populate Services Grid
                 const grid = document.getElementById('displayServices');
-                grid.innerHTML = '';
-                if (data.services) {
+                grid.innerHTML = ''; // Clear loading text
+                if (data.services && data.services.length > 0) {
                     data.services.forEach(s => {
-                        grid.innerHTML += `<div class="service-card"><i class="${s.icon} s-icon"></i><span class="s-title">${s.title}</span></div>`;
+                        grid.innerHTML += `
+                            <div class="service-card">
+                                <i class="${s.icon} s-icon"></i>
+                                <span class="s-title">${s.title}</span>
+                            </div>
+                        `;
                     });
+                } else {
+                    grid.innerHTML = '<p class="mono" style="grid-column: span 3;">No services added yet.</p>';
                 }
+
             } catch (err) {
-                console.error(err);
+                console.error("Error loading about data:", err);
+                document.getElementById('displayIntro').innerText = "Error loading content.";
             }
         }
+
+        // Load content on page load
         loadContent();
-
-        // 3. Contact Form Submission
-        document.getElementById('contactForm').onsubmit = async(e) => {
-            e.preventDefault();
-            const n = document.getElementById('c_name').value;
-            const em = document.getElementById('c_email').value;
-            const m = document.getElementById('c_msg').value;
-
-            try {
-                await fetch(`${CONTACT}?action=send_message`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        name: n,
-                        email: em,
-                        message: m
-                    })
-                });
-                alert('Message Sent!');
-                e.target.reset();
-            } catch (e) {
-                alert('Error sending message');
-            }
-        };
     </script>
-    <script src="script.js"></script>
 </body>
 
 </html>

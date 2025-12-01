@@ -5,38 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cover | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* Same CSS as before */
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- 1. NAVIGATION (Fixed Left) -->
     <nav class="left-sidebar">
         <div class="sidebar-header">INDEX</div>
-        <a href="index.html" class="toc-link">Cover</a>
-        <a href="about.html" class="toc-link active">About</a>
+        <a href="index.html" class="toc-link active">Cover</a>
+        <a href="about.html" class="toc-link">About</a>
         <a href="education.html" class="toc-link">Education</a>
         <a href="experience.html" class="toc-link">Experience</a>
         <a href="projects.html" class="toc-link">Projects</a>
         <a href="blog.html" class="toc-link">Blog</a>
-        <a href="glance.html" class="toc-link" style="color: #8e44ad;">Resume</a>
+        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
         <a href="contact.html" class="toc-link">Contact</a>
     </nav>
 
     <div class="book-wrapper">
         <div class="book-frame">
             <div class="left-page" style="text-align: right; display: flex; flex-direction: column; justify-content: center;">
-                <div class="mono" id="vol">Loading...</div>
-                <h1 id="title" style="font-size: 4rem; line-height: 0.9; margin: 20px 0;"></h1>
+                <div class="mono" id="vol" style="opacity:0;">Loading...</div>
+                <h1 id="title" class="neon-text reveal-text delay-1" style="font-size: 4rem; line-height: 0.9; margin: 20px 0;"></h1>
             </div>
-            <div class="right-page" style="display: flex; flex-direction: column; justify-content: center;">
-                <h2 id="sub" style="margin-bottom: 5px;"></h2>
-                <p class="mono" id="role"></p>
-                <div style="width: 80%; margin-top: 20px; border: 10px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: rotate(-2deg);">
-                    <img id="av" src="" style="width: 100%; display: block;">
+            <div class="right-page" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div class="reveal-text delay-2" style="text-align: center;">
+                    <h2 id="sub" style="margin-bottom: 5px;"></h2>
+                    <p class="mono" id="role"></p>
+                </div>
+                <div class="reveal-text delay-3" style="width: 80%; max-width:400px; margin-top: 30px; border: 8px solid #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.2); transform: rotate(-2deg);">
+                    <img id="av" src="" style="width: 100%; display: block; background:#eee; min-height: 300px;" alt="Cover Avatar">
                 </div>
             </div>
         </div>
@@ -46,16 +44,42 @@
             <a href="about.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
         </div>
     </div>
-    <!-- (Include Sidebar & Mobile Menu) -->
+
+    <div class="social-sidebar">
+        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="social-icon fb"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-icon wa"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social-icon tw"><i class="fab fa-twitter"></i></a>
+    </div>
+
+    <button id="mobileToggle"><i class="fas fa-bars"></i></button>
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <a href="index.html" class="mobile-link active">Home</a>
+        <a href="about.html" class="mobile-link">About</a>
+        <a href="projects.html" class="mobile-link">Projects</a>
+        <a href="contact.html" class="mobile-link">Contact</a>
+        <a href="dashboard.html" class="mobile-link" style="font-size:1rem; color:#ccc; margin-top: 20px;">Admin Login</a>
+    </div>
+
     <script src="script.js"></script>
     <script>
-        fetch('../backend/home_handler.php?action=fetch').then(r => r.json()).then(d => {
-            document.getElementById('vol').innerText = d.volume_label;
-            document.getElementById('title').innerHTML = d.main_title;
-            document.getElementById('sub').innerText = d.subtitle;
-            document.getElementById('role').innerText = d.role_text;
-            document.getElementById('av').src = d.avatar_url ? d.avatar_url : 'https://placehold.co/400';
-        });
+        const API = '../backend/home_handler.php';
+        async function load() {
+            try {
+                const r = await fetch(`${API}?action=fetch`);
+                const d = await r.json();
+                document.getElementById('vol').innerText = d.volume_label;
+                document.getElementById('vol').style.opacity = 1;
+                document.getElementById('title').innerHTML = d.main_title;
+                document.getElementById('sub').innerText = d.subtitle;
+                document.getElementById('role').innerText = d.role_text;
+                document.getElementById('av').src = d.avatar_url ? d.avatar_url + '?t=' + Date.now() : 'https://placehold.co/400x500/e0e0e0/999999?text=No+Image';
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        load();
     </script>
 </body>
 

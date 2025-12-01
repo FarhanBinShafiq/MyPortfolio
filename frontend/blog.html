@@ -5,11 +5,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- PAGE SPECIFIC STYLES (Blog Grid) --- */
+        
+        .blog-grid-container {
+            display: grid;
+            /* Two columns by default on desktop */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .blog-item {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            /* Needed for the clickable overlay */
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            /* Make cards same height in row */
+        }
+        
+        .blog-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            border-color: var(--accent);
+            cursor: pointer;
+        }
+        
+        .blog-meta {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: #999;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .blog-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            line-height: 1.3;
+            color: var(--text-dark);
+        }
+        
+        .blog-excerpt {
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            flex-grow: 1;
+            /* Pushes read more to bottom */
+        }
+        
+        .read-more-indicator {
+            font-family: 'Space Mono', monospace;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: auto;
+            /* Ensure it stays at bottom */
+        }
+        
+        .blog-item:hover .read-more-indicator i {
+            transform: translateX(5px);
+            transition: transform 0.3s;
+        }
+        /* The magic sauce to make the whole card clickable */
+        
+        .blog-item a.card-link-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            /* Places link over everything */
+            opacity: 0;
+            /* Hides the actual link text */
+        }
+        /* Responsive override: 1 column on small screens */
+        
+        @media (max-width: 768px) {
+            .blog-grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
+
     <nav class="left-sidebar">
         <div class="sidebar-header">INDEX</div>
         <a href="index.html" class="toc-link">Cover</a>
@@ -17,43 +109,113 @@
         <a href="education.html" class="toc-link">Education</a>
         <a href="experience.html" class="toc-link">Experience</a>
         <a href="projects.html" class="toc-link">Projects</a>
-        <a href="blog.html" class="toc-link active">Blog</a>
+        <a href="blog.html" class="toc-link active">Blog</a> <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
         <a href="contact.html" class="toc-link">Contact</a>
     </nav>
 
     <div class="book-wrapper">
         <div class="book-frame">
-            <div class="left-page">
-                <h2 class="chapter-title">VI. Blog</h2>
-                <div id="blogListLeft"></div>
+
+            <div class="left-page" style="overflow-y: auto;">
+                <h2 class="chapter-title reveal-text">V. Notes & Thoughts</h2>
+                <p class="intro-text reveal-text delay-1" style="margin-bottom: 40px;">A collection of articles, tutorials, and thoughts on web development, design, and technology.</p>
+
+                <div id="blogGrid" class="blog-grid-container reveal-text delay-2">
+                    <p class="mono">Loading posts...</p>
+                </div>
             </div>
-            <div class="right-page">
-                <div id="blogListRight"></div>
+
+            <div class="right-page" style="padding-top: 100px;">
             </div>
         </div>
+
         <div class="nav-bar">
             <a href="projects.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
             <span class="mono">Blog</span>
             <a href="contact.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
         </div>
     </div>
+
+    <div class="social-sidebar">
+        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="social-icon fb"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-icon wa"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social-icon tw"><i class="fab fa-twitter"></i></a>
+    </div>
+
+    <button id="mobileToggle"><i class="fas fa-bars"></i></button>
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <a href="index.html" class="mobile-link">Home</a>
+        <a href="about.html" class="mobile-link">About</a>
+        <a href="projects.html" class="mobile-link">Projects</a>
+        <a href="contact.html" class="mobile-link">Contact</a>
+        <a href="dashboard.html" class="mobile-link" style="font-size:1rem; color:#ccc; margin-top: 20px;">Admin Login</a>
+    </div>
+
     <script src="script.js"></script>
+
     <script>
-        fetch('../backend/blog_handler.php?action=fetch_all').then(r => r.json()).then(data => {
-            const mid = Math.ceil(data.length / 2);
-            const left = data.slice(0, mid);
-            const right = data.slice(mid);
+        const API = '../backend/blog_handler.php';
 
-            const render = (item) => `
-                <div class="blog-card" style="margin-bottom:25px; border-left:3px solid #8e44ad; padding-left:15px;">
-                    <div class="blog-date" style="font-size:0.7rem; color:#888;">${item.date} • ${item.category}</div>
-                    <h3 style="margin:5px 0;">${item.title}</h3>
-                    <p style="font-size:0.9rem; color:#555;">${item.excerpt}</p>
-                </div>`;
+        async function loadPosts() {
+            try {
+                const res = await fetch(`${API}?action=fetch_all`);
+                const data = await res.json();
 
-            document.getElementById('blogListLeft').innerHTML = left.map(render).join('');
-            document.getElementById('blogListRight').innerHTML = right.map(render).join('');
-        });
+                const grid = document.getElementById('blogGrid');
+                grid.innerHTML = '';
+
+                if (data.length === 0) {
+                    grid.innerHTML = '<p class="mono" style="grid-column: 1 / -1;">No blog posts found.</p>';
+                    return;
+                }
+
+                grid.innerHTML = data.map(b => {
+                    // Format date
+                    let dateStr = b.date || '';
+                    try {
+                        if (b.date) {
+                            const dateObj = new Date(b.date);
+                            dateStr = dateObj.toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            });
+                        }
+                    } catch (e) {}
+
+                    // Determine destination URL
+                    // If external_link exists, use it. Otherwise, point to an internal detail page.
+                    // NOTE: You need to create 'post-details.html' to handle internal posts.
+                    const destinationUrl = (b.external_link && b.external_link.trim() !== '') ?
+                        b.external_link :
+                        `post-details.html?id=${b.id}`;
+
+                    const linkText = (b.external_link && b.external_link.trim() !== '') ? 'Visit Link' : 'Read Article';
+                    const linkIcon = (b.external_link && b.external_link.trim() !== '') ? 'fa-external-link-alt' : 'fa-arrow-right';
+
+                    return `
+                        <div class="blog-item">
+                            <a href="${destinationUrl}" class="card-link-wrapper" target="${b.external_link ? '_blank' : '_self'}">${b.title}</a>
+                            
+                            <span class="blog-meta">${dateStr} — <span style="color:var(--accent)">${b.category}</span></span>
+                            <h3 class="blog-title">${b.title}</h3>
+                            <p class="blog-excerpt">${b.excerpt}</p>
+                            <div class="read-more-indicator">
+                                ${linkText} <i class="fas ${linkIcon}"></i>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (err) {
+                console.error("Error loading posts:", err);
+                document.getElementById('blogGrid').innerHTML = '<p style="color:red;">Error loading posts.</p>';
+            }
+        }
+
+        loadPosts();
     </script>
 </body>
 

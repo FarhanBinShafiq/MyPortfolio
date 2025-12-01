@@ -1,338 +1,279 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap');
+/* =========================================
+   1. GLOBAL VARIABLES & RESET
+   ========================================= */
+
 :root {
-    --bg-outer: #221e1c;
-    --bg-paper: #fdfbf6;
-    --text-main: #1a1a1a;
-    --text-muted: #555;
-    --accent: #8e44ad;
-    --border-color: #e0e0e0;
+    --primary: #221e1c;
+    /* Dark Background */
+    --paper: #fdfbf6;
+    /* Light Paper Color */
+    --accent: #e91e63;
+    /* Neon Pink Accent */
+    --text-dark: #333;
+    /* Standard Text */
+    --text-light: #fff;
+    /* Light Text */
+    --sidebar-width: 250px;
 }
 
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    /* Ensure full height */
 }
 
 body {
-    background-color: var(--bg-outer);
-    font-family: 'Crimson Text', serif;
-    color: var(--text-main);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-family: 'Playfair Display', serif;
+    background-color: var(--primary);
+    color: var(--text-dark);
+    /* On desktop, prevent outer scrolling, let book frame handle it */
     overflow: hidden;
+    display: flex;
 }
 
 
-/* --- LEFT SIDEBAR (FIXED) --- */
+/* =========================================
+   2. TYPOGRAPHY & UTILITIES
+   ========================================= */
+
+h1,
+h2,
+h3 {
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+p {
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: 0.3s;
+}
+
+
+/* Monospace Font Utility */
+
+.mono {
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+
+/* Accent Color Utility */
+
+.accent {
+    color: var(--accent) !important;
+}
+
+
+/* Neon Glow Effect */
+
+.neon-text {
+    text-shadow: 0 0 2px var(--accent), 0 0 15px rgba(233, 30, 99, 0.6);
+}
+
+
+/* =========================================
+   3. DESKTOP LAYOUT (Default > 900px)
+   ========================================= */
+
+
+/* --- 3a. The Sidebar (Left Navigation) --- */
 
 .left-sidebar {
-    position: fixed;
-    left: 30px;
-    top: 50%;
-    transform: translateY(-50%);
+    width: var(--sidebar-width);
+    background: var(--primary);
+    padding: 40px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    z-index: 100;
+    color: var(--text-light);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 10;
+    flex-shrink: 0;
 }
 
 .sidebar-header {
     font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 40px;
+    opacity: 0.5;
     letter-spacing: 2px;
-    margin-bottom: 15px;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
 }
 
 .toc-link {
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 15px;
+    display: block;
     font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.5);
-    text-decoration: none;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    transition: all 0.3s ease;
+    font-size: 0.9rem;
 }
 
-.toc-link::before {
-    content: '';
-    display: inline-block;
-    width: 0px;
-    height: 1px;
-    background-color: var(--accent);
-    margin-right: 0px;
-    transition: width 0.3s ease, margin-right 0.3s ease;
-}
-
-.toc-link:hover {
-    color: #fff;
-    padding-left: 5px;
-}
-
-.toc-link:hover::before {
-    width: 15px;
-    margin-right: 10px;
-}
-
+.toc-link:hover,
 .toc-link.active {
-    color: var(--accent);
+    color: var(--text-light);
+    padding-left: 10px;
     font-weight: bold;
 }
 
-.toc-link.active::before {
-    width: 25px;
-    margin-right: 10px;
-    background-color: var(--accent);
-}
 
-
-/* --- BOOK FRAME --- */
+/* --- 3b. The Main Book Area --- */
 
 .book-wrapper {
-    width: 100%;
-    height: 100%;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.1s ease-out;
+    padding: 40px;
+    perspective: 1500px;
+    /* Enables 3D effect */
+    height: 100vh;
+    overflow: hidden;
 }
 
 .book-frame {
-    background-color: var(--bg-paper);
-    width: 90%;
-    max-width: 1300px;
-    aspect-ratio: 3/2;
-    max-height: 85vh;
-    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
-    position: relative;
+    flex: 1;
+    background: var(--paper);
     display: flex;
+    /* Side-by-side pages on desktop */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
     overflow: hidden;
+    transform-style: preserve-3d;
+    /* Required for tilt js */
+    transition: transform 0.1s ease-out;
     border-radius: 4px;
-    animation: pageFade 0.8s ease-out;
-}
-
-.book-frame::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 50px;
-    transform: translateX(-50%);
-    background: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.05) 35%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.05) 65%, transparent 100%);
-    z-index: 50;
-    pointer-events: none;
 }
 
 .left-page,
 .right-page {
     flex: 1;
-    padding: 50px 60px;
+    padding: 50px;
     overflow-y: auto;
+    /* Internal scrolling */
     position: relative;
 }
 
 .left-page {
-    border-right: 1px solid rgba(0, 0, 0, 0.05);
+    border-right: 1px solid #e0e0e0;
+    background: linear-gradient(to right, #f4f1ea, var(--paper) 15%);
+}
+
+.chapter-title {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.chapter-title::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: var(--accent);
+    margin-top: 15px;
 }
 
 
-/* --- TYPOGRAPHY --- */
+/* --- 3c. Bottom Navigation Bar --- */
 
-h1,
-h2,
-h3 {
-    font-family: 'Playfair Display', serif;
-    color: #000;
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    margin-top: 20px;
+    color: rgba(255, 255, 255, 0.6);
+    flex-shrink: 0;
 }
 
-h2.chapter-title {
-    font-size: 1.5rem;
-    text-transform: uppercase;
-    border-bottom: 3px double var(--border-color);
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    letter-spacing: 1px;
+.nav-btn {
+    color: var(--text-light);
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-p {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-    color: #333;
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--text-light);
 }
 
-.mono {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
-    color: #666;
+.nav-btn.disabled {
+    opacity: 0.3;
+    pointer-events: none;
 }
 
 
-/* --- FLOATING ICONS (RIGHT) --- */
+/* --- 3d. Floating Social Icons (ALWAYS VISIBLE) --- */
 
 .social-sidebar {
     position: fixed;
     right: 30px;
-    top: 50%;
-    transform: translateY(-50%);
+    bottom: 300px;
     display: flex;
     flex-direction: column;
+    /* Stack vertically */
     gap: 15px;
     z-index: 200;
+    /* High z-index to stay on top */
+    background: rgba(34, 30, 28, 0.8);
+    /* Slight dark background for readability */
+    padding: 15px 10px;
+    border-radius: 30px;
+    backdrop-filter: blur(5px);
 }
 
 .social-icon {
-    width: 40px;
-    height: 40px;
-    background: #fff;
-    color: #1a1a1a;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: 0.2s;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.3rem;
+    transition: 0.3s;
+    text-align: center;
 }
 
 .social-icon:hover {
+    color: var(--accent);
     transform: scale(1.1);
-    background: var(--accent);
-    color: #fff;
 }
 
 
-/* --- ANIMATIONS --- */
+/* Specific Brand Colors on Hover */
 
-@keyframes pageFade {
-    from {
-        opacity: 0;
-        transform: scale(0.98);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+.social-icon.fb:hover {
+    color: #1877F2;
 }
 
-.reveal-text {
-    opacity: 0;
-    animation: fadeInUp 0.8s forwards;
-    transform: translateY(20px);
+.social-icon.wa:hover {
+    color: #25D366;
 }
 
-.delay-1 {
-    animation-delay: 0.1s;
-}
-
-.delay-2 {
-    animation-delay: 0.2s;
-}
-
-.delay-3 {
-    animation-delay: 0.3s;
-}
-
-.delay-4 {
-    animation-delay: 0.4s;
-}
-
-@keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.social-icon.tw:hover {
+    color: #1DA1F2;
 }
 
 
-/* --- RESPONSIVE --- */
+/* CRITICAL: HIDE MOBILE MENU TOGGLE ON DESKTOP */
 
-
-/* Tablet/Small Laptop */
-
-@media (max-width: 1300px) {
-    .left-sidebar {
-        display: none;
-    }
-    /* Hide Sidebar to prevent overlap */
-    .book-frame {
-        width: 95%;
-    }
-}
-
-
-/* Mobile */
-
-@media (max-width: 900px) {
-    body {
-        overflow-y: auto;
-        height: auto;
-        display: block;
-        padding-bottom: 40px;
-    }
-    .book-wrapper {
-        height: auto;
-        display: block;
-        padding-top: 60px;
-    }
-    .book-frame {
-        width: 100%;
-        height: auto;
-        max-height: none;
-        aspect-ratio: unset;
-        flex-direction: column;
-        border-radius: 0;
-        box-shadow: none;
-    }
-    .book-frame::before {
-        display: none;
-    }
-    /* Remove Spine */
-    .left-page,
-    .right-page {
-        padding: 30px 20px;
-        border: none;
-    }
-    .social-sidebar {
-        display: flex;
-        flex-direction: row;
-        position: fixed;
-        bottom: 20px;
-        top: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        right: auto;
-    }
-    .mobile-toggle {
-        display: block;
-    }
-}
-
-
-/* Mobile Menu */
-
-.mobile-toggle {
+#mobileToggle {
     display: none;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    z-index: 300;
-    cursor: pointer;
-    font-size: 1.2rem;
 }
+
+
+/* =========================================
+   4. MOBILE MENU STYLES (Centralized)
+   ========================================= */
 
 .mobile-menu-overlay {
     position: fixed;
@@ -341,16 +282,22 @@ p {
     width: 100%;
     height: 100vh;
     background: rgba(34, 30, 28, 0.98);
-    z-index: 299;
+    /* Dark background */
+    z-index: 300;
+    /* High z-index to cover everything */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 25px;
+    /* Hidden state */
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s ease;
 }
+
+
+/* Class added by JS to show menu */
 
 .mobile-menu-overlay.open {
     opacity: 1;
@@ -359,8 +306,139 @@ p {
 
 .mobile-link {
     font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: #fdfbf6;
+    /* Light text */
     text-decoration: none;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.mobile-link:hover,
+.mobile-link.active {
+    color: var(--accent) !important;
+    /* Accent color for active/hover */
+}
+
+
+/* =========================================
+   5. MOBILE LAYOUT OVERRIDES (< 900px)
+   ========================================= */
+
+@media (max-width: 900px) {
+    body {
+        flex-direction: column;
+        overflow: auto;
+        /* Allow scrolling on mobile */
+    }
+    /* Hide Desktop Sidebar */
+    .left-sidebar {
+        display: none !important;
+    }
+    /* Show Mobile Toggle Button on the RIGHT */
+    #mobileToggle {
+        display: block;
+        /* Visible now */
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        /* Moved to the right */
+        z-index: 301;
+        /* Must be higher than menu overlay */
+        background: #fff;
+        border: none;
+        color: var(--accent);
+        font-size: 1.5rem;
+        padding: 10px 12px;
+        border-radius: 4px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+    /* Book Structure Adjustments */
+    .book-wrapper {
+        padding: 0;
+        padding-top: 70px;
+        /* Make space for top toggle button */
+        height: auto;
+        min-height: 100vh;
+    }
+    .book-frame {
+        flex-direction: column;
+        /* Stack pages */
+        box-shadow: none;
+        transform: none !important;
+        /* Disable 3D */
+        border-radius: 0;
+        overflow: visible;
+    }
+    .left-page,
+    .right-page {
+        padding: 40px 25px;
+        border: none;
+        background: var(--paper);
+        flex: none;
+    }
+    h1 {
+        font-size: 3rem !important;
+    }
+    .chapter-title {
+        font-size: 2rem;
+        margin-top: 0;
+    }
+    /* Bottom Nav Bar sticks to bottom */
+    .nav-bar {
+        position: sticky;
+        bottom: 0;
+        background: var(--paper);
+        border-top: 1px solid #e0e0e0;
+        padding: 15px 20px;
+        color: var(--text-dark);
+        z-index: 100;
+    }
+    .nav-btn {
+        color: var(--text-dark);
+        border-color: #ccc;
+    }
+    /* Adjust Social Sidebar position for mobile */
+    .social-sidebar {
+        right: 15px;
+        bottom: 80px;
+        /* Move up slightly to avoid nav bar overlap if needed */
+        padding: 10px 8px;
+    }
+}
+
+
+/* =========================================
+   6. ANIMATIONS
+   ========================================= */
+
+.reveal-text {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.10s forwards;
+}
+
+.delay-1 {
+    animation-delay: 0.2s;
+}
+
+.delay-2 {
+    animation-delay: 0.4s;
+}
+
+.delay-3 {
+    animation-delay: 0.6s;
+}
+
+.delay-4 {
+    animation-delay: 0.8s;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

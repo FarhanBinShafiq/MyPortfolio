@@ -3,92 +3,429 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Edit Blog</title>
-    <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Blog | Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script>
         if (!localStorage.getItem('auth')) window.location.href = 'login.html';
     </script>
     <style>
+         :root {
+            --main-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --primary: #3b82f6;
+            --danger: #ef4444;
+            --border: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            padding: 20px;
-            background: #f4f4f4;
+            font-family: 'Inter', sans-serif;
+            background: var(--main-bg);
+            color: var(--text-dark);
+            padding: 40px;
+            min-height: 100vh;
         }
         
-        .box {
-            max-width: 800px;
+        .container {
+            max-width: 1000px;
             margin: 0 auto;
-            background: white;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+        
+        .back-btn:hover {
+            color: var(--primary);
+        }
+        /* --- FORM SECTION --- */
+        
+        .editor-card {
+            background: var(--card-bg);
             padding: 30px;
-            border-radius: 8px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
         }
         
-        input,
-        textarea {
+        .form-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .form-input {
             width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: 0.3s;
         }
         
-        button {
-            padding: 10px;
-            background: #333;
-            color: white;
-            border: none;
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        textarea.form-input {
+            resize: vertical;
+            height: 100px;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        /* Radio Button Styling */
+        
+        .post-type-selector {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .radio-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             cursor: pointer;
         }
         
-        .item {
-            border-bottom: 1px solid #eee;
-            padding: 10px 0;
+        .radio-group input {
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+        
+        .btn-submit {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+        
+        .btn-submit:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        /* --- LIST SECTION --- */
+        
+        .blog-list-admin {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .blog-item-admin {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+        
+        .blog-item-admin:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+        
+        .item-info h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .item-meta {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            display: flex;
+            gap: 15px;
+        }
+        
+        .icon-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            border: none;
+            font-size: 0.9rem;
+        }
+        
+        .btn-delete {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+        
+        .btn-delete:hover {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .badge-external {
+            background: #e0f2fe;
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-left: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="box">
-        <a href="dashboard.html">&larr; Back</a>
-        <h2>Blog</h2>
-        <div id="list"></div>
-        <h3>Add Post</h3>
-        <input id="title" placeholder="Title">
-        <input id="date" placeholder="Date">
-        <input id="category" placeholder="Category">
-        <textarea id="excerpt" placeholder="Excerpt"></textarea>
-        <button onclick="add()">Add Post</button>
+
+    <div class="container">
+        <div class="header">
+            <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+            <h1>Manage Blog Posts</h1>
+        </div>
+
+        <div class="editor-card">
+            <h2 class="form-title"><i class="fas fa-pen-nib"></i> Write New Post</h2>
+
+            <div class="form-group full-width">
+                <label class="form-label">Post Type</label>
+                <div class="post-type-selector">
+                    <label class="radio-group">
+                        <input type="radio" name="postType" value="internal" checked onchange="togglePostType()"> Internal Post (Standard)
+                    </label>
+                    <label class="radio-group">
+                        <input type="radio" name="postType" value="external" onchange="togglePostType()"> External Link (Redirect)
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label class="form-label">Post Title</label>
+                    <input type="text" id="b_title" class="form-input" placeholder="e.g. The Future of Web Design">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date (Optional)</label>
+                    <input type="date" id="b_date" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <input type="text" id="b_category" class="form-input" placeholder="e.g. Tech / Design">
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-label">Short Excerpt (Shown on card)</label>
+                    <textarea id="b_excerpt" class="form-input" style="height: 80px;" placeholder="A brief summary..."></textarea>
+                </div>
+
+                <div class="form-group full-width" id="internalFields">
+                    <label class="form-label">Full Content (HTML Allowed)</label>
+                    <textarea id="b_content" class="form-input" style="height: 200px;" placeholder="Write your full article here..."></textarea>
+                </div>
+
+                <div class="form-group full-width" id="externalFields" style="display: none;">
+                    <label class="form-label">External URL</label>
+                    <input type="url" id="b_external_link" class="form-input" placeholder="https://medium.com/my-post...">
+                </div>
+
+            </div>
+            <button onclick="add()" class="btn-submit" id="addBtn" style="margin-top: 20px;"><i class="fas fa-paper-plane"></i> Publish Post</button>
+        </div>
+
+        <h2 style="margin-bottom: 25px; font-size: 1.5rem;">Published Posts</h2>
+        <div id="list" class="blog-list-admin">
+            <p style="color: var(--text-light);">Loading posts...</p>
+        </div>
     </div>
+
     <script>
         const API = '../backend/blog_handler.php';
+
+        // Toggle between Internal Content and External URL inputs
+        function togglePostType() {
+            const type = document.querySelector('input[name="postType"]:checked').value;
+            const internalDiv = document.getElementById('internalFields');
+            const externalDiv = document.getElementById('externalFields');
+
+            if (type === 'external') {
+                internalDiv.style.display = 'none';
+                externalDiv.style.display = 'block';
+            } else {
+                internalDiv.style.display = 'block';
+                externalDiv.style.display = 'none';
+            }
+        }
+
         async function load() {
-            const res = await fetch(`${API}?action=fetch_all`);
-            const data = await res.json();
-            document.getElementById('list').innerHTML = data.map(i => `
-                <div class="item">
-                    <div><strong>${i.title}</strong><br>${i.date}</div>
-                    <button onclick="del(${i.id})" style="background:red;">Del</button>
-                </div>`).join('');
+            try {
+                const res = await fetch(`${API}?action=fetch_all`);
+                const data = await res.json();
+                const list = document.getElementById('list');
+
+                if (data.length === 0) {
+                    list.innerHTML = '<div class="blog-item-admin" style="justify-content: center; color: var(--text-light);">No blog posts yet. Write one above!</div>';
+                    return;
+                }
+
+                list.innerHTML = data.map(i => {
+                    const isExternal = i.external_link && i.external_link.trim() !== '';
+                    const badge = isExternal ? '<span class="badge-external"><i class="fas fa-external-link-alt"></i> External Link</span>' : '';
+
+                    return `
+                    <div class="blog-item-admin">
+                        <div class="item-info">
+                            <h3>${i.title} ${badge}</h3>
+                            <div class="item-meta">
+                                <span><i class="far fa-calendar-alt"></i> ${i.date || 'N/A'}</span>
+                                <span><i class="fas fa-tag"></i> ${i.category}</span>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="icon-btn btn-delete" onclick="del(${i.id})" title="Delete Post"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>
+                `
+                }).join('');
+            } catch (e) {
+                console.error(e);
+                alert("Failed to load posts.");
+            }
         }
+
         async function add() {
-            await fetch(`${API}?action=add`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    title: document.getElementById('title').value,
-                    date: document.getElementById('date').value,
-                    category: document.getElementById('category').value,
-                    excerpt: document.getElementById('excerpt').value
-                })
-            });
-            load();
+            const title = document.getElementById('b_title').value;
+            if (!title) {
+                alert("Title is required.");
+                return;
+            }
+
+            const btn = document.getElementById('addBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publishing...';
+            btn.disabled = true;
+
+            const postType = document.querySelector('input[name="postType"]:checked').value;
+            let content = '',
+                externalLink = '';
+
+            if (postType === 'internal') {
+                content = document.getElementById('b_content').value;
+            } else {
+                externalLink = document.getElementById('b_external_link').value;
+                if (!externalLink) {
+                    alert("External URL is required for external posts.");
+                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Publish Post';
+                    btn.disabled = false;
+                    return;
+                }
+            }
+
+            try {
+                await fetch(`${API}?action=add_blog`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        title: title,
+                        date: document.getElementById('b_date').value,
+                        category: document.getElementById('b_category').value,
+                        excerpt: document.getElementById('b_excerpt').value,
+                        content: content,
+                        external_link: externalLink
+                    })
+                });
+                // Clear form
+                document.getElementById('b_title').value = '';
+                document.getElementById('b_date').value = '';
+                document.getElementById('b_category').value = '';
+                document.getElementById('b_excerpt').value = '';
+                document.getElementById('b_content').value = '';
+                document.getElementById('b_external_link').value = '';
+                load();
+            } catch (e) {
+                console.error(e);
+                alert("Failed to add post.");
+            } finally {
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Publish Post';
+                btn.disabled = false;
+            }
         }
+
         async function del(id) {
-            if (confirm('Delete?')) {
-                await fetch(`${API}?action=delete&id=${id}`);
+            if (confirm('Are you sure you want to delete this post?')) {
+                await fetch(`${API}?action=delete_blog&id=${id}`);
                 load();
             }
         }
+
         load();
     </script>
 </body>

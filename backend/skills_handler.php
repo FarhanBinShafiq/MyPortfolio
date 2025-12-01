@@ -9,7 +9,6 @@ $action = $_GET['action'] ?? '';
 try {
     // 1. Fetch All Skills
     if ($action === 'fetch_all') {
-        // Order by category so they group nicely in the UI
         echo json_encode($pdo->query("SELECT * FROM skills ORDER BY category, name")->fetchAll(PDO::FETCH_ASSOC));
         exit();
     }

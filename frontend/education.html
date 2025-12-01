@@ -5,54 +5,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Education | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- 1. NAVIGATION (Fixed Left) -->
-    <!-- 1. NAVIGATION (Fixed Left) -->
+
     <nav class="left-sidebar">
         <div class="sidebar-header">INDEX</div>
         <a href="index.html" class="toc-link">Cover</a>
-        <a href="about.html" class="toc-link active">About</a>
-        <a href="education.html" class="toc-link">Education</a>
-        <a href="experience.html" class="toc-link">Experience</a>
+        <a href="about.html" class="toc-link">About</a>
+        <a href="education.html" class="toc-link active">Education</a> <a href="experience.html" class="toc-link">Experience</a>
         <a href="projects.html" class="toc-link">Projects</a>
         <a href="blog.html" class="toc-link">Blog</a>
-        <a href="glance.html" class="toc-link" style="color: #8e44ad;">Resume</a>
+        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
         <a href="contact.html" class="toc-link">Contact</a>
     </nav>
-
 
     <div class="book-wrapper">
         <div class="book-frame">
             <div class="left-page">
-                <h2 class="chapter-title">III. Academic History</h2>
-                <div id="eduList">Loading...</div>
+                <h2 class="chapter-title reveal-text">II. Academic Background</h2>
+                <p class="intro-text reveal-text delay-1">A summary of my formal education, degrees, and key academic achievements that laid the foundation for my career.</p>
+                <div style="margin-top: 50px; opacity: 0.3; text-align: center;" class="reveal-text delay-2">
+                    <i class="fas fa-university" style="font-size: 4rem;"></i>
+                </div>
             </div>
             <div class="right-page">
-                <h2 class="chapter-title">Certifications</h2>
-                <div id="certList">
-                    <!-- Hardcoded for now or add table for certs -->
-                    <p>Coming soon...</p>
+                <div id="eduList" class="reveal-text delay-1">
+                    <p class="mono">Loading education history...</p>
                 </div>
             </div>
         </div>
-        <!-- (Nav Bar) -->
+
+        <div class="nav-bar">
+            <a href="about.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
+            <span class="mono">Education</span>
+            <a href="experience.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
+        </div>
     </div>
+
+    <div class="social-sidebar">
+        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="social-icon fb"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-icon wa"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social-icon tw"><i class="fab fa-twitter"></i></a>
+    </div>
+
+    <button id="mobileToggle"><i class="fas fa-bars"></i></button>
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <a href="index.html" class="mobile-link">Home</a>
+        <a href="about.html" class="mobile-link">About</a>
+        <a href="projects.html" class="mobile-link">Projects</a>
+        <a href="contact.html" class="mobile-link">Contact</a>
+        <a href="dashboard.html" class="mobile-link" style="font-size:1rem; color:#ccc; margin-top: 20px;">Admin Login</a>
+    </div>
+
     <script src="script.js"></script>
+
     <script>
-        fetch('../backend/edu_exp_handler.php?action=fetch_edu').then(r => r.json()).then(data => {
-            const list = document.getElementById('eduList');
-            list.innerHTML = data.map(i => `
-                <div style="margin-bottom: 30px; padding-left: 15px; border-left: 3px solid #8e44ad;">
-                    <span style="font-weight: 700; font-size: 1.2rem; display: block;">${i.institution}</span>
-                    <span style="font-style: italic; color: #555;">${i.degree} (${i.year})</span>
-                    <div style="font-size: 0.9rem; margin-top: 5px; color: #666; font-family: 'Space Mono';">${i.details}</div>
-                </div>
-            `).join('');
-        });
+        const API = '../backend/edu_exp_handler.php';
+
+        async function loadEducation() {
+            try {
+                const res = await fetch(`${API}?action=fetch_edu`);
+                const data = await res.json();
+                const list = document.getElementById('eduList');
+
+                if (data.length === 0) {
+                    list.innerHTML = '<p class="mono">No education info added yet.</p>';
+                    return;
+                }
+
+                // Clear loading text and build list
+                list.innerHTML = data.map((item, index) => `
+                    <div style="margin-bottom: 30px; border-left: 3px solid var(--accent); padding-left: 20px; opacity: 0; animation: fadeUp 0.5s forwards ${index * 0.1}s;">
+                        <h3 style="margin-bottom: 5px; font-size: 1.2rem;">${item.institution}</h3>
+                        <span class="mono accent" style="font-size: 0.8rem;">${item.year}</span>
+                        <p style="margin-top: 5px; font-weight: bold; margin-bottom: 5px;">${item.degree}</p>
+                        <p style="font-size: 0.95rem; color: #555;">${item.details}</p>
+                    </div>
+                `).join('');
+
+            } catch (err) {
+                console.error("Error loading education:", err);
+                document.getElementById('eduList').innerHTML = '<p style="color:red;">Error loading data.</p>';
+            }
+        }
+
+        loadEducation();
     </script>
 </body>
 

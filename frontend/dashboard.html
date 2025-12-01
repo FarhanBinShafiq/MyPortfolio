@@ -3,81 +3,337 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Admin Hub</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>
-        if (!localStorage.getItem('auth')) window.location.href = 'login.html';
-    </script>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+         :root {
+            --sidebar-bg: #1e293b;
+            --sidebar-text: #94a3b8;
+            --sidebar-hover: #334155;
+            --main-bg: #f1f5f9;
+            --text-dark: #1e293b;
+            --card-bg: #ffffff;
+            --primary-color: #3b82f6;
+            /* A nice modern blue */
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            background: #f4f4f4;
-            font-family: sans-serif;
-            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            height: 100vh;
+            background: var(--main-bg);
+            color: var(--text-dark);
+        }
+        /* --- SIDEBAR --- */
+        
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 30px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            transition: all 0.3s;
+            flex-shrink: 0;
+            /* Prevent shrinking */
         }
+        
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            text-decoration: none;
+            color: var(--sidebar-text);
+            transition: 0.2s;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .menu-item:hover {
+            background: var(--sidebar-hover);
+            color: #fff;
+        }
+        
+        .menu-item i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .logout {
+            margin-top: auto;
+            background: rgba(255, 255, 255, 0.05);
+            color: #f87171;
+        }
+        
+        .logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        /* --- MAIN CONTENT --- */
+        
+        .content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .date {
+            color: #64748b;
+            font-weight: 600;
+        }
+        /* --- DASHBOARD GRID --- */
         
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 900px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
         }
         
         .card {
-            background: white;
+            background: var(--card-bg);
             padding: 30px;
-            border-radius: 8px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
             text-align: center;
             text-decoration: none;
-            color: #333;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            transition: 0.3s;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 180px;
         }
         
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+        }
+        
+        .icon-box {
+            width: 70px;
+            height: 70px;
+            background: #e0f2fe;
+            /* Light blue bg for icon */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+        
+        .card:hover .icon-box {
+            background: var(--primary-color);
+            color: #fff;
         }
         
         .icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            display: block;
+            font-size: 2rem;
+            color: var(--primary-color);
+            transition: 0.3s;
         }
         
-        .btn-out {
-            margin-top: 40px;
-            color: #c0392b;
-            cursor: pointer;
-            border: 1px solid #c0392b;
-            padding: 10px 20px;
-            border-radius: 4px;
-            text-decoration: none;
+        .card:hover .icon {
+            color: #fff;
+        }
+        
+        .card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        /* Card Specific Colors (Optional for more variety) */
+        
+        .card-projects .icon-box {
+            background: #dcfce7;
+        }
+        
+        .card-projects .icon {
+            color: #22c55e;
+        }
+        
+        .card-blog .icon-box {
+            background: #fee2e2;
+        }
+        
+        .card-blog .icon {
+            color: #ef4444;
+        }
+        
+        .card-messages .icon-box {
+            background: #f3e8ff;
+        }
+        
+        .card-messages .icon {
+            color: #a855f7;
+        }
+        /* --- RESPONSIVE DESIGN --- */
+        
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+                height: auto;
+            }
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .brand {
+                margin-bottom: 0;
+                font-size: 1.2rem;
+            }
+            .menu-links {
+                display: none;
+                /* Hide menu links on small screens for simplicity */
+            }
+            .logout {
+                margin-top: 0;
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            .content {
+                padding: 30px 20px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                margin-bottom: 30px;
+            }
+            .header h2 {
+                font-size: 1.8rem;
+            }
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            .card {
+                height: 160px;
+                padding: 20px;
+            }
+            .icon-box {
+                width: 60px;
+                height: 60px;
+            }
+            .icon {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            /* Single column on mobile */
         }
     </style>
+    <script>
+        if (!localStorage.getItem('auth')) window.location.href = 'login.html';
+
+        function logout() {
+            localStorage.removeItem('auth');
+            window.location.href = 'login.html';
+        }
+    </script>
 </head>
 
 <body>
-    <h1 style="color:#333; margin-bottom:30px;">Content Manager</h1>
-    <div class="grid">
-        <a href="dashboard-home.html" class="card"><i class="fas fa-home icon" style="color:#3498db;"></i><h3>Home</h3></a>
-        <a href="dashboard-about.html" class="card"><i class="fas fa-user icon" style="color:#8e44ad;"></i><h3>About</h3></a>
-        <a href="dashboard-education.html" class="card"><i class="fas fa-graduation-cap icon" style="color:#f1c40f;"></i><h3>Education</h3></a>
-        <a href="dashboard-experience.html" class="card"><i class="fas fa-briefcase icon" style="color:#e67e22;"></i><h3>Experience</h3></a>
+    <nav class="sidebar">
+        <div class="brand"><i class="fas fa-rocket"></i> Admin Panel</div>
+        <div class="menu-links">
+        </div>
+        <button onclick="logout()" class="menu-item logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </nav>
 
-        <a href="dashboard-skills.html" class="card"><i class="fas fa-tools icon" style="color:#e91e63;"></i><h3>Skills</h3></a>
+    <main class="content">
+        <div class="header">
+            <h2>Welcome back, Admin!</h2>
+            <div class="date" id="currentDate"></div>
+        </div>
 
-        <a href="dashboard-projects.html" class="card"><i class="fas fa-code icon" style="color:#2ecc71;"></i><h3>Projects</h3></a>
-        <a href="dashboard-blog.html" class="card"><i class="fas fa-pen-nib icon" style="color:#e74c3c;"></i><h3>Blog</h3></a>
-        <a href="dashboard-messages.html" class="card"><i class="fas fa-envelope icon" style="color:#34495e;"></i><h3>Messages</h3></a>
-        <a href="index.html" target="_blank" class="card" style="background:#333; color:white;"><i class="fas fa-eye icon"></i><h3>View Site</h3></a>
-    </div>
-    <a href="#" onclick="localStorage.removeItem('auth');location.href='login.html'" class="btn-out">Logout</a>
+        <div class="grid">
+            <a href="dashboard-home.html" class="card">
+                <div class="icon-box"><i class="fas fa-home icon"></i></div>
+                <h3>Home Pages</h3>
+            </a>
+            <a href="dashboard-about.html" class="card">
+                <div class="icon-box"><i class="fas fa-user icon"></i></div>
+                <h3>About Section</h3>
+            </a>
+            <a href="dashboard-education.html" class="card">
+                <div class="icon-box"><i class="fas fa-graduation-cap icon"></i></div>
+                <h3>Education</h3>
+            </a>
+            <a href="dashboard-experience.html" class="card">
+                <div class="icon-box"><i class="fas fa-briefcase icon"></i></div>
+                <h3>Experience</h3>
+            </a>
+            <a href="dashboard-projects.html" class="card card-projects">
+                <div class="icon-box"><i class="fas fa-code icon"></i></div>
+                <h3>Projects</h3>
+            </a>
+            <a href="dashboard-blog.html" class="card card-blog">
+                <div class="icon-box"><i class="fas fa-pen-nib icon"></i></div>
+                <h3>Blog Posts</h3>
+            </a>
+            <a href="dashboard-messages.html" class="card card-messages">
+                <div class="icon-box"><i class="fas fa-envelope icon"></i></div>
+                <h3>Messages</h3>
+            </a>
+            <a href="index.html" target="_blank" class="card" style="background: #1e293b;">
+                <div class="icon-box" style="background: rgba(255,255,255,0.1);"><i class="fas fa-external-link-alt icon" style="color: #fff;"></i></div>
+                <h3 style="color: #fff;">View Live Site</h3>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Set current date
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-US', options);
+    </script>
 </body>
 
 </html>

@@ -5,91 +5,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Experience | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- 1. NAVIGATION (Fixed Left) -->
+
     <nav class="left-sidebar">
         <div class="sidebar-header">INDEX</div>
         <a href="index.html" class="toc-link">Cover</a>
-        <a href="about.html" class="toc-link active">About</a>
+        <a href="about.html" class="toc-link">About</a>
         <a href="education.html" class="toc-link">Education</a>
-        <a href="experience.html" class="toc-link">Experience</a>
-        <a href="projects.html" class="toc-link">Projects</a>
+        <a href="experience.html" class="toc-link active">Experience</a> <a href="projects.html" class="toc-link">Projects</a>
         <a href="blog.html" class="toc-link">Blog</a>
-        <a href="glance.html" class="toc-link" style="color: #8e44ad;">Resume</a>
+        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
         <a href="contact.html" class="toc-link">Contact</a>
     </nav>
 
     <div class="book-wrapper">
         <div class="book-frame">
+
             <div class="left-page">
-                <h2 class="chapter-title">IV. Professional Exp.</h2>
-                <div id="expList">Loading...</div>
+                <h2 class="chapter-title reveal-text">III. Professional Exp.</h2>
+                <div id="expList" class="reveal-text delay-1">
+                    <p class="mono">Loading experience...</p>
+                </div>
             </div>
 
             <div class="right-page">
-                <h2 class="chapter-title">Skills Matrix</h2>
+                <h2 class="chapter-title reveal-text" style="font-size: 1.5rem; border: none; margin-bottom: 20px;">Skills Matrix</h2>
 
-                <div id="skillsContainer" style="display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start;">
+                <div id="skillsContainer" class="reveal-text delay-2" style="display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start;">
                     <span class="mono">Loading skills...</span>
                 </div>
             </div>
         </div>
+
+        <div class="nav-bar">
+            <a href="education.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
+            <span class="mono">Experience</span>
+            <a href="projects.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
+        </div>
     </div>
+
+    <div class="social-sidebar">
+        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="social-icon fb"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-icon wa"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social-icon tw"><i class="fab fa-twitter"></i></a>
+    </div>
+
+    <button id="mobileToggle"><i class="fas fa-bars"></i></button>
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <a href="index.html" class="mobile-link">Home</a>
+        <a href="about.html" class="mobile-link">About</a>
+        <a href="projects.html" class="mobile-link">Projects</a>
+        <a href="contact.html" class="mobile-link">Contact</a>
+        <a href="dashboard.html" class="mobile-link" style="font-size:1rem; color:#ccc; margin-top: 20px;">Admin Login</a>
+    </div>
+
     <script src="script.js"></script>
+
     <script>
-        // 1. Fetch Experience (Original)
-        fetch('../backend/edu_exp_handler.php?action=fetch_exp').then(r => r.json()).then(data => {
-            const list = document.getElementById('expList');
-            list.innerHTML = data.map(i => `
-                <div style="margin-bottom: 30px;">
-                    <h3 style="margin-bottom: 5px;">${i.role} @ ${i.company}</h3>
-                    <span class="mono">${i.year}</span>
-                    <p style="margin-top: 10px; font-size: 1rem;">${i.details}</p>
-                </div>
-            `).join('');
-        });
+        const EXP_API = '../backend/edu_exp_handler.php';
+        const SKILLS_API = '../backend/skills_handler.php';
 
-        // 2. Fetch Skills (New with Flex Card Layout)
-        fetch('../backend/skills_handler.php?action=fetch_all').then(r => r.json()).then(data => {
-            const container = document.getElementById('skillsContainer');
+        async function loadData() {
+            // 1. Fetch & Render Experience
+            try {
+                const expRes = await fetch(`${EXP_API}?action=fetch_exp`);
+                const expData = await expRes.json();
+                const list = document.getElementById('expList');
 
-            if (data.length === 0) {
-                container.innerHTML = '<p>No skills listed.</p>';
-                return;
+                if (expData.length === 0) {
+                    list.innerHTML = '<p class="mono">No experience listed.</p>';
+                } else {
+                    // Added subtle animation delay for each item
+                    list.innerHTML = expData.map((item, index) => `
+                        <div style="margin-bottom: 30px; opacity: 0; animation: fadeUp 0.5s forwards ${index * 0.1}s;">
+                            <h3 style="margin-bottom: 5px;">${item.role} <span style="color:var(--accent); font-weight:normal;">@ ${item.company}</span></h3>
+                            <span class="mono" style="font-size:0.8rem; color:#888;">${item.year}</span>
+                            <p style="margin-top: 10px; font-size: 1rem;">${item.details}</p>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) {
+                console.error("Exp Error:", e);
+                list.innerHTML = '<p style="color:red">Error loading data.</p>';
             }
 
-            container.innerHTML = data.map(s => `
-                <div style="
-                    border: 1px solid #e0e0e0; 
-                    padding: 6px 14px; 
-                    border-radius: 50px; 
-                    font-family: 'Space Mono', monospace; 
-                    font-size: 0.8rem;
-                    background: #fff;
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    transition: all 0.2s ease;
-                    cursor: default;
-                " 
-                onmouseover="this.style.borderColor='#8e44ad'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 10px rgba(0,0,0,0.05)'" 
-                onmouseout="this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                    
-                    <span style="
-                        font-size: 0.65rem; 
-                        text-transform: uppercase; 
-                        color: #888; 
-                        letter-spacing: 0.5px;
-                    ">${s.category}</span>
-                    
-                    <span style="font-weight: 600; color: #333;">${s.name}</span>
-                </div>
-            `).join('');
-        });
+            // 2. Fetch & Render Skills
+            try {
+                const skillsRes = await fetch(`${SKILLS_API}?action=fetch_all`);
+                const skillsData = await skillsRes.json();
+                const container = document.getElementById('skillsContainer');
+
+                if (skillsData.length === 0) {
+                    container.innerHTML = '<p class="mono" style="color:#888;">No skills added yet.</p>';
+                } else {
+                    // Render skills with flex-card styling and hover effect
+                    container.innerHTML = skillsData.map((s, index) => `
+                        <div style="
+                            border: 1px solid #e0e0e0; 
+                            padding: 6px 14px; 
+                            border-radius: 50px; 
+                            font-family: 'Space Mono', monospace; 
+                            font-size: 0.8rem;
+                            background: #fff; 
+                            display: flex; 
+                            align-items: center; 
+                            gap: 8px; 
+                            cursor: default; 
+                            transition: all 0.2s ease;
+                            opacity: 0; animation: fadeUp 0.3s forwards ${index * 0.05 + 0.5}s; /* Staggered animation */
+                        "
+                        onmouseover="this.style.borderColor='var(--accent)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.05)';"
+                        onmouseout="this.style.borderColor='#e0e0e0'; this.style.transform='translateY(0)'; this.style.boxShadow='none';"
+                        >
+                            <span style="font-size: 0.65rem; text-transform: uppercase; color: #888; letter-spacing: 0.5px;">${s.category}</span>
+                            <span style="font-weight: 600; color: #333;">${s.name}</span>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) {
+                console.error("Skills Error:", e);
+                container.innerHTML = '<p style="color:red">Error loading skills.</p>';
+            }
+        }
+
+        // Load all data on page load
+        loadData();
     </script>
 </body>
 

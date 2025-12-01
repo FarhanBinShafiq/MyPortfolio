@@ -3,91 +3,469 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Edit Projects</title>
-    <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Projects | Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script>
         if (!localStorage.getItem('auth')) window.location.href = 'login.html';
     </script>
     <style>
+         :root {
+            --main-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --primary: #3b82f6;
+            --danger: #ef4444;
+            --border: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            padding: 20px;
-            background: #f4f4f4;
+            font-family: 'Inter', sans-serif;
+            background: var(--main-bg);
+            color: var(--text-dark);
+            padding: 40px;
+            min-height: 100vh;
         }
         
-        .box {
-            max-width: 800px;
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
         }
         
-        input,
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
-        }
-        
-        button {
-            padding: 10px;
-            background: #333;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .item {
-            border-bottom: 1px solid #eee;
-            padding: 10px 0;
+        .header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+        
+        .back-btn:hover {
+            color: var(--primary);
+        }
+        /* --- FORM SECTION --- */
+        
+        .editor-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+        }
+        
+        .form-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        textarea.form-input {
+            resize: vertical;
+            height: 100px;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .img-preview-box {
+            height: 150px;
+            background: #f1f5f9;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .img-preview-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .no-img-text {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .btn-submit {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+        
+        .btn-submit:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        /* --- PROJECT LIST SECTION --- */
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .card-img {
+            height: 180px;
+            background: #e2e8f0;
+            overflow: hidden;
+        }
+        
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .card-body {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .tags-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .tag-pill {
+            font-size: 0.75rem;
+            background: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 20px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        
+        .card-actions {
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .icon-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            border: none;
+            font-size: 0.9rem;
+        }
+        
+        .btn-edit {
+            background: #e0f2fe;
+            color: var(--primary);
+        }
+        
+        .btn-edit:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-delete {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+        
+        .btn-delete:hover {
+            background: var(--danger);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="box">
-        <a href="dashboard.html">&larr; Back</a>
-        <h2>Projects</h2>
-        <div id="list"></div>
-        <h3>Add New</h3>
-        <form id="projForm">
-            <input name="title" placeholder="Title" required>
-            <textarea name="description" placeholder="Description" required></textarea>
-            <input name="tags" placeholder="Tags (React, JS...)">
-            <p>Project Image:</p>
-            <input type="file" name="image">
-            <button type="submit">Add Project</button>
-        </form>
+
+    <div class="container">
+        <div class="header">
+            <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+            <h1>Manage Projects</h1>
+        </div>
+
+        <div class="editor-card">
+            <h2 class="form-title" id="formTitle"><i class="fas fa-plus-circle"></i> Add New Project</h2>
+            <form id="projectForm">
+                <input type="hidden" id="p_id">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label class="form-label">Project Title</label>
+                        <input type="text" id="p_title" class="form-input" required placeholder="e.g. E-commerce Platform">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label">Description</label>
+                        <textarea id="p_desc" class="form-input" required placeholder="Short summary of the project..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tags (Comma separated)</label>
+                        <input type="text" id="p_tags" class="form-input" placeholder="e.g. React, Node.js, MongoDB">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Image URL</label>
+                        <input type="text" id="p_img" class="form-input" placeholder="https://..." oninput="previewImage()">
+                        <div class="img-preview-box">
+                            <span class="no-img-text" id="noPreview">No image preview</span>
+                            <img id="imgPreview" style="display: none;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><i class="fab fa-github"></i> Repo Link (Optional)</label>
+                        <input type="text" id="p_repo" class="form-input" placeholder="https://github.com/user/repo">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-external-link-alt"></i> Demo Link (Optional)</label>
+                        <input type="text" id="p_demo" class="form-input" placeholder="https://myproject.com">
+                    </div>
+                </div>
+                <div style="margin-top: 25px; display: flex; gap: 15px;">
+                    <button type="submit" class="btn-submit" id="saveBtn"><i class="fas fa-save"></i> Save Project</button>
+                    <button type="button" class="btn-submit" style="background: var(--text-light); display: none;" id="cancelBtn" onclick="resetForm()"><i class="fas fa-times"></i> Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <h2 style="margin-bottom: 25px; font-size: 1.5rem;">Existing Projects</h2>
+        <div id="projectsList" class="projects-grid">
+            <p style="color: var(--text-light);">Loading projects...</p>
+        </div>
     </div>
+
     <script>
         const API = '../backend/projects_handler.php';
+
+        // --- Load Projects ---
         async function load() {
-            const res = await fetch(`${API}?action=fetch_all`);
-            const data = await res.json();
-            document.getElementById('list').innerHTML = data.map(i => `
-                <div class="item">
-                    <div><strong>${i.title}</strong><br>${i.tags}</div>
-                    <button onclick="del(${i.id})" style="background:red;">Del</button>
-                </div>`).join('');
+            try {
+                const res = await fetch(`${API}?action=fetch_all`);
+                const data = await res.json();
+                const list = document.getElementById('projectsList');
+
+                if (data.length === 0) {
+                    list.innerHTML = '<p class="full-width" style="color: var(--text-light); padding: 20px; background: #f1f5f9; border-radius: 8px;">No projects found. Add one above!</p>';
+                    return;
+                }
+
+                list.innerHTML = data.map(p => `
+                    <div class="project-card">
+                        <div class="card-img">
+                            <img src="${p.image_url || 'https://placehold.co/600x400/e2e8f0/94a3b8?text=No+Image'}" alt="${p.title}">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">${p.title}</h3>
+                            <div class="tags-list">
+                                ${p.tags ? p.tags.split(',').map(t => `<span class="tag-pill">${t.trim()}</span>`).join('') : ''}
+                            </div>
+                            <p class="card-desc">${p.description}</p>
+                            <div class="card-actions">
+                                <button class="icon-btn btn-edit" onclick='edit(${JSON.stringify(p)})' title="Edit"><i class="fas fa-edit"></i></button>
+                                <button class="icon-btn btn-delete" onclick="del(${p.id})" title="Delete"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) { console.error(e); alert("Failed to load projects."); }
         }
-        document.getElementById('projForm').onsubmit = async(e) => {
+
+        // --- Form Handling ---
+        document.getElementById('projectForm').onsubmit = async (e) => {
             e.preventDefault();
-            await fetch(`${API}?action=add`, {
-                method: 'POST',
-                body: new FormData(e.target)
-            });
-            load();
+            const id = document.getElementById('p_id').value;
+            const action = id ? 'update' : 'add';
+            const btn = document.getElementById('saveBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...'; btn.disabled = true;
+
+            const payload = {
+                title: document.getElementById('p_title').value,
+                description: document.getElementById('p_desc').value,
+                tags: document.getElementById('p_tags').value,
+                image_url: document.getElementById('p_img').value,
+                repo_link: document.getElementById('p_repo').value,
+                demo_link: document.getElementById('p_demo').value
+            };
+            if (id) payload.id = id;
+
+            try {
+                await fetch(`${API}?action=${action}`, { method: 'POST', body: JSON.stringify(payload) });
+                resetForm();
+                load();
+                alert(id ? 'Project updated!' : 'Project added!');
+            } catch (e) { console.error(e); alert('Error saving project.'); } 
+            finally { btn.innerHTML = originalText; btn.disabled = false; }
+        };
+
+        // --- Helper Functions ---
+        function edit(p) {
+            document.getElementById('formTitle').innerHTML = '<i class="fas fa-edit"></i> Edit Project';
+            document.getElementById('p_id').value = p.id;
+            document.getElementById('p_title').value = p.title;
+            document.getElementById('p_desc').value = p.description;
+            document.getElementById('p_tags').value = p.tags;
+            document.getElementById('p_img').value = p.image_url;
+            document.getElementById('p_repo').value = p.repo_link;
+            document.getElementById('p_demo').value = p.demo_link;
+            document.getElementById('saveBtn').innerHTML = '<i class="fas fa-sync-alt"></i> Update Project';
+            document.getElementById('cancelBtn').style.display = 'flex';
+            previewImage();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
         async function del(id) {
-            if (confirm('Delete?')) {
+            if(confirm('Are you sure you want to delete this project?')) {
                 await fetch(`${API}?action=delete&id=${id}`);
                 load();
             }
         }
+
+        function resetForm() {
+            document.getElementById('projectForm').reset();
+            document.getElementById('p_id').value = '';
+            document.getElementById('formTitle').innerHTML = '<i class="fas fa-plus-circle"></i> Add New Project';
+            document.getElementById('saveBtn').innerHTML = '<i class="fas fa-save"></i> Save Project';
+            document.getElementById('cancelBtn').style.display = 'none';
+            previewImage();
+        }
+
+        function previewImage() {
+            const url = document.getElementById('p_img').value;
+            const img = document.getElementById('imgPreview');
+            const txt = document.getElementById('noPreview');
+            if (url) { img.src = url; img.style.display = 'block'; txt.style.display = 'none'; }
+            else { img.style.display = 'none'; txt.style.display = 'block'; }
+        }
+
+        // Initial Load
         load();
     </script>
 </body>
