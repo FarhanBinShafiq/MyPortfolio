@@ -1,49 +1,68 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
 
-    // 1. Highlight Active Link in Sidebar
-    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-    const sidebarLinks = document.querySelectorAll('.toc-link');
+    // =========================================
+    // 1. MOBILE MENU TOGGLE LOGIC (Centralized)
+    // =========================================
+    const toggleBtn = document.getElementById('mobileToggle');
+    const menuOverlay = document.getElementById('mobileMenu');
 
-    sidebarLinks.forEach(link => {
+    // Only run if elements exist on the page
+    if (toggleBtn && menuOverlay) {
+        // Find the icon element inside the button
+        const toggleIcon = toggleBtn.querySelector('i');
+
+        toggleBtn.addEventListener('click', () => {
+            // Toggle the 'open' class defined in style.css
+            // The toggle() method returns true if the class is added, false if removed
+            const isOpen = menuOverlay.classList.toggle('open');
+
+            // Swap the icon based on the menu state
+            if (isOpen) {
+                // Menu is now open, show 'X' icon
+                toggleIcon.classList.remove('fa-bars');
+                toggleIcon.classList.add('fa-times');
+            } else {
+                // Menu is now closed, show hamburger icon
+                toggleIcon.classList.remove('fa-times');
+                toggleIcon.classList.add('fa-bars');
+            }
+        });
+    }
+
+
+    // =========================================
+    // 2. ACTIVE LINK HIGHLIGHTING
+    // =========================================
+    const currentPath = window.location.pathname.split("/").pop() || "index.html";
+
+    // Target both sidebar links AND mobile menu links
+    const navLinks = document.querySelectorAll('.left-sidebar .toc-link, .mobile-menu-overlay .mobile-link');
+
+    navLinks.forEach(link => {
+        // Strip any query params for comparison if necessary, usually href is fine here
         if (link.getAttribute('href') === currentPath) {
             link.classList.add('active');
         }
     });
 
-    // 2. Mobile Menu Toggle
-    const toggleBtn = document.getElementById('mobileToggle');
-    const menuOverlay = document.getElementById('mobileMenu');
 
-    if (toggleBtn && menuOverlay) {
-        toggleBtn.addEventListener('click', () => {
-            menuOverlay.classList.toggle('open');
-            const icon = toggleBtn.querySelector('i');
-            if (menuOverlay.classList.contains('open')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
-    }
+    // =========================================
+    // 3. DESKTOP 3D TILT EFFECT
+    // =========================================
+    if (window.innerWidth > 900) {
+        const bookFrame = document.querySelector(".book-frame");
+        const bookWrapper = document.querySelector(".book-wrapper");
 
-    // 3. 3D Tilt Effect (Desktop Only)
-    const book = document.querySelector('.book-frame');
-    const wrapper = document.querySelector('.book-wrapper');
+        if (bookFrame && bookWrapper) {
+            bookWrapper.addEventListener("mousemove", (e) => {
+                let xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+                let yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+                bookFrame.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
 
-    if (window.matchMedia("(min-width: 900px)").matches && book && wrapper) {
-        wrapper.addEventListener('mousemove', (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
-            const midX = window.innerWidth / 2;
-            const midY = window.innerHeight / 2;
-            const rotateX = -((y - midY) / 60);
-            const rotateY = (x - midX) / 60;
-            book.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
-        wrapper.addEventListener('mouseleave', () => {
-            book.style.transform = `rotateX(0) rotateY(0)`;
-        });
+            bookWrapper.addEventListener("mouseleave", () => {
+                bookFrame.style.transform = `rotateY(0deg) rotateX(0deg)`;
+            });
+        }
     }
 });

@@ -3,92 +3,356 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Edit Education</title>
-    <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Education | Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script>
         if (!localStorage.getItem('auth')) window.location.href = 'login.html';
     </script>
     <style>
+         :root {
+            --main-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --primary: #3b82f6;
+            --danger: #ef4444;
+            --border: #e2e8f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            padding: 20px;
-            background: #f4f4f4;
+            font-family: 'Inter', sans-serif;
+            background: var(--main-bg);
+            color: var(--text-dark);
+            padding: 40px;
+            min-height: 100vh;
         }
         
-        .box {
-            max-width: 800px;
+        .container {
+            max-width: 1000px;
             margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
         }
         
-        input,
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
-        }
-        
-        button {
-            padding: 10px;
-            background: #333;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .item {
-            border-bottom: 1px solid #eee;
-            padding: 10px 0;
+        .header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+        
+        .back-btn:hover {
+            color: var(--primary);
+        }
+        /* --- FORM SECTION --- */
+        
+        .editor-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+        }
+        
+        .form-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        textarea.form-input {
+            resize: vertical;
+            height: 100px;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .btn-submit {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+        
+        .btn-submit:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        /* --- LIST SECTION --- */
+        
+        .education-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .education-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            transition: 0.3s;
+        }
+        
+        .education-item:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+        
+        .item-details h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .item-meta {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .item-desc {
+            color: #475569;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .icon-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+            border: none;
+            font-size: 0.9rem;
+        }
+        
+        .btn-delete {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+        
+        .btn-delete:hover {
+            background: var(--danger);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="box">
-        <a href="dashboard.html">&larr; Back</a>
-        <h2>Education</h2>
-        <div id="list"></div>
-        <h3>Add New</h3>
-        <input id="institution" placeholder="Institution">
-        <input id="degree" placeholder="Degree">
-        <input id="year" placeholder="Year (e.g. 2016-2020)">
-        <textarea id="details" placeholder="Details"></textarea>
-        <button onclick="add()">Add</button>
+
+    <div class="container">
+        <div class="header">
+            <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+            <h1>Manage Education</h1>
+        </div>
+
+        <div class="editor-card">
+            <h2 class="form-title"><i class="fas fa-plus-circle"></i> Add New Education</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Institution Name</label>
+                    <input type="text" id="institution" class="form-input" placeholder="e.g. Stanford University">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Degree/Certificate</label>
+                    <input type="text" id="degree" class="form-input" placeholder="e.g. B.S. Computer Science">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Year/Duration</label>
+                    <input type="text" id="year" class="form-input" placeholder="e.g. 2016 - 2020">
+                </div>
+                <div class="form-group full-width">
+                    <label class="form-label">Details & Achievements</label>
+                    <textarea id="details" class="form-input" placeholder="Additional details..."></textarea>
+                </div>
+            </div>
+            <button onclick="add()" class="btn-submit" id="addBtn"><i class="fas fa-save"></i> Save Education</button>
+        </div>
+
+        <h2 style="margin-bottom: 25px; font-size: 1.5rem;">Existing Education</h2>
+        <div id="list" class="education-list">
+            <p style="color: var(--text-light);">Loading education history...</p>
+        </div>
     </div>
+
     <script>
         const API = '../backend/edu_exp_handler.php';
+
         async function load() {
-            const res = await fetch(`${API}?action=fetch_edu`);
-            const data = await res.json();
-            document.getElementById('list').innerHTML = data.map(i => `
-                <div class="item">
-                    <div><strong>${i.institution}</strong><br>${i.degree} (${i.year})</div>
-                    <button onclick="del(${i.id})" style="background:red;">Del</button>
-                </div>`).join('');
+            try {
+                const res = await fetch(`${API}?action=fetch_edu`);
+                const data = await res.json();
+                const list = document.getElementById('list');
+
+                if (data.length === 0) {
+                    list.innerHTML = '<div class="education-item" style="justify-content: center; color: var(--text-light);">No education entries yet. Add one above!</div>';
+                    return;
+                }
+
+                list.innerHTML = data.map(i => `
+                    <div class="education-item">
+                        <div class="item-details">
+                            <h3>${i.institution}</h3>
+                            <div class="item-meta">
+                                <span><i class="fas fa-graduation-cap"></i> ${i.degree}</span>
+                                <span><i class="far fa-calendar-alt"></i> ${i.year}</span>
+                            </div>
+                            <p class="item-desc">${i.details}</p>
+                        </div>
+                        <div class="item-actions">
+                            <button class="icon-btn btn-delete" onclick="del(${i.id})" title="Delete Entry"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error(e);
+                alert("Failed to load data.");
+            }
         }
+
         async function add() {
-            await fetch(`${API}?action=add_edu`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    institution: document.getElementById('institution').value,
-                    degree: document.getElementById('degree').value,
-                    year: document.getElementById('year').value,
-                    details: document.getElementById('details').value
-                })
-            });
-            load();
+            const institution = document.getElementById('institution');
+            const degree = document.getElementById('degree');
+            const year = document.getElementById('year');
+            const details = document.getElementById('details');
+
+            if (!institution.value || !degree.value) {
+                alert("Institution and Degree are required.");
+                return;
+            }
+
+            const btn = document.getElementById('addBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            btn.disabled = true;
+
+            try {
+                await fetch(`${API}?action=add_edu`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        institution: institution.value,
+                        degree: degree.value,
+                        year: year.value,
+                        details: details.value
+                    })
+                });
+                // Clear form
+                institution.value = '';
+                degree.value = '';
+                year.value = '';
+                details.value = '';
+                load();
+            } catch (e) {
+                console.error(e);
+                alert("Failed to add entry.");
+            } finally {
+                btn.innerHTML = '<i class="fas fa-save"></i> Save Education';
+                btn.disabled = false;
+            }
         }
+
         async function del(id) {
-            if (confirm('Delete?')) {
+            if (confirm('Are you sure you want to delete this education entry?')) {
                 await fetch(`${API}?action=delete_edu&id=${id}`);
                 load();
             }
         }
+
         load();
     </script>
 </body>

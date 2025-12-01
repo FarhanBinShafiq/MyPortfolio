@@ -5,74 +5,199 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- PAGE SPECIFIC STYLES (Contact Form) --- */
+        
+        .paper-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #eee;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            background: transparent;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .paper-input:focus {
+            border-color: var(--accent);
+            outline: none;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.1);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px 30px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            font-family: 'Space Mono', monospace;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border-radius: 4px;
+        }
+        
+        .submit-btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .contact-icon-box {
+            width: 50px;
+            height: 50px;
+            background: rgba(142, 68, 173, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+    </style>
 </head>
 
 <body>
+
     <nav class="left-sidebar">
         <div class="sidebar-header">INDEX</div>
-        <a href="index.html" class="toc-link active">Cover</a>
+        <a href="index.html" class="toc-link">Cover</a>
         <a href="about.html" class="toc-link">About</a>
         <a href="education.html" class="toc-link">Education</a>
         <a href="experience.html" class="toc-link">Experience</a>
         <a href="projects.html" class="toc-link">Projects</a>
         <a href="blog.html" class="toc-link">Blog</a>
         <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
-        <a href="contact.html" class="toc-link">Contact</a>
-    </nav>
+        <a href="contact.html" class="toc-link active">Contact</a> </nav>
+
     <div class="book-wrapper">
         <div class="book-frame">
+
             <div class="left-page">
-                <h2 class="chapter-title">VII. Epilogue</h2>
-                <p>Thank you for reading Volume II of my journey. I am currently accepting new contracts for Q4 2025.</p>
-                <p>Whether you need a full system architecture overhaul or a pixel-perfect landing page, let's discuss how we can build something timeless together.</p>
-                <div style="margin-top: 40px; font-size: 1.5rem;">
-                    <a href="#" style="color: #333; margin-right: 20px;"><i class="fab fa-linkedin"></i></a>
-                    <a href="#" style="color: #333; margin-right: 20px;"><i class="fab fa-github"></i></a>
-                    <a href="#" style="color: #333; margin-right: 20px;"><i class="fas fa-envelope"></i></a>
-                    <a href="#" style="color: #333; margin-right: 20px;"><i class="fab fa-twitter"></i></a>
+                <h2 class="chapter-title reveal-text">VI. Send a Dispatch</h2>
+                <p class="intro-text reveal-text delay-1" style="margin-bottom: 50px;">Have a project in mind, a question, or just want to say hello? My inbox is open for opportunities and collaborations.</p>
+
+                <div style="margin-top: 40px;" class="reveal-text delay-2">
+                    <div class="contact-info-item">
+                        <div class="contact-icon-box"><i class="fas fa-envelope"></i></div>
+                        <div><span class="mono" style="font-size:0.7rem; display:block; color:#999;">EMAIL</span>hello@developer.com</div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-icon-box"><i class="fas fa-map-marker-alt"></i></div>
+                        <div><span class="mono" style="font-size:0.7rem; display:block; color:#999;">BASE</span>New York, USA</div>
+                    </div>
                 </div>
             </div>
-            <div class="right-page">
-                <h2 class="chapter-title">Send a Dispatch</h2>
-                <form onsubmit="event.preventDefault(); alert('Message sent successfully!');">
-                    <input type="text" placeholder="YOUR NAME" class="paper-input" required>
-                    <input type="email" placeholder="YOUR EMAIL" class="paper-input" required>
-                    <textarea rows="5" placeholder="MESSAGE..." class="paper-input" style="resize: none;" required></textarea>
 
-                    <button style="background: transparent; border: 2px solid #000; padding: 12px 30px; font-family: 'Space Mono'; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s;">
-                        Send Message
+            <div class="right-page" style="display: flex; flex-direction: column; justify-content: center;">
+                <form id="contactForm" class="reveal-text delay-2" style="background: #fff; padding: 40px; border: 1px solid #eee; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+                    <h3 style="margin-bottom: 25px; font-family:'Space Mono'; text-transform: uppercase; font-size: 1rem;">Transmission Form</h3>
+
+                    <input id="c_name" type="text" placeholder="NAME //" class="paper-input" required>
+                    <input id="c_email" type="email" placeholder="EMAIL //" class="paper-input" required>
+                    <textarea id="c_msg" rows="5" placeholder="MESSAGE //" class="paper-input" style="resize:none;" required></textarea>
+
+                    <button type="submit" class="submit-btn">
+                        TRANSMIT <i class="fas fa-paper-plane"></i>
                     </button>
                 </form>
             </div>
         </div>
+
         <div class="nav-bar">
             <a href="blog.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
-            <span class="mono">End of Journal</span>
+            <span class="mono">Contact</span>
             <a href="#" class="nav-btn disabled"><i class="fas fa-chevron-right"></i></a>
         </div>
     </div>
 
-    <!-- UI Components -->
     <div class="social-sidebar">
         <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
         <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-        <a href="glance.html" class="social-icon" style="background: var(--accent); color: white;"><i class="fas fa-bolt"></i></a>
+        <a href="#" class="social-icon fb"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-icon wa"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social-icon tw"><i class="fab fa-twitter"></i></a>
     </div>
-    <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
+
+    <button id="mobileToggle"><i class="fas fa-bars"></i></button>
     <div class="mobile-menu-overlay" id="mobileMenu">
         <a href="index.html" class="mobile-link">Home</a>
-        <a href="glance.html" class="mobile-link" style="color: var(--accent);">At A Glance</a>
+        <a href="about.html" class="mobile-link">About</a>
         <a href="projects.html" class="mobile-link">Projects</a>
-        <a href="blog.html" class="mobile-link">Blog</a>
-        <a href="contact.html" class="mobile-link">Contact</a>
+        <a href="contact.html" class="mobile-link active">Contact</a> <a href="dashboard.html" class="mobile-link" style="font-size:1rem; color:#ccc; margin-top: 20px;">Admin Login</a>
     </div>
-    <script>
-        const prevPageUrl = 'blog.html';
-        const nextPageUrl = null;
-    </script>
+
     <script src="script.js"></script>
+
+    <script>
+        const CONTACT_API = '../backend/contact_handler.php';
+
+        document.getElementById('contactForm').onsubmit = async(e) => {
+            e.preventDefault();
+
+            const btn = e.target.querySelector('button');
+            const originalBtnText = btn.innerHTML;
+
+            // Change button state to loading
+            btn.innerHTML = 'SENDING... <i class="fas fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+
+            const name = document.getElementById('c_name').value;
+            const email = document.getElementById('c_email').value;
+            const message = document.getElementById('c_msg').value;
+
+            try {
+                const response = await fetch(`${CONTACT_API}?action=send_message`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        message
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    alert('Message Sent Successfully!');
+                    e.target.reset(); // Clear form on success
+                } else {
+                    alert('Error: ' + (result.message || 'Failed to send message.'));
+                }
+
+            } catch (error) {
+                console.error("Submission Error:", error);
+                alert('Network error. Please try again later.');
+            } finally {
+                // Reset button state
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            }
+        };
+    </script>
 </body>
 
 </html>

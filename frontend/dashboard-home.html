@@ -3,75 +3,270 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Edit Home</title>
-    <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Home | Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script>
         if (!localStorage.getItem('auth')) window.location.href = 'login.html';
     </script>
     <style>
+         :root {
+            --sidebar-bg: #1e293b;
+            --sidebar-text: #94a3b8;
+            --main-bg: #f1f5f9;
+            --text-dark: #1e293b;
+            --card-bg: #ffffff;
+            --primary-color: #3b82f6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            padding: 20px;
-            background: #f4f4f4;
+            font-family: 'Inter', sans-serif;
+            background: var(--main-bg);
+            color: var(--text-dark);
+            padding: 40px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
         }
         
-        .box {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-        }
-        
-        input,
-        textarea {
+        .container {
             width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
+            max-width: 800px;
         }
         
-        button {
-            padding: 10px;
-            background: #333;
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        
+        .back-btn {
+            text-decoration: none;
+            color: #64748b;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+        
+        .back-btn:hover {
+            color: var(--primary-color);
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #475569;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+        
+        textarea.form-input {
+            resize: vertical;
+            height: 120px;
+        }
+        
+        .btn-save {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-color);
             color: white;
             border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
             cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-save:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+        }
+        
+        .preview-box {
+            margin-top: 20px;
+            text-align: center;
+            padding: 20px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 10px;
+            background: #f8fafc;
+        }
+        
+        .preview-img {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 20px;
+            }
+            .card {
+                padding: 25px;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="box">
-        <a href="dashboard.html">&larr; Back</a>
-        <h2>Edit Home Cover</h2>
-        <form id="homeForm">
-            <label>Volume Label</label><input name="volume_label" id="volume_label">
-            <label>Main Title (Use &lt;br&gt; for breaks)</label><input name="main_title" id="main_title">
-            <label>Subtitle (Your Name)</label><input name="subtitle" id="subtitle">
-            <label>Role</label><input name="role_text" id="role_text">
-            <label>Cover Avatar</label><input type="file" name="avatar_image">
-            <input type="hidden" name="existing_image" id="existing_image">
-            <button type="submit">Save</button>
-        </form>
+
+    <div class="container">
+        <div class="header">
+            <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+            <h1>Edit Home Page</h1>
+        </div>
+
+        <div class="card">
+            <form id="homeForm">
+                <div class="form-group">
+                    <label class="form-label">Volume Label (Top Left)</label>
+                    <input type="text" id="vol" class="form-input" placeholder="e.g. VOL. 1 // 2023-2024">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Main Title (Large Text)</label>
+                    <textarea id="main_title" class="form-input" placeholder="Can include HTML like <br>"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Subtitle (Above Role)</label>
+                    <input type="text" id="subtitle" class="form-input" placeholder="e.g. John Doe.">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Role Text (Monospace)</label>
+                    <input type="text" id="role_text" class="form-input" placeholder="e.g. Full Stack Developer & UI/UX Designer">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Avatar Image URL</label>
+                    <input type="text" id="avatar_url" class="form-input" placeholder="https://example.com/my-image.jpg" oninput="previewImage()">
+                    <div class="preview-box">
+                        <img id="imgPreview" class="preview-img" alt="Avatar Preview">
+                        <p id="noPreviewText" style="color: #94a3b8;">Image preview will appear here</p>
+                    </div>
+                </div>
+                <button type="submit" class="btn-save"><i class="fas fa-save"></i> Save Changes</button>
+            </form>
+        </div>
     </div>
+
     <script>
         const API = '../backend/home_handler.php';
-        fetch(`${API}?action=fetch`).then(r => r.json()).then(d => {
-            document.getElementById('volume_label').value = d.volume_label;
-            document.getElementById('main_title').value = d.main_title;
-            document.getElementById('subtitle').value = d.subtitle;
-            document.getElementById('role_text').value = d.role_text;
-            document.getElementById('existing_image').value = d.avatar_url;
-        });
+
+        // Load existing data
+        async function loadData() {
+            try {
+                const res = await fetch(`${API}?action=fetch`);
+                const data = await res.json();
+                if (data) {
+                    document.getElementById('vol').value = data.volume_label || '';
+                    document.getElementById('main_title').value = data.main_title || '';
+                    document.getElementById('subtitle').value = data.subtitle || '';
+                    document.getElementById('role_text').value = data.role_text || '';
+                    document.getElementById('avatar_url').value = data.avatar_url || '';
+                    previewImage();
+                }
+            } catch (e) {
+                console.error("Error loading data:", e);
+                alert("Failed to load existing data.");
+            }
+        }
+
+        // Image Preview
+        function previewImage() {
+            const url = document.getElementById('avatar_url').value;
+            const img = document.getElementById('imgPreview');
+            const txt = document.getElementById('noPreviewText');
+            if (url) {
+                img.src = url;
+                img.style.display = 'block';
+                txt.style.display = 'none';
+            } else {
+                img.style.display = 'none';
+                txt.style.display = 'block';
+            }
+        }
+
+        // Save data
         document.getElementById('homeForm').onsubmit = async(e) => {
             e.preventDefault();
-            await fetch(`${API}?action=update`, {
-                method: 'POST',
-                body: new FormData(e.target)
-            });
-            alert('Saved!');
+            const btn = e.target.querySelector('.btn-save');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            btn.disabled = true;
+
+            try {
+                await fetch(`${API}?action=update`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        volume_label: document.getElementById('vol').value,
+                        main_title: document.getElementById('main_title').value,
+                        subtitle: document.getElementById('subtitle').value,
+                        role_text: document.getElementById('role_text').value,
+                        avatar_url: document.getElementById('avatar_url').value
+                    })
+                });
+                alert('Home page updated successfully!');
+            } catch (e) {
+                console.error(e);
+                alert('Error updating data.');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         };
+
+        loadData();
     </script>
 </body>
 
