@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Home | Admin</title>
+    <title>Manage Home | Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script>
@@ -12,261 +12,238 @@
     </script>
     <style>
          :root {
-            --sidebar-bg: #1e293b;
-            --sidebar-text: #94a3b8;
-            --main-bg: #f1f5f9;
-            --text-dark: #1e293b;
-            --card-bg: #ffffff;
-            --primary-color: #3b82f6;
+            --primary: #3b82f6;
+            --bg: #f1f5f9;
+            --card: #ffffff;
         }
         
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
         
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--main-bg);
-            color: var(--text-dark);
-            padding: 40px;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
+            background: var(--bg);
+            padding: 20px;
+            color: #1e293b;
         }
         
         .container {
             width: 100%;
             max-width: 800px;
+            margin: 0 auto;
         }
         
         .header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
         .back-btn {
             text-decoration: none;
             color: #64748b;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.2s;
-        }
-        
-        .back-btn:hover {
-            color: var(--primary-color);
-        }
-        
-        .header h1 {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 0.9rem;
         }
         
         .card {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
         
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         .form-label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 600;
+            font-size: 0.9rem;
             color: #475569;
         }
         
         .form-input {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-family: inherit;
+            border-radius: 8px;
             font-size: 1rem;
-            transition: 0.3s;
+            transition: 0.2s;
         }
         
         .form-input:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            border-color: var(--primary);
         }
         
         textarea.form-input {
+            height: 100px;
             resize: vertical;
-            height: 120px;
         }
         
         .btn-save {
             width: 100%;
-            padding: 15px;
-            background: var(--primary-color);
+            padding: 14px;
+            background: var(--primary);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
         
-        .btn-save:hover {
-            background: #2563eb;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
-        }
-        
         .preview-box {
-            margin-top: 20px;
-            text-align: center;
+            margin-top: 15px;
             padding: 20px;
             border: 2px dashed #cbd5e1;
             border-radius: 10px;
+            text-align: center;
             background: #f8fafc;
         }
         
-        .preview-img {
-            max-width: 200px;
+        #imgPreview {
+            max-width: 100%;
+            height: auto;
             max-height: 200px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
             display: none;
             margin: 0 auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         
         @media (max-width: 600px) {
             body {
-                padding: 20px;
+                padding: 15px;
             }
             .card {
-                padding: 25px;
+                padding: 20px;
             }
             .header h1 {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
             }
         }
     </style>
 </head>
 
 <body>
-
     <div class="container">
         <div class="header">
-            <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
-            <h1>Edit Home Page</h1>
+            <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i> BACK TO HUB</a>
+            <h1>Cover Management</h1>
         </div>
-
         <div class="card">
             <form id="homeForm">
                 <div class="form-group">
-                    <label class="form-label">Volume Label (Top Left)</label>
-                    <input type="text" id="vol" class="form-input" placeholder="e.g. VOL. 1 // 2023-2024">
+                    <label class="form-label">Volume Label</label>
+                    <input type="text" id="vol" class="form-input" placeholder="e.g. VOL. 1 // 2026">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Main Title (Large Text)</label>
-                    <textarea id="main_title" class="form-input" placeholder="Can include HTML like <br>"></textarea>
+                    <label class="form-label">Main Title (HTML Allowed)</label>
+                    <textarea id="main_title" class="form-input"></textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Subtitle (Above Role)</label>
-                    <input type="text" id="subtitle" class="form-input" placeholder="e.g. John Doe.">
+                    <label class="form-label">Subtitle (Name)</label>
+                    <input type="text" id="subtitle" class="form-input">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Role Text (Monospace)</label>
-                    <input type="text" id="role_text" class="form-input" placeholder="e.g. Full Stack Developer & UI/UX Designer">
+                    <label class="form-label">Role Text</label>
+                    <input type="text" id="role_text" class="form-input">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Avatar Image URL</label>
-                    <input type="text" id="avatar_url" class="form-input" placeholder="https://example.com/my-image.jpg" oninput="previewImage()">
+                    <label class="form-label">Avatar Image (Upload New)</label>
+                    <input type="file" id="avatar_file" accept="image/*" class="form-input" onchange="previewFile(this)">
+                    <input type="hidden" id="avatar_url">
                     <div class="preview-box">
-                        <img id="imgPreview" class="preview-img" alt="Avatar Preview">
-                        <p id="noPreviewText" style="color: #94a3b8;">Image preview will appear here</p>
+                        <img id="imgPreview">
+                        <p id="prevText" style="color: #94a3b8; font-size: 0.85rem;">No file selected</p>
                     </div>
                 </div>
-                <button type="submit" class="btn-save"><i class="fas fa-save"></i> Save Changes</button>
+                <button type="submit" class="btn-save" id="saveBtn"><i class="fas fa-save"></i> Save Changes</button>
             </form>
         </div>
     </div>
-
     <script>
         const API = '../backend/home_handler.php';
 
-        // Load existing data
-        async function loadData() {
+        function previewFile(input) {
+            const img = document.getElementById('imgPreview');
+            const txt = document.getElementById('prevText');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    txt.style.display = 'none';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        async function load() {
             try {
                 const res = await fetch(`${API}?action=fetch`);
-                const data = await res.json();
-                if (data) {
-                    document.getElementById('vol').value = data.volume_label || '';
-                    document.getElementById('main_title').value = data.main_title || '';
-                    document.getElementById('subtitle').value = data.subtitle || '';
-                    document.getElementById('role_text').value = data.role_text || '';
-                    document.getElementById('avatar_url').value = data.avatar_url || '';
-                    previewImage();
+                const d = await res.json();
+                if (d) {
+                    document.getElementById('vol').value = d.volume_label || '';
+                    document.getElementById('main_title').value = d.main_title || '';
+                    document.getElementById('subtitle').value = d.subtitle || '';
+                    document.getElementById('role_text').value = d.role_text || '';
+                    document.getElementById('avatar_url').value = d.avatar_url || '';
+                    if (d.avatar_url) {
+                        const img = document.getElementById('imgPreview');
+                        img.src = '../' + d.avatar_url; // Up one level from dashboard-home
+                        img.style.display = 'block';
+                        document.getElementById('prevText').style.display = 'none';
+                    }
                 }
             } catch (e) {
-                console.error("Error loading data:", e);
-                alert("Failed to load existing data.");
+                console.error(e);
             }
         }
-
-        // Image Preview
-        function previewImage() {
-            const url = document.getElementById('avatar_url').value;
-            const img = document.getElementById('imgPreview');
-            const txt = document.getElementById('noPreviewText');
-            if (url) {
-                img.src = url;
-                img.style.display = 'block';
-                txt.style.display = 'none';
-            } else {
-                img.style.display = 'none';
-                txt.style.display = 'block';
-            }
-        }
-
-        // Save data
         document.getElementById('homeForm').onsubmit = async(e) => {
             e.preventDefault();
-            const btn = e.target.querySelector('.btn-save');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            const btn = document.getElementById('saveBtn');
             btn.disabled = true;
-
+            btn.innerText = 'SAVING...';
+            const fd = new FormData(); // FormData required for file upload
+            fd.append('volume_label', document.getElementById('vol').value);
+            fd.append('main_title', document.getElementById('main_title').value);
+            fd.append('subtitle', document.getElementById('subtitle').value);
+            fd.append('role_text', document.getElementById('role_text').value);
+            fd.append('existing_image', document.getElementById('avatar_url').value);
+            const fileInput = document.getElementById('avatar_file');
+            if (fileInput.files[0]) fd.append('avatar_image', fileInput.files[0]);
             try {
-                await fetch(`${API}?action=update`, {
+                const response = await fetch(`${API}?action=update`, {
                     method: 'POST',
-                    body: JSON.stringify({
-                        volume_label: document.getElementById('vol').value,
-                        main_title: document.getElementById('main_title').value,
-                        subtitle: document.getElementById('subtitle').value,
-                        role_text: document.getElementById('role_text').value,
-                        avatar_url: document.getElementById('avatar_url').value
-                    })
+                    body: fd
                 });
-                alert('Home page updated successfully!');
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert('Home page updated!');
+                    load();
+                }
             } catch (e) {
                 console.error(e);
-                alert('Error updating data.');
             } finally {
-                btn.innerHTML = originalText;
                 btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
             }
         };
-
-        loadData();
+        load();
     </script>
 </body>
 

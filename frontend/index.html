@@ -7,9 +7,52 @@
     <title>Cover | Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background: var(--primary);
+        }
+        
+        .book-frame {
+            background: rgba(253, 251, 246, 0.9) !important;
+            backdrop-filter: blur(10px);
+        }
+        
+        #av {
+            filter: grayscale(100%) contrast(1.1);
+            transition: 0.5s ease;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        #av:hover {
+            filter: grayscale(0%);
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 12px rgba(233, 30, 99, 0.25);
+        }
+        
+        @media (max-width: 900px) {
+            h1 {
+                font-size: 2.8rem !important;
+                line-height: 1.1 !important;
+            }
+            .left-page {
+                text-align: center !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <canvas id="bgCanvas"></canvas>
     <nav class="left-sidebar">
         <div class="sidebar-header">INDEX</div>
         <a href="index.html" class="toc-link active">Cover</a>
@@ -21,7 +64,6 @@
         <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
         <a href="contact.html" class="toc-link">Contact</a>
     </nav>
-
     <div class="book-wrapper">
         <div class="book-frame">
             <div class="left-page" style="text-align: right; display: flex; flex-direction: column; justify-content: center;">
@@ -33,8 +75,8 @@
                     <h2 id="sub" style="margin-bottom: 5px;"></h2>
                     <p class="mono" id="role"></p>
                 </div>
-                <div class="reveal-text delay-3" style="width: 80%; max-width:400px; margin-top: 30px; border: 8px solid #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.2); transform: rotate(-2deg);">
-                    <img id="av" src="" style="width: 100%; display: block; background:#eee; min-height: 300px;" alt="Cover Avatar">
+                <div class="reveal-text delay-3" style="width: 85%; max-width:400px; margin-top: 30px; border: 8px solid #fff; box-shadow: 0 15px 35px rgba(0,0,0,0.2); transform: rotate(-2deg);">
+                    <img id="av" src="" style="width: 100%; display: block; background:#eee; min-height: 350px;" alt="Cover Avatar">
                 </div>
             </div>
         </div>
@@ -44,7 +86,6 @@
             <a href="about.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
         </div>
     </div>
-
     <div class="social-sidebar">
         <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
         <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
@@ -52,7 +93,6 @@
         <a href="#" class="social-icon wa"><i class="fab fa-whatsapp"></i></a>
         <a href="#" class="social-icon tw"><i class="fab fa-twitter"></i></a>
     </div>
-
     <button id="mobileToggle"><i class="fas fa-bars"></i></button>
     <div class="mobile-menu-overlay" id="mobileMenu">
         <a href="index.html" class="mobile-link active">Home</a>
@@ -61,7 +101,6 @@
         <a href="contact.html" class="mobile-link">Contact</a>
         <a href="dashboard.html" class="mobile-link" style="font-size:1rem; color:#ccc; margin-top: 20px;">Admin Login</a>
     </div>
-
     <script src="script.js"></script>
     <script>
         const API = '../backend/home_handler.php';
@@ -74,12 +113,61 @@
                 document.getElementById('title').innerHTML = d.main_title;
                 document.getElementById('sub').innerText = d.subtitle;
                 document.getElementById('role').innerText = d.role_text;
-                document.getElementById('av').src = d.avatar_url ? d.avatar_url + '?t=' + Date.now() : 'https://placehold.co/400x500/e0e0e0/999999?text=No+Image';
+                // Correct pathing: images are at root, html is in /frontend
+                const fullPath = d.avatar_url ? '../' + d.avatar_url : '';
+                document.getElementById('av').src = fullPath ? (fullPath + '?t=' + Date.now()) : 'https://placehold.co/400x500/e0e0e0/999999?text=No+Image';
             } catch (e) {
                 console.error(e);
             }
         }
         load();
+
+        // --- RESPONSIVE MESH ANIMATION ---
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let points = [];
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            points = [];
+            const count = window.innerWidth < 800 ? 35 : 75; // Adaptive node count
+            for (let i = 0; i < count; i++) points.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'rgba(233, 30, 99, 0.12)'; // Pink accent
+            ctx.fillStyle = 'rgba(233, 30, 99, 0.15)';
+            points.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
+                ctx.fill();
+                points.forEach(p2 => {
+                    let d = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (d < 160) {
+                        ctx.lineWidth = 1 - d / 160;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+            requestAnimationFrame(animate);
+        }
+        window.onresize = init;
+        init();
+        animate();
     </script>
 </body>
 

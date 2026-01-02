@@ -357,11 +357,11 @@ a {
     }
     /* Book Structure Adjustments */
     .book-wrapper {
-        padding: 0;
         padding-top: 70px;
         /* Make space for top toggle button */
         height: auto;
         min-height: 100vh;
+        overflow: visible !important;
     }
     .book-frame {
         flex-direction: column;
