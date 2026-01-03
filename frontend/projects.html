@@ -3,221 +3,55 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects | Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* --- PAGE SPECIFIC STYLES (Project Grid) --- */
-        
-        .project-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 40px;
-        }
-        
-        .project-card {
-            border: 1px solid #eee;
-            padding: 25px;
-            transition: all 0.3s ease;
-            background: #fff;
-            display: flex;
-            flex-direction: column;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-        }
-        
-        .project-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(142, 68, 173, 0.1);
-        }
-        
-        .project-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: #f0f0f0;
-            margin-bottom: 20px;
-            border-radius: 4px;
-        }
-        
-        .project-title {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-        }
-        
-        .project-tags {
-            margin-bottom: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        
-        .tag-pill {
-            display: inline-block;
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            background: #f4f4f4;
-            padding: 4px 10px;
-            border-radius: 20px;
-            color: #666;
-            text-transform: uppercase;
-        }
-        
-        .project-desc {
-            color: #555;
-            margin-bottom: 25px;
-            flex-grow: 1;
-            /* Ensures links pushed to bottom */
-        }
-        
-        .project-links {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.9rem;
-            display: flex;
-            gap: 20px;
-        }
-        
-        .project-links a {
-            color: var(--text-dark);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-        
-        .project-links a:hover {
-            color: var(--accent);
-        }
-        
-        .project-links a.primary {
-            color: var(--accent);
-        }
-    </style>
 </head>
 
 <body>
-
-    <nav class="left-sidebar">
-        <div class="sidebar-header">INDEX</div>
-        <a href="index.html" class="toc-link">Cover</a>
-        <a href="about.html" class="toc-link">About</a>
-        <a href="education.html" class="toc-link">Education</a>
-        <a href="experience.html" class="toc-link">Experience</a>
-        <a href="projects.html" class="toc-link active">Projects</a> <a href="blog.html" class="toc-link">Blog</a>
-        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
-        <a href="contact.html" class="toc-link">Contact</a>
-    </nav>
-
-    <div class="book-wrapper">
-        <div class="book-frame">
-
-            <div class="left-page">
-                <h2 class="chapter-title reveal-text">IV. Selected Works</h2>
-                <p class="intro-text reveal-text delay-1" style="margin-bottom: 50px;">A curated selection of web applications, websites, and experiments cobbled together with code and caffeine.</p>
-
-                <div id="projectsLeft" class="project-grid reveal-text delay-2">
-                    <p class="mono">Loading projects...</p>
-                </div>
-            </div>
-
-            <div class="right-page" style="padding-top: 150px;">
-                <div id="projectsRight" class="project-grid reveal-text delay-3">
-                    <p class="mono">Loading...</p>
-                </div>
-
-                <div style="margin-top: 60px; text-align: center; opacity: 0.7;" class="mono reveal-text delay-4">
-                    <a href="https://github.com" target="_blank" style="display: inline-flex; align-items: center; gap: 10px;">
-                        View full archive on GitHub <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
+    <div class="main-stage">
+        <div class="glass-panel">
+            <nav class="panel-nav">
+                <div class="nav-brand">PORTFOLIO V3</div>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="education.html" class="nav-link">Education</a>
+                <a href="experience.html" class="nav-link">Experience</a>
+                <a href="projects.html" class="nav-link active">Projects</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="glance.html" class="nav-link">Resume</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+            <div class="panel-body">
+                <h2 class="hacker-text" data-value="SELECTED WORKS" onmouseover="window.hackText(this)" style="font-size:3rem; margin-bottom:50px;">SELECTED WORKS</h2>
+                <div id="projectsGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:30px;"></div>
             </div>
         </div>
-
-        <div class="nav-bar">
-            <a href="experience.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
-            <span class="mono">Projects</span>
-            <a href="blog.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
-        </div>
     </div>
-
-    <div class="social-sidebar">
-        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="social-icon fb"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="social-icon wa"><i class="fab fa-whatsapp"></i></a>
-        <a href="#" class="social-icon tw"><i class="fab fa-twitter"></i></a>
-    </div>
-
+    <div class="social-sidebar"><a href="#" class="social-icon"><i class="fab fa-github"></i></a></div>
     <button id="mobileToggle"><i class="fas fa-bars"></i></button>
-    <div class="mobile-menu-overlay" id="mobileMenu">
-        <a href="index.html" class="mobile-link">Home</a>
-        <a href="about.html" class="mobile-link">About</a>
-        <a href="projects.html" class="mobile-link active">Projects</a> <a href="contact.html" class="mobile-link">Contact</a>
-        <a href="dashboard.html" class="mobile-link" style="font-size:1rem; color:#ccc; margin-top: 20px;">Admin Login</a>
-    </div>
-
     <script src="script.js"></script>
-
     <script>
-        const API = '../backend/projects_handler.php';
-
         async function loadProjects() {
             try {
-                const res = await fetch(`${API}?action=fetch_all`);
+                const res = await fetch(`../backend/projects_handler.php?action=fetch_all`);
                 const data = await res.json();
-
-                const left = document.getElementById('projectsLeft');
-                const right = document.getElementById('projectsRight');
-
-                // Clear loading indicators
-                left.innerHTML = '';
-                right.innerHTML = '';
-
-                if (data.length === 0) {
-                    left.innerHTML = '<p class="mono">No projects found.</p>';
-                    return;
-                }
-
-                // Distribute projects between left and right columns
-                data.forEach((p, index) => {
-                            // Create tag pills HTML
-                            const tagsHTML = p.tags ? p.tags.split(',').map(t => `<span class="tag-pill">${t.trim()}</span>`).join('') : '';
-
-                            // Use placeholder if image_url is empty, add timestamp to prevent caching if present
-                            const imgSrc = p.image_url ? p.image_url + '?t=' + Date.now() : 'https://placehold.co/400x300/eee/ccc?text=Project+Image';
-
-                            const projectCardHTML = `
-                        <div class="project-card">
-                            <img src="${imgSrc}" class="project-img" alt="${p.title}">
-                            <h3 class="project-title">${p.title}</h3>
-                            <div class="project-tags">
-                                ${tagsHTML}
-                            </div>
-                            <p class="project-desc">${p.description}</p>
-                            <div class="project-links">
-                                ${p.demo_link ? `<a href="${p.demo_link}" target="_blank" class="primary"><i class="fas fa-external-link-alt"></i> Live Demo</a>` : ''}
-                                ${p.repo_link ? `<a href="${p.repo_link}" target="_blank"><i class="fab fa-github"></i> Code</a>` : ''}
-                            </div>
+                document.getElementById('projectsGrid').innerHTML = data.map(p => `
+                    <div class="card-3d">
+                        <img src="${p.image_url || 'https://placehold.co/400'}" style="width:100%; height:200px; object-fit:cover; border-radius:15px; margin-bottom:20px;">
+                        <h3 style="margin-bottom:10px; font-size:1.4rem;">${p.title}</h3>
+                        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;">
+                            ${p.tags ? p.tags.split(',').map(t => `<span class="mono" style="font-size:0.7rem; background:rgba(255,255,255,0.1); padding:4px 10px; border-radius:8px;">${t.trim()}</span>`).join('') : ''}
                         </div>
-                    `;
-                    
-                    // Even index goes left, odd index goes right
-                    if (index % 2 === 0) {
-                        left.innerHTML += projectCardHTML;
-                    } else {
-                        right.innerHTML += projectCardHTML;
-                    }
-                });
-
-            } catch (err) {
-                console.error("Error loading projects:", err);
-                document.getElementById('projectsLeft').innerHTML = '<p style="color:red;">Error loading projects.</p>';
-            }
+                        <p style="opacity:0.7; font-size:0.9rem; margin-bottom:25px;">${p.description}</p>
+                        <div style="display:flex; gap:12px;">
+                            ${p.demo_link ? `<button class="btn-google btn-blue" onclick="window.open('${p.demo_link}')">Demo</button>` : ''}
+                            ${p.repo_link ? `<button class="btn-google btn-green" onclick="window.open('${p.repo_link}')">Code</button>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            } catch(e) {}
         }
-        
         loadProjects();
     </script>
 </body>

@@ -1,19 +1,18 @@
 /* =========================================
-   1. GLOBAL VARIABLES & RESET
+   1. CORE VARIABLES & RESET
    ========================================= */
 
 :root {
-    --primary: #221e1c;
-    /* Dark Background */
-    --paper: #fdfbf6;
-    /* Light Paper Color */
-    --accent: #e91e63;
-    /* Neon Pink Accent */
-    --text-dark: #333;
-    /* Standard Text */
-    --text-light: #fff;
-    /* Light Text */
-    --sidebar-width: 250px;
+    --bg-deep: #050505;
+    --glass: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.08);
+    --neon-blue: #00d2ff;
+    --neon-pink: #ff007c;
+    /* Google Brand Palette */
+    --g-blue: #4285F4;
+    --g-red: #EA4335;
+    --g-yellow: #FBBC05;
+    --g-green: #34A853;
 }
 
 * {
@@ -22,282 +21,332 @@
     box-sizing: border-box;
 }
 
-html,
 body {
-    height: 100%;
-    /* Ensure full height */
-}
-
-body {
-    font-family: 'Playfair Display', serif;
-    background-color: var(--primary);
-    color: var(--text-dark);
-    /* On desktop, prevent outer scrolling, let book frame handle it */
-    overflow: hidden;
-    display: flex;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-deep);
+    color: #e0e0e0;
+    overflow-x: hidden;
+    min-height: 100vh;
 }
 
 
 /* =========================================
-   2. TYPOGRAPHY & UTILITIES
+   2. IMMERSIVE 3D BACKGROUND ENGINE
    ========================================= */
 
-h1,
-h2,
-h3 {
-    margin-bottom: 15px;
-    font-weight: 700;
-}
-
-p {
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-    transition: 0.3s;
-}
-
-
-/* Monospace Font Utility */
-
-.mono {
-    font-family: 'Space Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.9rem;
-    color: #666;
-}
-
-
-/* Accent Color Utility */
-
-.accent {
-    color: var(--accent) !important;
-}
-
-
-/* Neon Glow Effect */
-
-.neon-text {
-    text-shadow: 0 0 2px var(--accent), 0 0 15px rgba(233, 30, 99, 0.6);
-}
-
-
-/* =========================================
-   3. DESKTOP LAYOUT (Default > 900px)
-   ========================================= */
-
-
-/* --- 3a. The Sidebar (Left Navigation) --- */
-
-.left-sidebar {
-    width: var(--sidebar-width);
-    background: var(--primary);
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    color: var(--text-light);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
-    z-index: 10;
-    flex-shrink: 0;
-}
-
-.sidebar-header {
-    font-family: 'Space Mono', monospace;
-    margin-bottom: 40px;
-    opacity: 0.5;
-    letter-spacing: 2px;
-}
-
-.toc-link {
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 15px;
-    display: block;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.9rem;
-}
-
-.toc-link:hover,
-.toc-link.active {
-    color: var(--text-light);
-    padding-left: 10px;
-    font-weight: bold;
-}
-
-
-/* --- 3b. The Main Book Area --- */
-
-.book-wrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 40px;
-    perspective: 1500px;
-    /* Enables 3D effect */
-    height: 100vh;
-    overflow: hidden;
-}
-
-.book-frame {
-    flex: 1;
-    background: var(--paper);
-    display: flex;
-    /* Side-by-side pages on desktop */
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    transform-style: preserve-3d;
-    /* Required for tilt js */
-    transition: transform 0.1s ease-out;
-    border-radius: 4px;
-}
-
-.left-page,
-.right-page {
-    flex: 1;
-    padding: 50px;
-    overflow-y: auto;
-    /* Internal scrolling */
-    position: relative;
-}
-
-.left-page {
-    border-right: 1px solid #e0e0e0;
-    background: linear-gradient(to right, #f4f1ea, var(--paper) 15%);
-}
-
-.chapter-title {
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-    position: relative;
-}
-
-.chapter-title::after {
-    content: '';
-    display: block;
-    width: 50px;
-    height: 3px;
-    background: var(--accent);
-    margin-top: 15px;
-}
-
-
-/* --- 3c. Bottom Navigation Bar --- */
-
-.nav-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 0;
-    margin-top: 20px;
-    color: rgba(255, 255, 255, 0.6);
-    flex-shrink: 0;
-}
-
-.nav-btn {
-    color: var(--text-light);
-    font-size: 1.2rem;
-    padding: 10px 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.nav-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--text-light);
-}
-
-.nav-btn.disabled {
-    opacity: 0.3;
-    pointer-events: none;
-}
-
-
-/* --- 3d. Floating Social Icons (ALWAYS VISIBLE) --- */
-
-.social-sidebar {
-    position: fixed;
-    right: 30px;
-    bottom: 300px;
-    display: flex;
-    flex-direction: column;
-    /* Stack vertically */
-    gap: 15px;
-    z-index: 200;
-    /* High z-index to stay on top */
-    background: rgba(34, 30, 28, 0.8);
-    /* Slight dark background for readability */
-    padding: 15px 10px;
-    border-radius: 30px;
-    backdrop-filter: blur(5px);
-}
-
-.social-icon {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 1.3rem;
-    transition: 0.3s;
-    text-align: center;
-}
-
-.social-icon:hover {
-    color: var(--accent);
-    transform: scale(1.1);
-}
-
-
-/* Specific Brand Colors on Hover */
-
-.social-icon.fb:hover {
-    color: #1877F2;
-}
-
-.social-icon.wa:hover {
-    color: #25D366;
-}
-
-.social-icon.tw:hover {
-    color: #1DA1F2;
-}
-
-
-/* CRITICAL: HIDE MOBILE MENU TOGGLE ON DESKTOP */
-
-#mobileToggle {
-    display: none;
-}
-
-
-/* =========================================
-   4. MOBILE MENU STYLES (Centralized)
-   ========================================= */
-
-.mobile-menu-overlay {
+.bubbles-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
-    background: rgba(34, 30, 28, 0.98);
-    /* Dark background */
-    z-index: 300;
-    /* High z-index to cover everything */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 25px;
-    /* Hidden state */
-    opacity: 0;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    background: radial-gradient(circle at 50% 50%, #111 0%, #000 100%);
+    perspective: 1000px;
+    /* Essential for 3D feel */
 }
 
 
-/* Class added by JS to show menu */
+/* Texture Overlay */
+
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1));
+    background-size: 100% 4px;
+    opacity: 0.25;
+}
+
+.bubble {
+    position: absolute;
+    bottom: -150px;
+    border-radius: 50%;
+    /* 3D Orb Gradient */
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), transparent 70%), var(--bubble-color);
+    box-shadow: 0 0 30px var(--bubble-glow);
+    animation: floatUp 25s infinite ease-in-out;
+    opacity: 0;
+    /* Start invisible */
+}
+
+
+/* Complex 3D Floating Path */
+
+@keyframes floatUp {
+    0% {
+        transform: translate3d(0, 0, 0) scale(0.5);
+        opacity: 0;
+    }
+    20% {
+        opacity: var(--max-opacity);
+    }
+    50% {
+        transform: translate3d(var(--sway), -50vh, 100px) scale(1.2);
+        opacity: var(--max-opacity);
+    }
+    80% {
+        opacity: var(--max-opacity);
+    }
+    100% {
+        transform: translate3d(0, -120vh, -200px) scale(0.5);
+        opacity: 0;
+    }
+}
+
+
+/* =========================================
+   3. THE GLASS STAGE (Desktop Layout)
+   ========================================= */
+
+.main-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    perspective: 2000px;
+    padding: 40px;
+}
+
+.glass-panel {
+    width: 100%;
+    max-width: 1400px;
+    height: 85vh;
+    background: var(--glass);
+    backdrop-filter: blur(40px);
+    border: 1px solid var(--border);
+    border-radius: 32px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8), inset 0 0 60px rgba(255, 255, 255, 0.02);
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+    overflow: hidden;
+}
+
+
+/* Sidebar */
+
+.panel-nav {
+    padding: 60px 35px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.nav-brand {
+    font-family: 'Space Mono';
+    color: var(--neon-pink);
+    font-weight: 800;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    letter-spacing: 3px;
+}
+
+.nav-link {
+    color: #999;
+    text-decoration: none;
+    font-family: 'Space Mono';
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    transition: 0.3s;
+    padding: 12px 18px;
+    border-radius: 12px;
+    letter-spacing: 1px;
+    display: block;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    border-left: 3px solid var(--neon-blue);
+    padding-left: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Content Area */
+
+.panel-body {
+    padding: 60px;
+    overflow-y: auto;
+    position: relative;
+    scrollbar-width: thin;
+    scrollbar-color: var(--neon-blue) transparent;
+}
+
+.panel-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.panel-body::-webkit-scrollbar-thumb {
+    background: var(--neon-blue);
+    border-radius: 10px;
+}
+
+
+/* =========================================
+   4. UI COMPONENTS (Buttons, Cards, Text)
+   ========================================= */
+
+.hacker-text {
+    font-family: 'Space Mono', monospace;
+    color: #fff;
+}
+
+.mono {
+    font-family: 'Space Mono', monospace;
+}
+
+.neon-text {
+    color: var(--neon-blue);
+    text-shadow: 0 0 15px rgba(0, 210, 255, 0.6);
+}
+
+
+/* 3D Cards */
+
+.card-3d {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 35px;
+    transition: 0.4s;
+    position: relative;
+    /* Staggered Animation Default */
+    opacity: 0;
+    animation: fadeSlideUp 0.8s forwards;
+}
+
+.card-3d:hover {
+    transform: translateY(-8px) scale(1.01);
+    border-color: var(--neon-blue);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 210, 255, 0.1);
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Google Buttons */
+
+.btn-google {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-blue {
+    background: var(--g-blue);
+}
+
+.btn-red {
+    background: var(--g-red);
+}
+
+.btn-yellow {
+    background: var(--g-yellow);
+    color: #000;
+}
+
+.btn-green {
+    background: var(--g-green);
+}
+
+.btn-google:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+
+/* Floating Socials */
+
+.social-sidebar {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 100;
+    padding: 25px 15px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50px;
+    border: 1px solid var(--border);
+    backdrop-filter: blur(15px);
+}
+
+.social-icon {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1.4rem;
+    transition: 0.3s;
+}
+
+.social-icon:hover {
+    color: var(--neon-pink);
+    transform: scale(1.2);
+}
+
+
+/* Mobile Menu */
+
+#mobileToggle {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 200;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--neon-blue);
+    color: var(--neon-blue);
+    padding: 12px;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+}
+
+.mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 5, 5, 0.98);
+    z-index: 190;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.4s;
+}
 
 .mobile-menu-overlay.open {
     opacity: 1;
@@ -305,140 +354,69 @@ a {
 }
 
 .mobile-link {
-    font-family: 'Playfair Display', serif;
     font-size: 1.8rem;
-    color: #fdfbf6;
-    /* Light text */
+    color: #fff;
     text-decoration: none;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     transition: 0.3s;
 }
 
-.mobile-link:hover,
-.mobile-link.active {
-    color: var(--accent) !important;
-    /* Accent color for active/hover */
+.mobile-link:hover {
+    color: var(--neon-blue);
+    letter-spacing: 4px;
 }
 
 
 /* =========================================
-   5. MOBILE LAYOUT OVERRIDES (< 900px)
+   5. FULL RESPONSIVENESS (MOBILE/TABLET)
    ========================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
     body {
-        flex-direction: column;
-        overflow: auto;
-        /* Allow scrolling on mobile */
+        overflow-y: auto;
+        height: auto;
+        display: block;
     }
-    /* Hide Desktop Sidebar */
-    .left-sidebar {
-        display: none !important;
+    .main-stage {
+        padding: 15px;
+        display: block;
+        height: auto;
+        margin-top: 80px;
+        /* Space for mobile header */
+        perspective: none;
+        /* Disable 3D on mobile for performance */
     }
-    /* Show Mobile Toggle Button on the RIGHT */
+    .glass-panel {
+        grid-template-columns: 1fr;
+        height: auto;
+        transform: none !important;
+        /* Lock 3D tilt */
+        border-radius: 20px;
+    }
+    .panel-nav {
+        display: none;
+    }
+    /* Hide Sidebar */
     #mobileToggle {
         display: block;
-        /* Visible now */
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        /* Moved to the right */
-        z-index: 301;
-        /* Must be higher than menu overlay */
-        background: #fff;
-        border: none;
-        color: var(--accent);
-        font-size: 1.5rem;
-        padding: 10px 12px;
-        border-radius: 4px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
     }
-    /* Book Structure Adjustments */
-    .book-wrapper {
-        padding-top: 70px;
-        /* Make space for top toggle button */
+    /* Show Toggle */
+    .panel-body {
+        padding: 40px 25px;
         height: auto;
-        min-height: 100vh;
-        overflow: visible !important;
-    }
-    .book-frame {
-        flex-direction: column;
-        /* Stack pages */
-        box-shadow: none;
-        transform: none !important;
-        /* Disable 3D */
-        border-radius: 0;
         overflow: visible;
     }
-    .left-page,
-    .right-page {
-        padding: 40px 25px;
-        border: none;
-        background: var(--paper);
-        flex: none;
+    .social-sidebar {
+        display: none;
+        /* Hide floating socials on mobile to save screen space */
     }
+    /* Adjust Fonts for Mobile */
     h1 {
         font-size: 3rem !important;
     }
-    .chapter-title {
-        font-size: 2rem;
-        margin-top: 0;
-    }
-    /* Bottom Nav Bar sticks to bottom */
-    .nav-bar {
-        position: sticky;
-        bottom: 0;
-        background: var(--paper);
-        border-top: 1px solid #e0e0e0;
-        padding: 15px 20px;
-        color: var(--text-dark);
-        z-index: 100;
-    }
-    .nav-btn {
-        color: var(--text-dark);
-        border-color: #ccc;
-    }
-    /* Adjust Social Sidebar position for mobile */
-    .social-sidebar {
-        right: 15px;
-        bottom: 80px;
-        /* Move up slightly to avoid nav bar overlap if needed */
-        padding: 10px 8px;
-    }
-}
-
-
-/* =========================================
-   6. ANIMATIONS
-   ========================================= */
-
-.reveal-text {
-    opacity: 0;
-    transform: translateY(30px);
-    animation: fadeUp 0.10s forwards;
-}
-
-.delay-1 {
-    animation-delay: 0.2s;
-}
-
-.delay-2 {
-    animation-delay: 0.4s;
-}
-
-.delay-3 {
-    animation-delay: 0.6s;
-}
-
-.delay-4 {
-    animation-delay: 0.8s;
-}
-
-@keyframes fadeUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    h2 {
+        font-size: 2.2rem !important;
     }
 }

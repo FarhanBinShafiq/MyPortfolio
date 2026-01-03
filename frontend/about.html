@@ -7,251 +7,63 @@
     <title>About | Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* --- PAGE SPECIFIC STYLES (Vitals & Services) --- */
-        /* These styles are specific to the content structure of this page */
-        /* Vitals Grid (Right Page) */
-        
-        .vitals-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .vital-box {
-            display: flex;
-            align-items: center;
-            background: #fff;
-            border: 1px solid #eee;
-            padding: 15px 20px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
-        }
-        
-        .vital-box:hover {
-            transform: translateX(5px);
-            border-color: var(--accent);
-            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.1);
-        }
-        
-        .vital-icon-box {
-            width: 40px;
-            height: 40px;
-            background: rgba(142, 68, 173, 0.1);
-            color: var(--accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-size: 1.1rem;
-        }
-        
-        .vital-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            color: #888;
-            margin-bottom: 3px;
-            display: block;
-        }
-        
-        .vital-data {
-            font-family: 'Playfair Display', serif;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #333;
-        }
-        /* Services Grid (Right Page) */
-        
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .service-card {
-            background: #f9f9f9;
-            border: 1px solid #eee;
-            padding: 15px 10px;
-            text-align: center;
-            border-radius: 4px;
-            transition: 0.2s;
-        }
-        
-        .service-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-3px);
-            background: #fff;
-        }
-        
-        .s-icon {
-            font-size: 1.2rem;
-            color: #888;
-            margin-bottom: 8px;
-            display: block;
-        }
-        
-        .service-card:hover .s-icon {
-            color: var(--accent);
-        }
-        
-        .s-title {
-            font-family: 'Space Mono';
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            color: #333;
-        }
-        /* Responsive override for services grid */
-        
-        @media (max-width: 900px) {
-            .service-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-    </style>
 </head>
 
 <body>
-
-    <nav class="left-sidebar">
-        <div class="sidebar-header">INDEX</div>
-        <a href="index.html" class="toc-link">Cover</a>
-        <a href="about.html" class="toc-link active">About</a> <a href="education.html" class="toc-link">Education</a>
-        <a href="experience.html" class="toc-link">Experience</a>
-        <a href="projects.html" class="toc-link">Projects</a>
-        <a href="blog.html" class="toc-link">Blog</a>
-        <a href="glance.html" class="toc-link" style="color: var(--accent);">Resume</a>
-        <a href="contact.html" class="toc-link">Contact</a>
-    </nav>
-
-    <div class="book-wrapper">
-        <div class="book-frame">
-
-            <div class="left-page">
-                <div style="border: 1px solid #ddd; padding: 8px; background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: rotate(2deg); margin-bottom: 20px; max-width: 250px; margin-left: auto; margin-right: auto;" class="reveal-text delay-1">
-                    <img id="displayImage" src="" style="width: 100%; display: block; min-height: 200px; background: #eee;" alt="Profile">
-                </div>
-
-                <h2 class="chapter-title reveal-text delay-2">I. About Me</h2>
-
-                <p class="reveal-text delay-3" id="displayIntro">Loading intro...</p>
-                <p class="reveal-text delay-4" id="displayBio">Loading bio...</p>
-            </div>
-
-            <div class="right-page">
-
-                <div class="reveal-text delay-2">
-                    <h3 class="mono">Vitals</h3>
-                    <div class="vitals-grid">
-                        <div class="vital-box">
-                            <div class="vital-icon-box"><i class="fas fa-map-marker-alt"></i></div>
-                            <div class="vital-content">
-                                <span class="vital-label">Current Base</span>
-                                <span class="vital-data" id="displayResidence">Loading...</span>
-                            </div>
+    <div class="main-stage">
+        <div class="glass-panel">
+            <nav class="panel-nav">
+                <div class="nav-brand">PORTFOLIO V3</div>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link active">About</a>
+                <a href="education.html" class="nav-link">Education</a>
+                <a href="experience.html" class="nav-link">Experience</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+                <a href="glance.html" class="nav-link">Resume</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+            <div class="panel-body">
+                <h2 class="hacker-text" data-value="ABOUT ME" onmouseover="window.hackText(this)" style="font-size:3rem; margin-bottom:40px; padding-left:20px; border-left:6px solid var(--neon-blue);">ABOUT ME</h2>
+                <div style="display:grid; grid-template-columns: 1.5fr 1fr; gap:50px;">
+                    <div>
+                        <div style="margin-bottom:30px; width:fit-content; border:1px solid var(--neon-pink); padding:8px; border-radius:20px; transform:rotate(-2deg);">
+                            <img id="displayImage" src="" style="width:200px; border-radius:15px;">
                         </div>
-                        <div class="vital-box">
-                            <div class="vital-icon-box"><i class="fas fa-briefcase"></i></div>
-                            <div class="vital-content">
-                                <span class="vital-label">Experience</span>
-                                <span class="vital-data" id="displayExperience">Loading...</span>
-                            </div>
-                        </div>
-                        <div class="vital-box">
-                            <div class="vital-icon-box"><i class="fas fa-envelope"></i></div>
-                            <div class="vital-content">
-                                <span class="vital-label">Direct Line</span>
-                                <span class="vital-data" id="displayEmail" style="font-size: 0.9rem;">Loading...</span>
-                            </div>
-                        </div>
+                        <div id="displayIntro" style="font-size:1.3rem; line-height:1.6; margin-bottom:30px; font-weight:300;"></div>
+                        <p id="displayBio" style="opacity:0.8; line-height:1.8;"></p>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:20px;">
+                        <h3 class="mono" style="color:var(--neon-pink);">// VITALS</h3>
+                        <div class="card-3d"><i class="fas fa-map-marker-alt" style="color:var(--g-blue);"></i> <span id="displayResidence"></span></div>
+                        <div class="card-3d"><i class="fas fa-briefcase" style="color:var(--g-green);"></i> <span id="displayExperience"></span></div>
+                        <div class="card-3d"><i class="fas fa-envelope" style="color:var(--g-red);"></i> <span id="displayEmail"></span></div>
+                        <h3 class="mono" style="color:var(--neon-blue); margin-top:30px;">// CAPABILITIES</h3>
+                        <div id="displayServices" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;"></div>
                     </div>
                 </div>
-
-                <div class="reveal-text delay-3" style="margin-top: 30px;">
-                    <h3 class="mono">Capabilities</h3>
-                    <div class="service-grid" id="displayServices">
-                        Loading services...
-                    </div>
-                </div>
-
             </div>
         </div>
-
-        <div class="nav-bar">
-            <a href="index.html" class="nav-btn"><i class="fas fa-chevron-left"></i></a>
-            <span class="mono">About</span>
-            <a href="education.html" class="nav-btn"><i class="fas fa-chevron-right"></i></a>
-        </div>
     </div>
-
-    <div class="social-sidebar">
-        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="social-icon fb"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="social-icon wa"><i class="fab fa-whatsapp"></i></a>
-        <a href="#" class="social-icon tw"><i class="fab fa-twitter"></i></a>
-    </div>
-
+    <div class="social-sidebar"><a href="#" class="social-icon"><i class="fab fa-github"></i></a></div>
     <button id="mobileToggle"><i class="fas fa-bars"></i></button>
-    <div class="mobile-menu-overlay" id="mobileMenu">
-        <a href="index.html" class="mobile-link">Home</a>
-        <a href="about.html" class="mobile-link active">About</a> <a href="projects.html" class="mobile-link">Projects</a>
-        <a href="contact.html" class="mobile-link">Contact</a>
-        <a href="dashboard.html" class="mobile-link" style="font-size:1rem; color:#ccc; margin-top: 20px;">Admin Login</a>
-    </div>
-
+    <div class="mobile-menu-overlay" id="mobileMenu"><a href="index.html" class="mobile-link">Home</a></div>
     <script src="script.js"></script>
-
     <script>
-        const API = '../backend/about_handler.php';
-
         async function loadContent() {
-            try {
-                // Fetch data from PHP backend
-                const res = await fetch(`${API}?action=fetch_about`);
-                const data = await res.json();
-                const p = data.profile;
-
-                // Populate Profile Data
-                if (p) {
-                    // Using innerHTML for intro title to allow custom styling span
-                    document.getElementById('displayIntro').innerHTML =
-                        `<span style="font-size: 3.5rem; float: left; line-height: 0.7; padding-right: 12px; font-family: 'Playfair Display'; font-weight: 700;">${p.intro_title}</span>${p.intro_body}`;
-                    document.getElementById('displayBio').innerText = p.bio_text;
-                    document.getElementById('displayResidence').innerText = p.residence;
-                    document.getElementById('displayExperience').innerText = p.experience;
-                    document.getElementById('displayEmail').innerText = p.email;
-                    // Add timestamp to image URL to prevent browser caching when updated
-                    document.getElementById('displayImage').src = p.image_url ? p.image_url + '?t=' + Date.now() : 'https://placehold.co/600x400/e0e0e0/999999?text=No+Image';
-                }
-
-                // Populate Services Grid
-                const grid = document.getElementById('displayServices');
-                grid.innerHTML = ''; // Clear loading text
-                if (data.services && data.services.length > 0) {
-                    data.services.forEach(s => {
-                        grid.innerHTML += `
-                            <div class="service-card">
-                                <i class="${s.icon} s-icon"></i>
-                                <span class="s-title">${s.title}</span>
-                            </div>
-                        `;
-                    });
-                } else {
-                    grid.innerHTML = '<p class="mono" style="grid-column: span 3;">No services added yet.</p>';
-                }
-
-            } catch (err) {
-                console.error("Error loading about data:", err);
-                document.getElementById('displayIntro').innerText = "Error loading content.";
+            const res = await fetch(`../backend/about_handler.php?action=fetch_about`);
+            const data = await res.json();
+            const p = data.profile;
+            if (p) {
+                document.getElementById('displayIntro').innerHTML = `<span style="font-size:3rem; font-weight:900; color:var(--neon-blue); line-height:0.8; margin-right:10px;">${p.intro_title}</span> ${p.intro_body}`;
+                document.getElementById('displayBio').innerText = p.bio_text;
+                document.getElementById('displayResidence').innerText = p.residence;
+                document.getElementById('displayExperience').innerText = p.experience;
+                document.getElementById('displayEmail').innerText = p.email;
+                document.getElementById('displayImage').src = p.image_url ? p.image_url + '?t=' + Date.now() : 'https://placehold.co/300';
             }
+            document.getElementById('displayServices').innerHTML = data.services.map(s => `<div class="card-3d" style="padding:15px; text-align:center;"><i class="${s.icon}" style="font-size:1.5rem; color:var(--neon-blue); margin-bottom:10px; display:block;"></i><span class="mono" style="font-size:0.7rem;">${s.title}</span></div>`).join('');
         }
-
-        // Load content on page load
         loadContent();
     </script>
 </body>
